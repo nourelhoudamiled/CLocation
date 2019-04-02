@@ -80,9 +80,7 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
                         }
                     }
                 }
-                  DispatchQueue.main.async {
-                  self.viewTable.reloadData()
-                }
+                
             }catch let errors {
                 
                 print(errors)
@@ -176,6 +174,7 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
                 tableView.reloadSections(sections, with: .none)
             }
             else {
+                //eee
                 tableViewData[indexPath.section].opened = true
                 let sections = IndexSet.init(integer : indexPath.section)
                 tableView.reloadSections(sections, with: .none)
