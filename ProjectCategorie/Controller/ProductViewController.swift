@@ -21,7 +21,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
  ExpandItemsApi()
 print(subCategorie!)
       
-        // Do any additional setup after loading the view.
+   
     }
     func ExpandItemsApi() {
         
