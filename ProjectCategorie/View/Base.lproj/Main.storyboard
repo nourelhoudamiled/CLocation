@@ -144,14 +144,14 @@
                                                         <constraint firstAttribute="width" constant="210" id="taJ-Og-EIN"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fLa-JC-W11" customClass="CosmosView" customModule="ProjectCategorie" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fLa-JC-W11" customClass="CosmosView" customModule="ProjectCategorie" customModuleProvider="target">
                                                     <rect key="frame" x="230" y="11" width="130" height="20"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="130" id="LjY-vn-S81"/>
                                                     </constraints>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCa-Kn-D95">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCa-Kn-D95">
                                                     <rect key="frame" x="230" y="54" width="130" height="20.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="130" id="gNC-MX-My5"/>
@@ -160,7 +160,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0o6-JI-pTG">
+                                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0o6-JI-pTG">
                                                     <rect key="frame" x="228" y="88" width="118" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="114" id="jYX-ZT-QsP"/>
@@ -198,7 +198,7 @@
                                                         <action selector="DetailProduitAction:" destination="PbH-MT-AnG" eventType="touchUpInside" id="g2o-PD-0Hy"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mNT-08-Fxp">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mNT-08-Fxp">
                                                     <rect key="frame" x="218" y="140" width="126" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="126" id="Y4P-ae-kFP"/>
@@ -478,6 +478,7 @@
                         <outlet property="comboxViewCity" destination="DU4-gm-YK2" id="bCJ-Bj-BZy"/>
                         <outlet property="comboxViewRegion" destination="YGF-JV-57Y" id="ede-cu-BVc"/>
                         <outlet property="descriptionText" destination="Esv-wV-ICS" id="sjn-DI-6Ry"/>
+                        <outlet property="minDuréLabel" destination="jud-87-0MA" id="xVK-Y4-WMt"/>
                         <outlet property="nameTextField" destination="BO2-U0-ap3" id="Fum-8G-oAn"/>
                         <outlet property="priceTextField" destination="KcQ-85-Pef" id="Lth-LC-ZJT"/>
                     </connections>

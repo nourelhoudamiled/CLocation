@@ -13,6 +13,7 @@ class AjouterProduitViewController: UIViewController {
     
     
 
+    @IBOutlet var minDuréLabel: UITextField!
     
     @IBOutlet var comboxViewCity: SWComboxView!
     @IBOutlet var comboxViewRegion: SWComboxView!
