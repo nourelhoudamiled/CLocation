@@ -12,7 +12,7 @@ import Alamofire
 class AjouterProduitViewController: UIViewController {
     
     
-
+    
     @IBOutlet var minDuréLabel: UITextField!
     
     @IBOutlet var comboxViewCity: SWComboxView!
@@ -30,21 +30,21 @@ class AjouterProduitViewController: UIViewController {
     
     @IBOutlet var priceTextField: UITextField!
     var sousCategoriesListNames = [String]()
-     var CategoriesListNames = [String]()
-    var aa : Int?
-
+    var CategoriesListNames = [String]()
+    var selectedItemID : Int?
+    
     var sousCategoriList = [SousCategClass]()
-       var CategoriList = [CategorieClass]()
+    var CategoriList = [CategorieClass]()
     var urlRequest1 = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Category/SubCategory/")!)
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/EnumCategories")!)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-          getCategorieNames()
-      
-       // getSousCategorieNames()
-      
+        getCategorieNames()
+        
+        // getSousCategorieNames()
+        
         // Do any additional setup after loading the view.
     }
     func getCategorieNames(){
@@ -55,15 +55,13 @@ class AjouterProduitViewController: UIViewController {
                 let itemDetails1 = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
                 for item1 in itemDetails1 {
                     self.CategoriesListNames.append(item1.name ?? "")
-
+                    
                     self.CategoriList.append(item1)
-//                    print(self.sousCategoriList[self.comboxView.defaultSelectedIndex].enumCategoryId)
-
                 }
-               
                 self.setupComboBox1(item: Float(itemDetails1.count))
-               
 
+                
+                
             }catch let errords {
                 
                 print(errords)
@@ -73,29 +71,29 @@ class AjouterProduitViewController: UIViewController {
     }
     
     func getSousCategorieNames(){
-     // let e = CategoriList[comboxView1.defaultSelectedIndex]
-      //  print(e)
-//
-//        let urlString1 = urlRequest1.url?.absoluteString
-//        let url = urlString1!+"\(e.id)"
-//        AF.request(url , method : .get).responseJSON {
-//            response in
-//            do {
-//                let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
-//                for item1 in itemDetails1 {
-//                    self.sousCategoriesListNames.append(item1.name ?? "")
-//                    self.sousCategoriList.append(item1)
-//                }
-//
-//                self.setupComboBox2(item: CGFloat(itemDetails1.count))
-//
-//
-//            }catch let errords {
-//
-//                print(errords)
-//            }
-//
-//        }
+        // let e = CategoriList[comboxView1.defaultSelectedIndex]
+        //  print(e)
+        //
+        //        let urlString1 = urlRequest1.url?.absoluteString
+        //        let url = urlString1!+"\(e.id)"
+        //        AF.request(url , method : .get).responseJSON {
+        //            response in
+        //            do {
+        //                let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
+        //                for item1 in itemDetails1 {
+        //                    self.sousCategoriesListNames.append(item1.name ?? "")
+        //                    self.sousCategoriList.append(item1)
+        //                }
+        //
+        //                self.setupComboBox2(item: CGFloat(itemDetails1.count))
+        //
+        //
+        //            }catch let errords {
+        //
+        //                print(errords)
+        //            }
+        //
+        //        }
     }
     // Set up ComboBoxView
     func setupComboBox1(item : Float) {
@@ -105,60 +103,90 @@ class AjouterProduitViewController: UIViewController {
         comboxView1.showMaxCount = CGFloat(item)
         comboxView1.defaultSelectedIndex = 0//start from 0
         
-
+        
     }
     func setupComboBoxVide() {
         
         comboxView1.dataSource = self
         comboxView1.delegate = self
-      
-        comboxView1.defaultSelectedIndex = 0//start from 0
+        
+        comboxView1.defaultSelectedIndex = 1//start from 0
         
         
     }
-    func setupComboBox2(item : CGFloat) {
-        
+    func setupComboBox2(item : Int) {
         comboxView2.dataSource = self
         comboxView2.delegate = self
-        comboxView2.showMaxCount = item
+        comboxView2.showMaxCount = CGFloat(item)
         comboxView2.defaultSelectedIndex = 0//start from 0
         
-       
+        
     }
     
     /************** Post ***************/
     func postProduct() {
         let urlString = "https://clocation.azurewebsites.net/api/Products"
         print(" contaz.list[contaz.defaultSelectedIndex]] \( (comboxView1.list[comboxView1.defaultSelectedIndex] as AnyObject))")
-//        AF.request(urlString, method: .post, parameters: ["name": nameTextField.text! , "description" : descriptionText.text! , "price" : priceTextField.text! , "address" : addressTextField.text! , "enumSubCategoryId" : sousCategoriList[comboxView2.defaultSelectedIndex].enumCategoryId],encoding: JSONEncoding.default, headers: nil).responseJSON {
-//            response in
-//
-//            switch response.result {
-//            case .success:
-//                print(response)
-//
-//                break
-//            case .failure(let error):
-//
-//                print(error)
-//            }
-//        }
+        //        AF.request(urlString, method: .post, parameters: ["name": nameTextField.text! , "description" : descriptionText.text! , "price" : priceTextField.text! , "address" : addressTextField.text! , "enumSubCategoryId" : sousCategoriList[comboxView2.defaultSelectedIndex].enumCategoryId],encoding: JSONEncoding.default, headers: nil).responseJSON {
+        //            response in
+        //
+        //            switch response.result {
+        //            case .success:
+        //                print(response)
+        //
+        //                break
+        //            case .failure(let error):
+        //
+        //                print(error)
+        //            }
+        //        }
     }
     
     //
     @IBAction func addAction(_ sender: Any) {
-       postProduct()
+        postProduct()
         
         
     }
-   
+    func indexSelected(id : Int) {
+        let urlString1 = self.urlRequest1.url?.absoluteString
+        let url = urlString1!+"\(id )"
+        print("sousCategoriesListNames avant supp \(sousCategoriesListNames)")
+        self.sousCategoriesListNames.removeAll()
+
+        AF.request(url , method : .get).responseJSON {
+            response in
+            do {
+                if let data = response.data {
+                    let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: data)
+                    for item1 in itemDetails1 {
+                        self.sousCategoriesListNames.append(item1.name ?? "")
+                        self.sousCategoriList.append(item1)
+                    }
+                    print("sousCategoriesListNames after supp \(self.sousCategoriesListNames)")
+                    self.setupComboBox2(item: itemDetails1.count)
+                    
+//                    self.comboxView2.reloadViewWithIndex(self.comboxView2.defaultSelectedIndex)
+
+                }
+                
+                
+            }catch let errords {
+                
+                print(errords)
+            }
+            
+        }
+        
+    }
+    
     
     
 }
 // SWComboxViewDataSourcce
 extension AjouterProduitViewController: SWComboxViewDataSourcce {
     func comboBoxSeletionItems(combox: SWComboxView) -> [Any] {
-      
+        
         if combox == comboxView1
         {
             return CategoriesListNames
@@ -184,42 +212,12 @@ extension AjouterProduitViewController : SWComboxViewDelegate {
     //MARK: delegate
     func comboxSelected(atIndex index:Int, object: Any, combox withCombox: SWComboxView) {
         print("index - \(index) selected - \(object)")
-        aa = object as? Int
-      aa =   CategoriList[comboxView1.defaultSelectedIndex].id
-        print(aa!)
+        
+        selectedItemID =   CategoriList[comboxView1.defaultSelectedIndex].id
+        print(CategoriList[comboxView1.defaultSelectedIndex].name)
+        print(selectedItemID)
         print(object)
-   
-
-//
-//            let e = CategoriList[comboxView1.defaultSelectedIndex].id!
-
-            let urlString1 = self.urlRequest1.url?.absoluteString
-        let url = urlString1!+"\(aa ?? 1)"
-            AF.request(url , method : .get).responseJSON {
-                response in
-                do {
-                    let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
-                    for item1 in itemDetails1 {
-                        self.sousCategoriesListNames.append(item1.name ?? "")
-                        self.sousCategoriList.append(item1)
-
-
-                    }
-
-
-                    self.setupComboBox2(item: CGFloat(itemDetails1.count))
-
-
-                }catch let errords {
-
-                    print(errords)
-                }
-
-            }
-        
-      
-
-        
+        self.indexSelected(id: selectedItemID ?? 1)
         
     }
     

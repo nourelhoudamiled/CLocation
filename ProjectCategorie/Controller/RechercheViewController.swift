@@ -24,7 +24,8 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/EnumCategories")!)
     var urlRequest1 = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Category/SubCategory/")!)
 //    var urlRequest1 = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/EnumSubCategories/")!)
-    
+      var CategoriesListNames = [String]()
+       var sousCategoriesListNames = [String]()
     var tableViewData = [cellData]()
     
     @IBOutlet var viewTable: UITableView!
@@ -48,39 +49,39 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
         AF.request(urlString!).responseJSON {
             response in
             do {
-                // print(response.result.value!)
-                let itemDetails = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
-                
-                for item in itemDetails {
-                  print(item.id!)
-                    guard let ids = item.id else {return}
-                    AF.request(urlString1!+("\(ids)")
-                        , method : .get ).responseJSON {
+                let categorieList = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
+
+                for categorie in categorieList {
+              
+                    guard let  categorieID = categorie.id else {return}
+                    AF.request(urlString1!+("\(categorieID)") , method : .get ).responseJSON {
                         response in
                         do {
-                            let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
-                            
-                            for item1 in itemDetails1 {
-                                self.sousCategoriesList.append(item1)
-                               
+                            if let data = response.data {
+                                let sousCategorieList = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
+                                
+                                for sousCategorie in sousCategorieList {
+                                    self.sousCategoriesList.append(sousCategorie)
+                                    self.sousCategoriesListNames.append(sousCategorie.name ?? "")
+                                }
+                                
+                                print(sousCategorieList)
+                                self.tableViewData.append(  cellData(opened: false, title:  categorie.name!, sectionData: self.sousCategoriesList))
+                                DispatchQueue.main.async {
+                                    self.viewTable.reloadData()
+                                }
                             }
-                            
-                            print(itemDetails1)
-                            print(itemDetails)
-                            self.curentList = self.sousCategoriesList
-                            self.tableViewData.append(  cellData(opened: false, title:  item.name!, sectionData: self.curentList))
-                            
-                              DispatchQueue.main.async {
-                            self.viewTable.reloadData()
-                            }
+                          
                             
                         }catch let errords {
                             
                             print(errords)
                         }
                     }
+             
+                    
                 }
-                
+             
             }catch let errors {
                 
                 print(errors)
@@ -133,10 +134,13 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
         else
         { if indexPath.row == 1 {
             tableViewData[indexPath.row].opened = false
+//                  tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             //use different cell identifier if needed
             
             cell.nameCategorie.text = tableViewData[indexPath.row].sectionData[indexPath.row - 1].name
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+
             
             
             return cell
@@ -174,7 +178,6 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
                 tableView.reloadSections(sections, with: .none)
             }
             else {
-                //eee
                 tableViewData[indexPath.section].opened = true
                 let sections = IndexSet.init(integer : indexPath.section)
                 tableView.reloadSections(sections, with: .none)
