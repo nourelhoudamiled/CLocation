@@ -8,37 +8,31 @@
 
 import UIKit
 import Alamofire
-struct cellData  {
+struct CellData  {
     var opened = Bool()
     var title =  String()
     var sectionData = [SousCategClass]()
 }
-class RechercheViewController: UIViewController , UITableViewDelegate , UITableViewDataSource  , UISearchBarDelegate{
+class RechercheViewController: UIViewController , UISearchBarDelegate{
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var searchBar: UISearchBar!
-    var catArray = [CategorieClass]()
+    
+   
+    var categorieList = [CategorieClass]()
     var CURENTcatArray = [CategorieClass]()
-     var sousCategoriesList = [SousCategClass]()
-    var curentList = [SousCategClass]()
     
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/EnumCategories")!)
     var urlRequest1 = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Category/SubCategory/")!)
-//    var urlRequest1 = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/EnumSubCategories/")!)
-      var CategoriesListNames = [String]()
-       var sousCategoriesListNames = [String]()
-    var tableViewData = [cellData]()
+    var CategoriesListNames = [String]()
+    var sousCategoriesListNames = [String]()
+    var tableViewData = [CellData]()
     
     @IBOutlet var viewTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         dataCatégorie()
-        //      ExpandItemsApi()
         setUpSearchBar()
         alterLayout()
-        //viewTable.tableFooterView = UIView()
-        
-        
-        // Do any additional setup after loading the view, typically from a nib.
         activityIndicator.startAnimating()
     }
     func dataCatégorie(){
@@ -49,49 +43,39 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
         AF.request(urlString!).responseJSON {
             response in
             do {
-                let categorieList = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
-
+                guard let data = response.data else {return}
+                let categorieList = try JSONDecoder().decode([CategorieClass].self, from: data)
+                
                 for categorie in categorieList {
-              
+                    self.categorieList.append(categorie)
                     guard let  categorieID = categorie.id else {return}
-                    AF.request(urlString1!+("\(categorieID)") , method : .get ).responseJSON {
+                    let subCategorieURL = urlString1! + "\(categorieID)"
+                    AF.request(subCategorieURL , method : .get ).responseJSON {
                         response in
                         do {
+                            var sousCategoriesList =  [SousCategClass]()
                             if let data = response.data {
-                                let sousCategorieList = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
-                                
-                                for sousCategorie in sousCategorieList {
-                                    self.sousCategoriesList.append(sousCategorie)
-                                    self.sousCategoriesListNames.append(sousCategorie.name ?? "")
+                                let subCategorieList = try JSONDecoder().decode([SousCategClass].self, from: data)
+                                for subCategorie in subCategorieList {
+                                    sousCategoriesList.append(subCategorie)
                                 }
-                                
-                                print(sousCategorieList)
-                                self.tableViewData.append(  cellData(opened: false, title:  categorie.name!, sectionData: self.sousCategoriesList))
+                                let cellData = CellData(opened: false, title: categorie.name!, sectionData: sousCategoriesList)
+                                self.tableViewData.append(cellData)
                                 DispatchQueue.main.async {
                                     self.viewTable.reloadData()
                                 }
                             }
-                          
-                            
-                        }catch let errords {
-                            
-                            print(errords)
+                        }catch {
+                            //
                         }
                     }
-             
-                    
                 }
-             
-            }catch let errors {
                 
-                print(errors)
+    }catch let error {
+                print(error)
             }
-            
-            
             self.activityIndicator.stopAnimating()
             self.activityIndicator.isHidden = true
-            
-            
         }
         
         
@@ -99,7 +83,8 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
     private func setUpSearchBar() {
         searchBar.delegate = self
     }
-    
+  
+    // Search Bar
     func alterLayout() {
         viewTable.tableHeaderView = UIView()
         // search bar in section header
@@ -109,6 +94,47 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
         navigationItem.titleView = searchBar
         searchBar.showsScopeBar = false // you can show/hide this dependant on your layout
         searchBar.placeholder = "Search catégorie by Name"
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            CURENTcatArray = categorieList
+            viewTable.reloadData()
+            return }
+        CURENTcatArray = categorieList.filter({ cat -> Bool in
+            guard let text = searchBar.text else {return false}
+            return (cat.name!.contains(text))
+            
+        })
+        viewTable.reloadData()
+    }
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        
+    }
+    
+}
+
+extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            if tableViewData[indexPath.section].opened == true {
+                tableViewData[indexPath.section].opened = false
+                let sections = IndexSet.init(integer : indexPath.section)
+                tableView.reloadSections(sections, with: .none)
+            }
+            else {
+                tableViewData[indexPath.section].opened = true
+                let sections = IndexSet.init(integer : indexPath.section)
+                tableView.reloadSections(sections, with: .fade)
+                
+            }
+        }
+        else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
+            vc.subCategorie =  tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            present(vc, animated: true, completion: nil)
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableViewData[section].opened == true
@@ -129,71 +155,25 @@ class RechercheViewController: UIViewController , UITableViewDelegate , UITableV
         
         if indexPath.row == 0 {
             cell.nameCategorie.text  = tableViewData[indexPath.section].title
+       
             return cell
         }
         else
-        { if indexPath.row == 1 {
-            tableViewData[indexPath.row].opened = false
-//                  tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-            //use different cell identifier if needed
+        {
             
-            cell.nameCategorie.text = tableViewData[indexPath.row].sectionData[indexPath.row - 1].name
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-
-            
+            cell.nameCategorie.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1 ].name
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
             return cell
             
             
+            
         }
         
         
         
-    }
-    
-    
-    // Search Bar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard !searchText.isEmpty else {
-            CURENTcatArray = catArray
-            viewTable.reloadData()
-            return }
-        CURENTcatArray = catArray.filter({ cat -> Bool in
-            guard let text = searchBar.text else {return false}
-            return (cat.name!.contains(text))
-            
-        })
-        viewTable.reloadData()
-    }
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.row == 0 {
-            if tableViewData[indexPath.section].opened == true {
-                tableViewData[indexPath.section].opened = false
-                let sections = IndexSet.init(integer : indexPath.section)
-                tableView.reloadSections(sections, with: .none)
-            }
-            else {
-                tableViewData[indexPath.section].opened = true
-                let sections = IndexSet.init(integer : indexPath.section)
-                tableView.reloadSections(sections, with: .none)
-                
-            }
-        }else {
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
-            vc.subCategorie =  tableViewData[indexPath.row].sectionData[indexPath.row - 1]
-            present(vc, animated: true, completion: nil)
-        }
     }
     
 }
-
-
 
 

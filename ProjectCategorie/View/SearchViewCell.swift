@@ -11,6 +11,8 @@ import UIKit
 class SearchViewCell: UITableViewCell {
     @IBOutlet weak var nameCategorie: UILabel!
     @IBOutlet weak var imageCategori: UIImageView!
+    
+    @IBOutlet var arrowImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

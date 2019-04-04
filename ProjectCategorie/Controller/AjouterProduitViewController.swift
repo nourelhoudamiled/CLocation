@@ -29,6 +29,8 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var availbleSwith: UISwitch!
     
     @IBOutlet var priceTextField: UITextField!
+    
+    
     var sousCategoriesListNames = [String]()
     var CategoriesListNames = [String]()
     var selectedItemID : Int?
@@ -42,7 +44,7 @@ class AjouterProduitViewController: UIViewController {
         super.viewDidLoad()
         
         getCategorieNames()
-        
+
         // getSousCategorieNames()
         
         // Do any additional setup after loading the view.
@@ -50,7 +52,9 @@ class AjouterProduitViewController: UIViewController {
     func getCategorieNames(){
         let urlString = urlRequest.url?.absoluteString
         AF.request(urlString! , method : .get).responseJSON {
+            
             response in
+//                self.sousCategoriesListNames.removeAll()
             do {
                 let itemDetails1 = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
                 for item1 in itemDetails1 {
@@ -59,6 +63,7 @@ class AjouterProduitViewController: UIViewController {
                     self.CategoriList.append(item1)
                 }
                 self.setupComboBox1(item: Float(itemDetails1.count))
+
 
                 
                 
@@ -69,32 +74,7 @@ class AjouterProduitViewController: UIViewController {
             
         }
     }
-    
-    func getSousCategorieNames(){
-        // let e = CategoriList[comboxView1.defaultSelectedIndex]
-        //  print(e)
-        //
-        //        let urlString1 = urlRequest1.url?.absoluteString
-        //        let url = urlString1!+"\(e.id)"
-        //        AF.request(url , method : .get).responseJSON {
-        //            response in
-        //            do {
-        //                let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: response.data!)
-        //                for item1 in itemDetails1 {
-        //                    self.sousCategoriesListNames.append(item1.name ?? "")
-        //                    self.sousCategoriList.append(item1)
-        //                }
-        //
-        //                self.setupComboBox2(item: CGFloat(itemDetails1.count))
-        //
-        //
-        //            }catch let errords {
-        //
-        //                print(errords)
-        //            }
-        //
-        //        }
-    }
+
     // Set up ComboBoxView
     func setupComboBox1(item : Float) {
         
@@ -149,24 +129,26 @@ class AjouterProduitViewController: UIViewController {
         
     }
     func indexSelected(id : Int) {
+        
         let urlString1 = self.urlRequest1.url?.absoluteString
         let url = urlString1!+"\(id )"
-        print("sousCategoriesListNames avant supp \(sousCategoriesListNames)")
-        self.sousCategoriesListNames.removeAll()
+
 
         AF.request(url , method : .get).responseJSON {
             response in
             do {
+                print("sousCategoriesListNames avant supp \(self.sousCategoriesListNames)")
+                self.sousCategoriesListNames.removeAll()
+                print("sousCategoriesListNames after supp \(self.sousCategoriesListNames)")
                 if let data = response.data {
                     let itemDetails1 = try JSONDecoder().decode([SousCategClass].self, from: data)
                     for item1 in itemDetails1 {
                         self.sousCategoriesListNames.append(item1.name ?? "")
                         self.sousCategoriList.append(item1)
                     }
-                    print("sousCategoriesListNames after supp \(self.sousCategoriesListNames)")
-                    self.setupComboBox2(item: itemDetails1.count)
                     
-//                    self.comboxView2.reloadViewWithIndex(self.comboxView2.defaultSelectedIndex)
+                    print("sousCategoriesListNames after append \(self.sousCategoriesListNames)")
+                    self.setupComboBox2(item: itemDetails1.count)
 
                 }
                 
@@ -186,7 +168,7 @@ class AjouterProduitViewController: UIViewController {
 // SWComboxViewDataSourcce
 extension AjouterProduitViewController: SWComboxViewDataSourcce {
     func comboBoxSeletionItems(combox: SWComboxView) -> [Any] {
-        
+  
         if combox == comboxView1
         {
             return CategoriesListNames
@@ -203,7 +185,7 @@ extension AjouterProduitViewController: SWComboxViewDataSourcce {
     func comboxSeletionView(combox: SWComboxView) -> SWComboxSelectionView {
         return SWComboxTextSelection()
     }
-    
+
     func configureComboxCell(combox: SWComboxView, cell: inout SWComboxSelectionCell) {}
 }
 
@@ -214,9 +196,6 @@ extension AjouterProduitViewController : SWComboxViewDelegate {
         print("index - \(index) selected - \(object)")
         
         selectedItemID =   CategoriList[comboxView1.defaultSelectedIndex].id
-        print(CategoriList[comboxView1.defaultSelectedIndex].name)
-        print(selectedItemID)
-        print(object)
         self.indexSelected(id: selectedItemID ?? 1)
         
     }
