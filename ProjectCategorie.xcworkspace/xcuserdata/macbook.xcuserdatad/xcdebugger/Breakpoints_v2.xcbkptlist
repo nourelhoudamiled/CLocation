@@ -41,38 +41,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ProjectCategorie/Controller/AjouterProduitViewController.swift"
-            timestampString = "576007196.0483429"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "comboxSelected(atIndex:object:combox:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ProjectCategorie/Controller/AjouterProduitViewController.swift"
-            timestampString = "576007196.048431"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "comboxSeletionView(combox:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../../Downloads/SWCombox-master/SWComboxLib/SWComboxView.swift"
             timestampString = "576007196.048537"
             startingColumnNumber = "9223372036854775807"
@@ -138,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.0488271"
+            timestampString = "576177991.10883"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -154,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.048911"
+            timestampString = "576177991.1089081"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "ExpandItemsApi()"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.048983"
+            timestampString = "576177991.108959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.049044"
+            timestampString = "576177991.108997"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "ExpandItemsApi()"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.0491"
+            timestampString = "576177991.109048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "ExpandItemsApi()"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProjectCategorie/Controller/ProductViewController.swift"
-            timestampString = "576007196.049156"
+            timestampString = "576177991.109093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "ExpandItemsApi()"
             landmarkType = "7">
             <Locations>
@@ -233,13 +201,13 @@
                   symbolName = "ProjectCategorie.ProductViewController.ExpandItemsApi() -&gt; ()"
                   moduleName = "ProjectCategorie"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/ProductViewController.swift"
-                  timestampString = "576007362.208421"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/ProductViewController.swift"
+                  timestampString = "576158382.120298"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "32"
                   endingLineNumber = "32"
-                  offsetFromSymbolStart = "1258">
+                  offsetFromSymbolStart = "1806">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -248,13 +216,91 @@
                   symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in ProjectCategorie.ProductViewController.ExpandItemsApi() -&gt; ()"
                   moduleName = "ProjectCategorie"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/ProductViewController.swift"
-                  timestampString = "576007362.210031"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/ProductViewController.swift"
+                  timestampString = "576158382.1220911"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "36"
                   endingLineNumber = "36"
-                  offsetFromSymbolStart = "69">
+                  offsetFromSymbolStart = "326">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ProjectCategorie/Controller/louerViewController.swift"
+            timestampString = "576177991.1091419"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "imgArr"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ProjectCategorie.louerViewController.timer.getter : __C.NSTimer"
+                  moduleName = "ProjectCategorie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/louerViewController.swift"
+                  timestampString = "576063598.152308"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "114">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ProjectCategorie.louerViewController.timer.setter : __C.NSTimer"
+                  moduleName = "ProjectCategorie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/louerViewController.swift"
+                  timestampString = "576063598.154199"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ProjectCategorie.louerViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; ProjectCategorie.louerViewController"
+                  moduleName = "ProjectCategorie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/louerViewController.swift"
+                  timestampString = "576063598.156088"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "624">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ProjectCategorie.louerViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;ProjectCategorie.louerViewController&gt;"
+                  moduleName = "ProjectCategorie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/louerViewController.swift"
+                  timestampString = "576063598.158008"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "594">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -265,76 +311,78 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ProjectCategorie/Controller/louerViewController.swift"
-            timestampString = "576007360.844134"
+            filePath = "ProjectCategorie/Controller/AjouterProduitViewController.swift"
+            timestampString = "576177991.109509"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "louerViewController"
-            landmarkType = "3">
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "getCategorieNames()"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ProjectCategorie.louerViewController.timer.getter : __C.NSTimer"
+                  symbolName = "ProjectCategorie.AjouterProduitViewController.getCategorieNames() -&gt; ()"
                   moduleName = "ProjectCategorie"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/louerViewController.swift"
-                  timestampString = "576007362.172114"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/AjouterProduitViewController.swift"
+                  timestampString = "576158382.126687"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "114">
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "790">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ProjectCategorie.louerViewController.timer.setter : __C.NSTimer"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in ProjectCategorie.AjouterProduitViewController.getCategorieNames() -&gt; ()"
                   moduleName = "ProjectCategorie"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/louerViewController.swift"
-                  timestampString = "576007362.174008"
+                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203%202/ProjectCategorie/Controller/AjouterProduitViewController.swift"
+                  timestampString = "576158382.128413"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "128">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProjectCategorie.louerViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; ProjectCategorie.louerViewController"
-                  moduleName = "ProjectCategorie"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/louerViewController.swift"
-                  timestampString = "576007362.175702"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "624">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProjectCategorie.louerViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;ProjectCategorie.louerViewController&gt;"
-                  moduleName = "ProjectCategorie"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/macbook/Desktop/ProjectCategorie%203/ProjectCategorie/Controller/louerViewController.swift"
-                  timestampString = "576007362.1773109"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "594">
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "220">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ProjectCategorie/Controller/AjouterProduitViewController.swift"
+            timestampString = "576177991.109591"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "comboBoxSeletionItems(combox:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ProjectCategorie/Controller/AjouterProduitViewController.swift"
+            timestampString = "576177991.109657"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
+            landmarkName = "comboBoxSeletionItems(combox:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

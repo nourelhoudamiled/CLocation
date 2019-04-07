@@ -22,6 +22,10 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
         
         
     }
+    
+    @IBAction func gotoLouerButton(_ sender: Any) {
+        
+    }
     func ExpandItemsApi() {
         
         let urlString = urlRequest.url?.absoluteString
@@ -29,6 +33,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
             return
         }
         let productURL = urlString! + "\(subCategorieID)"
+        
         AF.request(productURL , method : .get).responseJSON {
             response in
             do {
@@ -79,5 +84,20 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
         
         present(vc, animated: true, completion: nil)
+    }
+    func getProductRequest(byId Id: Int, completion: @escaping (ProductClass?) -> Void) {
+        let urlString = "https://clocation.azurewebsites.net/api/Products/\(Id)"
+        AF.request(urlString).response { response in
+            guard let data = response.data else { return }
+            do {
+                let decoder = JSONDecoder()
+                let Request = try decoder.decode(Unite.self, from: data)
+                print(Request)
+                print(Request.id!)
+            } catch let error {
+                print(error)
+                completion(nil)
+            }
+        }
     }
 }

@@ -1,24 +1,42 @@
 PODS:
-  - Alamofire (5.0.0-beta.3)
-  - R.swift (5.0.3):
-    - R.swift.Library (~> 5.0.0)
-  - R.swift.Library (5.0.0)
+  - Alamofire (5.0.0-beta.4)
+  - p2.OAuth2 (4.2.0)
+  - SkyFloatingLabelTextField (3.6.0)
+  - SWCombox (2.5)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-beta.3)
-  - R.swift (~> 5.0.0.alpha.2)
+  - p2.OAuth2 (from `https://github.com/p2/OAuth2`)
+  - SkyFloatingLabelTextField (~> 3.0)
+  - SWCombox (from `https://github.com/sw0906/SWCombox.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - R.swift
-    - R.swift.Library
+    - SkyFloatingLabelTextField
+
+EXTERNAL SOURCES:
+  p2.OAuth2:
+    :git: https://github.com/p2/OAuth2
+    :submodules: true
+  SWCombox:
+    :git: https://github.com/sw0906/SWCombox.git
+
+CHECKOUT OPTIONS:
+  p2.OAuth2:
+    :commit: db241a13bdd04b7f333decd2ca964f506616433c
+    :git: https://github.com/p2/OAuth2
+    :submodules: true
+  SWCombox:
+    :commit: e2fd1e49762d75fb70bade0bbe4c9fabb7c57df2
+    :git: https://github.com/sw0906/SWCombox.git
 
 SPEC CHECKSUMS:
-  Alamofire: 50d6fa7e8cbe7f84559e86ab641ffd029db655f8
-  R.swift: f5a87643b91ea569d23d6afb3eee9c743edde239
-  R.swift.Library: 0bf390e729bc10bb2c9e4fb78bd043164a7be4ff
+  Alamofire: 6458d95477bc40adf10129f22c67cfb014162dc8
+  p2.OAuth2: d5ea9b928fc5d10d088d419db6f3380578b6f866
+  SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
+  SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
 
-PODFILE CHECKSUM: 5becd45e7c64d4aa2fa9ba1a62c9691555c97227
+PODFILE CHECKSUM: d8e318f528641b9ca40d54c7c25470150096b82a
 
 COCOAPODS: 1.6.0

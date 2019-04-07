@@ -10,12 +10,22 @@ import UIKit
 
 class louerViewController: UIViewController {
 
+    @IBOutlet var isAvailble: UISwitch!
+    @IBOutlet var telLabel: UILabel!
+    @IBOutlet var adrLabel: UILabel!
     @IBOutlet var pageView: UIPageControl!
     @IBOutlet var sliderCollectionView: UICollectionView!
     
-    var imgArr = [  UIImage(named:"dog"),
-                    UIImage(named:"upload") ,
-                    UIImage(named:"wallpaper")  ]
+    var imgArr = [  UIImage(named:"Alexandra Daddario"),
+                    UIImage(named:"Angelina Jolie") ,
+                    UIImage(named:"Anne Hathaway") ,
+                    UIImage(named:"Dakota Johnson") ,
+                    UIImage(named:"Emma Stone") ,
+                    UIImage(named:"Emma Watson") ,
+                    UIImage(named:"Halle Berry") ,
+                    UIImage(named:"Jennifer Lawrence") ,
+                    UIImage(named:"Jessica Alba") ,
+                    UIImage(named:"Scarlett Johansson") ]
     
     var timer = Timer()
     var counter = 0
@@ -24,34 +34,35 @@ class louerViewController: UIViewController {
         pageView.numberOfPages = imgArr.count
         pageView.currentPage = 0
         DispatchQueue.main.async {
-        
             self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+        }
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
-    @IBAction func backAction(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
-
+    
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     @objc func changeImage() {
-
-            if counter < imgArr.count {
-                let index = IndexPath.init(item: counter, section: 0)
-                self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-                pageView.currentPage = counter
-                counter += 1
-            } else {
-                counter = 0
-                let index = IndexPath.init(item: counter, section: 0)
-                self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
-                pageView.currentPage = counter
-                counter = 1
-            }
-
+        
+        if counter < imgArr.count {
+            let index = IndexPath.init(item: counter, section: 0)
+            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+            pageView.currentPage = counter
+            counter += 1
+        } else {
+            counter = 0
+            let index = IndexPath.init(item: counter, section: 0)
+            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+            pageView.currentPage = counter
+            counter = 1
         }
-
-
-
-
+        
+    }
+    
 }
 
 extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -60,7 +71,7 @@ extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath)
         if let vc = cell.viewWithTag(111) as? UIImageView {
             vc.image = imgArr[indexPath.row]
         }

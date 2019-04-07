@@ -17,7 +17,8 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var searchBar: UISearchBar!
     
-   
+    @IBOutlet var btnMenuButton: UIBarButtonItem!
+    
     var categorieList = [CategorieClass]()
     var CURENTcatArray = [CategorieClass]()
     
@@ -26,17 +27,40 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     var CategoriesListNames = [String]()
     var sousCategoriesListNames = [String]()
     var tableViewData = [CellData]()
-    
+      var CurrentTableViewData = [CellData]()
     @IBOutlet var viewTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
+
+        if revealViewController() != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
+            
+            
+            
+        }
         dataCatégorie()
         setUpSearchBar()
-        alterLayout()
+//        alterLayout()
         activityIndicator.startAnimating()
     }
-    func dataCatégorie(){
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         
+        if (isLoggedIn()) {
+            print("c'est deja connecte")
+            
+            
+        }
+        
+        
+    }
+    fileprivate func isLoggedIn() -> Bool {
+        return UserDefaults.standard.isLoggedIn()
+    }
+    func dataCatégorie(){
+        print("Token ViewCont PressedButton = \( AppManager.shared.token)")
+
         let urlString = urlRequest.url?.absoluteString
         let urlString1 = urlRequest1.url?.absoluteString
         
@@ -44,10 +68,11 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
             response in
             do {
                 guard let data = response.data else {return}
-                let categorieList = try JSONDecoder().decode([CategorieClass].self, from: data)
+                let categorieListJson = try JSONDecoder().decode([CategorieClass].self, from: data)
                 
-                for categorie in categorieList {
+                for categorie in categorieListJson {
                     self.categorieList.append(categorie)
+
                     guard let  categorieID = categorie.id else {return}
                     let subCategorieURL = urlString1! + "\(categorieID)"
                     AF.request(subCategorieURL , method : .get ).responseJSON {
@@ -59,8 +84,12 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                                 for subCategorie in subCategorieList {
                                     sousCategoriesList.append(subCategorie)
                                 }
+
                                 let cellData = CellData(opened: false, title: categorie.name!, sectionData: sousCategoriesList)
-                                self.tableViewData.append(cellData)
+                              self.tableViewData.append(cellData)
+                            self.CurrentTableViewData = self.tableViewData
+                                
+                                
                                 DispatchQueue.main.async {
                                     self.viewTable.reloadData()
                                 }
@@ -70,6 +99,8 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                         }
                     }
                 }
+
+
                 
     }catch let error {
                 print(error)
@@ -98,12 +129,11 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard !searchText.isEmpty else {
-            CURENTcatArray = categorieList
             viewTable.reloadData()
             return }
-        CURENTcatArray = categorieList.filter({ cat -> Bool in
+     CurrentTableViewData  =  tableViewData.filter({ cat -> Bool in
             guard let text = searchBar.text else {return false}
-            return (cat.name!.contains(text))
+            return (cat.title.contains(text))
             
         })
         viewTable.reloadData()
@@ -118,13 +148,15 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            if tableViewData[indexPath.section].opened == true {
-                tableViewData[indexPath.section].opened = false
+            if CurrentTableViewData[indexPath.section].opened == true {
+                CurrentTableViewData[indexPath.section].opened = false
                 let sections = IndexSet.init(integer : indexPath.section)
                 tableView.reloadSections(sections, with: .none)
+            
+                
             }
             else {
-                tableViewData[indexPath.section].opened = true
+                CurrentTableViewData[indexPath.section].opened = true
                 let sections = IndexSet.init(integer : indexPath.section)
                 tableView.reloadSections(sections, with: .fade)
                 
@@ -132,14 +164,14 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
         }
         else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
-            vc.subCategorie =  tableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            vc.subCategorie =  CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
             present(vc, animated: true, completion: nil)
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewData[section].opened == true
+        if CurrentTableViewData[section].opened == true
         {
-            return tableViewData[section].sectionData.count + 1
+            return CurrentTableViewData[section].sectionData.count + 1
             
         }else {
             return 1
@@ -148,21 +180,22 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableViewData.count
+        return CurrentTableViewData.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : SearchViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SearchViewCell
-        
+        cell.accessoryType = .disclosureIndicator
         if indexPath.row == 0 {
-            cell.nameCategorie.text  = tableViewData[indexPath.section].title
+            cell.nameCategorie.text  = CurrentTableViewData[indexPath.section].title
        
             return cell
         }
         else
         {
             
-            cell.nameCategorie.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1 ].name
+            cell.nameCategorie.text = CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1 ].name
             tableView.deleteRows(at: [indexPath], with: .fade)
+            cell.accessoryType = .none
             
             return cell
             
