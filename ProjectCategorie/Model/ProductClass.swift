@@ -21,9 +21,10 @@ struct ProductClass : Decodable {
     let enumCityName : String?
     let enumSubCategoryName : String?
     let enumUniteName : String?
-    let userId : Int?
+    let userId : String?
     let userName : String?
     let enumRegionId : Int?
     let enumCategoryId : Int?
+       var hasFavorited: Bool?
     
 }

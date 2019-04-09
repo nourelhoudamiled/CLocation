@@ -8,8 +8,13 @@
 
 import UIKit
 import Alamofire
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController  {
 
+    @IBOutlet var siteLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var nameSocietLabel: UILabel!
+    @IBOutlet var viewRegister: UIView!
+    @IBOutlet var signIn: UIButton!
     @IBOutlet var descriptionTextfield: UITextField!
     @IBOutlet var sitesocieteTextfield: UITextField!
     @IBOutlet var nomsocieteTextField: UITextField!
@@ -23,9 +28,16 @@ class RegisterViewController: UIViewController {
       var list = ["Societe" , "Particulier"]
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        signIn.frame = CGRect(x: 160, y: 100, width: 50, height: 50)
+        signIn.layer.cornerRadius = 0.5 * signIn.bounds.size.width
  self.pickerView.isHidden = true
     }
-    
+    override func viewDidLayoutSubviews() {
+        viewRegister.roundCorners(corners: [.bottomLeft], radius: 40.0)
+        
+        
+    }
     @IBAction func registerButton(_ sender: Any) {
         let value = numtelTextField.text!
         let rewardInt = Int(value)
@@ -64,7 +76,10 @@ class RegisterViewController: UIViewController {
         }
     }
     
-
+    @IBAction func gotoLogin(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource {
     public func numberOfComponents(in pickerView: UIPickerView) -> Int{
@@ -94,6 +109,9 @@ extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource 
             self.nomsocieteTextField.isHidden = true
             self.descriptionTextfield.isHidden = true
             self.sitesocieteTextfield.isHidden = true
+            self.nameSocietLabel.isHidden = true
+            self.descriptionLabel.isHidden = true
+            self.siteLabel.isHidden = true
           
         }
         else if (self.tuesTextfield.text == "Societe" && self.list[row] == "Societe"  )  {
@@ -101,6 +119,9 @@ extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource 
             self.descriptionTextfield.isHidden = false
             self.nomsocieteTextField.isHidden = false
             self.sitesocieteTextfield.isHidden = false
+            self.nameSocietLabel.isHidden = false
+            self.descriptionLabel.isHidden = false
+            self.siteLabel.isHidden = false
         
        
             

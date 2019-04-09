@@ -11,18 +11,26 @@ import SkyFloatingLabelTextField
 import Alamofire
 class LoginViewController: UIViewController {
        var loginService: BaseService?
+    @IBOutlet var signInWithFb: UIButton!
     @IBOutlet var loginButton: UIButton!
+
     @IBOutlet var viewLogin: UIView!
     @IBOutlet var PassTextField: SkyFloatingLabelTextField!
     @IBOutlet var nameLabel: SkyFloatingLabelTextField!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewLogin.layer.cornerRadius = 0.2 * viewLogin.bounds.size.width
-        viewLogin.clipsToBounds = true
-//        loginButton.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
-//        loginButton.layer.cornerRadius = 0.5 * loginButton.bounds.size.width
-//        loginButton.clipsToBounds = true
+      
+        loginButton.frame = CGRect(x: 160, y: 100, width: 50, height: 50)
+        loginButton.layer.cornerRadius = 0.5 * loginButton.bounds.size.width
+//        loginButton.layer.cornerRadius = 50.0
+      
+        signInWithFb.layer.cornerRadius = 10.0
+        
+    }
+    override func viewDidLayoutSubviews() {
+        viewLogin.roundCorners(corners: [.bottomLeft], radius: 80.0)
+     
         
     }
     
@@ -41,6 +49,7 @@ class LoginViewController: UIViewController {
             
             prefs.set(1, forKey: "IsLoggedIn")
             prefs.synchronize()
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
             present(vc, animated: true, completion: nil)
     }

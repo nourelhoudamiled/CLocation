@@ -9,7 +9,14 @@
 import UIKit
 
 class louerViewController: UIViewController {
+    
+    var product : ProductClass?
+    var text : Int?
 
+    @IBOutlet var nameUniteLabel: UILabel!
+    @IBOutlet var cityLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var prixLabel: UILabel!
     @IBOutlet var isAvailble: UISwitch!
     @IBOutlet var telLabel: UILabel!
     @IBOutlet var adrLabel: UILabel!
@@ -31,6 +38,27 @@ class louerViewController: UIViewController {
     var counter = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("product \(String(describing: product))")
+        nameUniteLabel.text = product?.enumUniteName
+        cityLabel.text = product?.enumCityName
+        descriptionLabel.text = product?.description
+      
+        prixLabel.text =  "\(String(describing: product?.price))"
+        
+     
+        
+        adrLabel.text = product?.address
+        if (product?.isAvailable == true){
+            isAvailble.isOn = true
+        }
+        else{
+           isAvailble.isOn = false
+        }
+        
+        
+        
+//        telLabel.text = product.
+        
         pageView.numberOfPages = imgArr.count
         pageView.currentPage = 0
         DispatchQueue.main.async {

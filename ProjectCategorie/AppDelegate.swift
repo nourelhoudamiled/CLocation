@@ -15,22 +15,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        var rootViewController = self.window!.rootViewController
-//        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
-//        if(isUserLoggedIn) {
-//            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
-//            let protectedPage = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
-//            window!.rootViewController = protectedPage
-//            window!.makeKeyAndVisible()
-//        }
-//        else{
-//            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
-//            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-//            window!.rootViewController = loginViewController
-//            window!.makeKeyAndVisible()
-//            
-//            
-//        }
+        var rootViewController = self.window!.rootViewController
+        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
+        if(isUserLoggedIn) {
+            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+            let protectedPage = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
+            window!.rootViewController = protectedPage
+            window!.makeKeyAndVisible()
+        }
+        else{
+            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+            window!.rootViewController = loginViewController
+            window!.makeKeyAndVisible()
+            
+            
+        }
         
 
         return true

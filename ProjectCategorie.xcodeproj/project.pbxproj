@@ -11,6 +11,9 @@
 		FA00BB4F22579A3E0090622F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA00BB4D22579A3D0090622F /* Main.storyboard */; };
 		FA00BB5122579A830090622F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00BB5022579A830090622F /* ProfileViewController.swift */; };
 		FA00BB532257A3DC0090622F /* Unite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00BB522257A3DC0090622F /* Unite.swift */; };
+		FA074607225CF3A7008A744C /* SwippingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA074606225CF3A7008A744C /* SwippingController.swift */; };
+		FA08D1CD225BA9490089EB8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D1CC225BA9490089EB8E /* User.swift */; };
+		FA08D1CF225BBDB30089EB8E /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D1CE225BBDB30089EB8E /* Rating.swift */; };
 		FA2094B4225660E3009BB679 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2094B3225660E3009BB679 /* TestViewController.swift */; };
 		FA28500722563FBC00760166 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28500622563FBC00760166 /* BaseService.swift */; };
 		FA285009225640D800760166 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA285008225640D800760166 /* AppManager.swift */; };
@@ -20,6 +23,8 @@
 		FA2D69D822560FD900EF38B6 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2D69D722560FD900EF38B6 /* SWRevealViewController.m */; };
 		FA2D69E02256259200EF38B6 /* BarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2D69DF2256259200EF38B6 /* BarTableViewCell.swift */; };
 		FA2D69E2225625A800EF38B6 /* BarMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2D69E1225625A800EF38B6 /* BarMenuViewController.swift */; };
+		FA42495B2259FE84001D5873 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42495A2259FE84001D5873 /* WelcomeViewController.swift */; };
+		FA42495D225A0F77001D5873 /* Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42495C225A0F77001D5873 /* Extention.swift */; };
 		FA479D952252202A00573235 /* ProductClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479D942252202A00573235 /* ProductClass.swift */; };
 		FA479D9C2252221A00573235 /* SousCategClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479D992252206F00573235 /* SousCategClass.swift */; };
 		FA479D9D2252221C00573235 /* CategorieClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA479D9A2252207C00573235 /* CategorieClass.swift */; };
@@ -57,6 +62,9 @@
 		FA00BB4E22579A3D0090622F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "../../../../Downloads/ProjectCategorie 3 2 2/ProjectCategorie/View/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		FA00BB5022579A830090622F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FA00BB522257A3DC0090622F /* Unite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unite.swift; sourceTree = "<group>"; };
+		FA074606225CF3A7008A744C /* SwippingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwippingController.swift; sourceTree = "<group>"; };
+		FA08D1CC225BA9490089EB8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FA08D1CE225BBDB30089EB8E /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		FA2094B3225660E3009BB679 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		FA28500622563FBC00760166 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		FA285008225640D800760166 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
@@ -68,6 +76,8 @@
 		FA2D69D722560FD900EF38B6 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../../Downloads/SWRevealViewController-master 2/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
 		FA2D69DF2256259200EF38B6 /* BarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarTableViewCell.swift; sourceTree = "<group>"; };
 		FA2D69E1225625A800EF38B6 /* BarMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarMenuViewController.swift; sourceTree = "<group>"; };
+		FA42495A2259FE84001D5873 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		FA42495C225A0F77001D5873 /* Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extention.swift; sourceTree = "<group>"; };
 		FA479D942252202A00573235 /* ProductClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductClass.swift; sourceTree = "<group>"; };
 		FA479D992252206F00573235 /* SousCategClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SousCategClass.swift; sourceTree = "<group>"; };
 		FA479D9A2252207C00573235 /* CategorieClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorieClass.swift; sourceTree = "<group>"; };
@@ -146,6 +156,8 @@
 				FA479D992252206F00573235 /* SousCategClass.swift */,
 				FA479D9A2252207C00573235 /* CategorieClass.swift */,
 				FA00BB522257A3DC0090622F /* Unite.swift */,
+				FA08D1CC225BA9490089EB8E /* User.swift */,
+				FA08D1CE225BBDB30089EB8E /* Rating.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,6 +189,8 @@
 				FA28500E2256415600760166 /* RegisterViewController.swift */,
 				FA2094B3225660E3009BB679 /* TestViewController.swift */,
 				FA00BB5022579A830090622F /* ProfileViewController.swift */,
+				FA42495A2259FE84001D5873 /* WelcomeViewController.swift */,
+				FA074606225CF3A7008A744C /* SwippingController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -231,6 +245,7 @@
 				FA28500522563FA900760166 /* Service */,
 				FA65D9B322326BB70058ADFA /* AppDelegate.swift */,
 				FA65D9BA22326BB80058ADFA /* Assets.xcassets */,
+				FA42495C225A0F77001D5873 /* Extention.swift */,
 				FA65D9BF22326BB80058ADFA /* Info.plist */,
 				FA479D962252204600573235 /* Model */,
 				FA479D982252205900573235 /* Controller */,
@@ -378,7 +393,9 @@
 				FA54B399224E60010034EBB0 /* productTableViewCell.swift in Sources */,
 				FA28500F2256415600760166 /* RegisterViewController.swift in Sources */,
 				FA479D9C2252221A00573235 /* SousCategClass.swift in Sources */,
+				FA08D1CF225BBDB30089EB8E /* Rating.swift in Sources */,
 				FA54B393224E597F0034EBB0 /* StarLayer.swift in Sources */,
+				FA42495B2259FE84001D5873 /* WelcomeViewController.swift in Sources */,
 				FA54B395224E597F0034EBB0 /* CosmosRating.swift in Sources */,
 				FA54B38C224E597F0034EBB0 /* CosmosLayers.swift in Sources */,
 				FA2D69E2225625A800EF38B6 /* BarMenuViewController.swift in Sources */,
@@ -391,9 +408,12 @@
 				FA54B38D224E597F0034EBB0 /* CosmosTouch.swift in Sources */,
 				FA54B39B224E60230034EBB0 /* ProductViewController.swift in Sources */,
 				FA2D69E02256259200EF38B6 /* BarTableViewCell.swift in Sources */,
+				FA08D1CD225BA9490089EB8E /* User.swift in Sources */,
+				FA42495D225A0F77001D5873 /* Extention.swift in Sources */,
 				FA65D9B622326BB70058ADFA /* RechercheViewController.swift in Sources */,
 				FA479D9D2252221C00573235 /* CategorieClass.swift in Sources */,
 				FA54B38A224E597F0034EBB0 /* CosmosAccessibility.swift in Sources */,
+				FA074607225CF3A7008A744C /* SwippingController.swift in Sources */,
 				FA54B39D224E60620034EBB0 /* louerViewController.swift in Sources */,
 				FA28500B225640FD00760166 /* UserDefaults.swift in Sources */,
 				FA54B392224E597F0034EBB0 /* RightToLeft.swift in Sources */,

@@ -60,19 +60,15 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     }
     func dataCatégorie(){
         print("Token ViewCont PressedButton = \( AppManager.shared.token)")
-
         let urlString = urlRequest.url?.absoluteString
         let urlString1 = urlRequest1.url?.absoluteString
-        
         AF.request(urlString!).responseJSON {
             response in
             do {
                 guard let data = response.data else {return}
                 let categorieListJson = try JSONDecoder().decode([CategorieClass].self, from: data)
-                
                 for categorie in categorieListJson {
                     self.categorieList.append(categorie)
-
                     guard let  categorieID = categorie.id else {return}
                     let subCategorieURL = urlString1! + "\(categorieID)"
                     AF.request(subCategorieURL , method : .get ).responseJSON {
@@ -88,8 +84,7 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                                 let cellData = CellData(opened: false, title: categorie.name!, sectionData: sousCategoriesList)
                               self.tableViewData.append(cellData)
                             self.CurrentTableViewData = self.tableViewData
-                                
-                                
+   
                                 DispatchQueue.main.async {
                                     self.viewTable.reloadData()
                                 }
@@ -100,8 +95,6 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                     }
                 }
 
-
-                
     }catch let error {
                 print(error)
             }
