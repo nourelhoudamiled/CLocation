@@ -1,19 +1,33 @@
 PODS:
-  - Alamofire (5.0.0-beta.4)
+  - Alamofire (5.0.0-beta.5)
+  - GoogleMaps (3.0.3):
+    - GoogleMaps/Maps (= 3.0.3)
+  - GoogleMaps/Base (3.0.3)
+  - GoogleMaps/Maps (3.0.3):
+    - GoogleMaps/Base
+  - GooglePlaces (3.0.3):
+    - GoogleMaps/Base (= 3.0.3)
   - p2.OAuth2 (4.2.0)
   - SkyFloatingLabelTextField (3.6.0)
+  - StepIndicator (1.0.6.1)
   - SWCombox (2.5)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-beta.3)
+  - GoogleMaps
+  - GooglePlaces
   - p2.OAuth2 (from `https://github.com/p2/OAuth2`)
   - SkyFloatingLabelTextField (~> 3.0)
+  - StepIndicator (~> 1.0.6)
   - SWCombox (from `https://github.com/sw0906/SWCombox.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - GoogleMaps
+    - GooglePlaces
     - SkyFloatingLabelTextField
+    - StepIndicator
 
 EXTERNAL SOURCES:
   p2.OAuth2:
@@ -32,11 +46,14 @@ CHECKOUT OPTIONS:
     :git: https://github.com/sw0906/SWCombox.git
 
 SPEC CHECKSUMS:
-  Alamofire: 6458d95477bc40adf10129f22c67cfb014162dc8
+  Alamofire: 9afb08f7f43efcc71c072374e720fcf67521317d
+  GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
+  GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
   p2.OAuth2: d5ea9b928fc5d10d088d419db6f3380578b6f866
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
+  StepIndicator: 73b4bcc8bcf816cb98479d99ada7e85463252caa
   SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
 
-PODFILE CHECKSUM: d8e318f528641b9ca40d54c7c25470150096b82a
+PODFILE CHECKSUM: f4f981ddfd0c8111d10911fad05378daeaff792c
 
 COCOAPODS: 1.6.0

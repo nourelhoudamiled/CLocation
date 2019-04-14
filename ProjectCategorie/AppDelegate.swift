@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import GoogleMaps
+import GooglePlaces
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,23 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        var rootViewController = self.window!.rootViewController
-        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
-        if(isUserLoggedIn) {
-            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
-            let protectedPage = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
-            window!.rootViewController = protectedPage
-            window!.makeKeyAndVisible()
-        }
-        else{
-            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
-            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-            window!.rootViewController = loginViewController
-            window!.makeKeyAndVisible()
-            
-            
-        }
         
+        GMSServices.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
+           GMSPlacesClient.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
+        
+        
+//        var rootViewController = self.window!.rootViewController
+//        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
+//        if(isUserLoggedIn) {
+//            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+//            let protectedPage = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
+//            window!.rootViewController = protectedPage
+//            window!.makeKeyAndVisible()
+//        }
+//        else{
+//            let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+//            let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+//            window!.rootViewController = loginViewController
+//            window!.makeKeyAndVisible()
+//            
+//            
+//        }
+//        
 
         return true
     }
