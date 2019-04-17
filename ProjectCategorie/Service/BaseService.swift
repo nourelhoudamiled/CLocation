@@ -35,7 +35,19 @@ final class BaseService: OAuth2PasswordGrantDelegate
         
         oauth2.delegate = self
     }
-    
+    func displayMessage(userMessage : String)
+    {
+        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertController.Style.alert)
+        let vc = self.oauth2.authConfig.authorizeContext as? UIViewController
+
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
+            action in
+            vc!.dismiss(animated: true, completion: nil)
+        }
+        myAlert.addAction(okAction)
+        vc!.present(myAlert , animated : true , completion : nil)
+        
+    }
     
     
     public func authorize(presenting view: UIViewController , texttoken : String) {
@@ -74,7 +86,11 @@ final class BaseService: OAuth2PasswordGrantDelegate
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     AF.request(urlString!, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                         
-                        
+//                        if ((error ) != nil) {
+//                            let userMessage : String = error!.localizedDescription
+//                            self.displayMessage(userMessage: userMessage)
+//                            return
+//                        }
                         print(response.request as Any)  // original URL request
                         print(response.response as Any) // URL response
 //                        print(response.result.value as Any)
@@ -109,5 +125,6 @@ final class BaseService: OAuth2PasswordGrantDelegate
         }
         return LoginViewController()
     }
+ 
     
 }

@@ -104,7 +104,7 @@ extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource 
         
         self.tuesTextfield.text = self.list[row]
         self.pickerView.isHidden = true
-        if  (  self.tuesTextfield.text  == "Particulier"  && self.list[row] == "Particulier" ) {
+        if  (  self.tuesTextfield.text  == "Particulier") {
             self.pickerView.isHidden = true
             self.nomsocieteTextField.isHidden = true
             self.descriptionTextfield.isHidden = true
@@ -114,7 +114,7 @@ extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource 
             self.siteLabel.isHidden = true
           
         }
-        else if (self.tuesTextfield.text == "Societe" && self.list[row] == "Societe"  )  {
+        else if (self.tuesTextfield.text == "Societe" )  {
             self.pickerView.isHidden = true
             self.descriptionTextfield.isHidden = false
             self.nomsocieteTextField.isHidden = false

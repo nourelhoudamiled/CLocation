@@ -32,16 +32,15 @@ class PopupRegionViewController: UIViewController {
             
             response in
             do {
-                let itemDetails1 = try JSONDecoder().decode([RegionClass].self, from: response.data!)
-                for item1 in itemDetails1 {
-                    self.RegionListNames.append(item1.name ?? "")
-                    
-                    self.RegionList.append(item1)
+                if let data = response.data {
+                    let itemDetails1 = try JSONDecoder().decode([RegionClass].self, from: data)
+                    for item1 in itemDetails1 {
+                        self.RegionListNames.append(item1.name ?? "")
+                        
+                        self.RegionList.append(item1)
+                    }
+                    self.tableView.reloadData()
                 }
-                
-                self.tableView.reloadData()
-                
-                
             }catch let errords {
                 
                 print(errords)
@@ -53,7 +52,6 @@ class PopupRegionViewController: UIViewController {
 
     @IBAction func cancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-
     }
 
 
@@ -67,13 +65,9 @@ extension PopupRegionViewController : UITableViewDelegate , UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         print("region Name : " + RegionList[indexPath.row].name!)
-        
         Share.sharedName.RegionName = RegionList[indexPath.row].name
         Share.sharedName.RegionId = RegionList[indexPath.row].id
-        
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "AjouterProduitViewController") as! AjouterProduitViewController
-        self.present(newViewController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -81,9 +75,7 @@ extension PopupRegionViewController : UITableViewDelegate , UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellregion", for: indexPath)
-        
         cell.textLabel?.text = RegionList[indexPath.row].name
-        
         return cell
     }
     

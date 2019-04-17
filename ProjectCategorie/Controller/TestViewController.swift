@@ -29,16 +29,31 @@ class TestViewController: UIViewController {
     
     @IBAction func testButton(_ sender: Any) {
          /************** Get / id ***************/
-        let value = idText.text!
-        let rewardInt = Int(value)
-        getUniteRequest(byId: rewardInt! ) { (tweetRequest) in
-            print(tweetRequest ?? "")
-
+//        let value = idText.text!
+//        let rewardInt = Int(value)
+//        getUniteRequest(byId: rewardInt! ) { (tweetRequest) in
+//            print(tweetRequest ?? "")
+//
+//
+//
+//
+//
+//        }
+        let urlString = "https://clocation.azurewebsites.net/api/EnumCategories"
         
-       
+                        AF.request(urlString, method: .post, parameters: ["name": nameText.text!],encoding: JSONEncoding.default, headers: nil).responseJSON {
+                            response in
         
-      
-        }
+                    switch response.result {
+                    case .success:
+                    print(response)
+        
+                    break
+                    case .failure(let error):
+        
+                    print(error)
+                    }
+                        }
     }
         
         

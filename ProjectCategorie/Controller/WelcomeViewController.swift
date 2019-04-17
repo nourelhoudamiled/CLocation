@@ -15,11 +15,11 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
- 
     }
     
     override func viewDidLayoutSubviews() {
-        viewPurpel.roundCorners(corners: [.bottomLeft], radius: 800.0)
+            viewPurpel.roundCorners(corners: [.topLeft , .topRight], radius: 80.0)
+        viewPurpel.roundCorners(corners: [.bottomLeft , .bottomRight], radius: 800.0)
         getStartedButton.roundCorners(corners: [.bottomLeft,.topLeft], radius: 800.0)
     
     }

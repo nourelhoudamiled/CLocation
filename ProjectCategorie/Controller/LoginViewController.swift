@@ -40,7 +40,11 @@ class LoginViewController: UIViewController {
         let token = loginService?.oauth2.accessToken
         
         if (!userLoggedIn || (userLoggedIn && token == nil))  {
-            
+            if nameLabel.text!.isEmpty {
+                let userMessage : String = "Please type in your email addresse"
+                displayMessage(userMessage: userMessage)
+                return
+            }
             loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
             
             loginService?.authorize(presenting: self, texttoken: "")
@@ -54,8 +58,17 @@ class LoginViewController: UIViewController {
             present(vc, animated: true, completion: nil)
     }
     }
-    
-    
+    func displayMessage(userMessage : String)
+    {
+        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
+            action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        myAlert.addAction(okAction)
+        self.present(myAlert , animated : true , completion : nil)
+        
+    }
     
 }
 

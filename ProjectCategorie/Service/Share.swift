@@ -12,8 +12,10 @@ final class Share {
       var subcategorieName : String!
     var categorieName : String!
        var categorieId : Int!
+        var SubcategorieId : Int!
     var CityName : String!
     var RegionName : String!
     var RegionId : Int!
     var nameAdresse : String!
+     var imgArr: [URL]!
 }

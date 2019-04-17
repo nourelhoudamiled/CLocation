@@ -15,6 +15,7 @@ class PictureCollectionViewCell: UICollectionViewCell {
     var delegate : dataCollectionProtocol?
     var index : IndexPath?
     
+    @IBOutlet var deleteButo: UIButton!
     @IBAction func deleteButton(_ sender: Any) {
         delegate?.deleteData(indx: index!.row)
     }

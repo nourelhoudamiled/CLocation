@@ -35,6 +35,7 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
 
         if revealViewController() != nil {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
+                navigationItem.title = " Rechercher Produit "
             
             
             
@@ -162,6 +163,7 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if CurrentTableViewData[section].opened == true
         {
             return CurrentTableViewData[section].sectionData.count + 1
@@ -170,6 +172,15 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
             return 1
         }
         
+    }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      
+        let button = UIButton()
+        button.setTitle(CurrentTableViewData[section].title, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
