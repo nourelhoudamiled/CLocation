@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.0.0-beta.5)
+  - ALCameraViewController (3.0.3)
   - GoogleMaps (3.0.3):
     - GoogleMaps/Maps (= 3.0.3)
   - GoogleMaps/Base (3.0.3)
@@ -7,27 +8,35 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (3.0.3):
     - GoogleMaps/Base (= 3.0.3)
+  - MMBannerLayout (2.0.0)
   - p2.OAuth2 (4.2.0)
   - SkyFloatingLabelTextField (3.6.0)
   - StepIndicator (1.0.6.1)
   - SWCombox (2.5)
+  - VerticalCardSwiper (1.0.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0.0-beta.3)
+  - Alamofire (~> 5.0.0-beta.5)
+  - ALCameraViewController
   - GoogleMaps
   - GooglePlaces
+  - MMBannerLayout
   - p2.OAuth2 (from `https://github.com/p2/OAuth2`)
   - SkyFloatingLabelTextField (~> 3.0)
   - StepIndicator (~> 1.0.6)
   - SWCombox (from `https://github.com/sw0906/SWCombox.git`)
+  - VerticalCardSwiper
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - ALCameraViewController
     - GoogleMaps
     - GooglePlaces
+    - MMBannerLayout
     - SkyFloatingLabelTextField
     - StepIndicator
+    - VerticalCardSwiper
 
 EXTERNAL SOURCES:
   p2.OAuth2:
@@ -47,13 +56,16 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 9afb08f7f43efcc71c072374e720fcf67521317d
+  ALCameraViewController: 6398a9282057f709b87a1ecc52a83b48028ade64
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
+  MMBannerLayout: e3ce05c289f2b484ff8356d9ed3948cdb7e194cb
   p2.OAuth2: d5ea9b928fc5d10d088d419db6f3380578b6f866
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   StepIndicator: 73b4bcc8bcf816cb98479d99ada7e85463252caa
   SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
+  VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
 
-PODFILE CHECKSUM: f4f981ddfd0c8111d10911fad05378daeaff792c
+PODFILE CHECKSUM: 931cdf4e6009d24352a2457d530cf7b7f65f6251
 
 COCOAPODS: 1.6.0

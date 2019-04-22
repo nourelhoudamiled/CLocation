@@ -10,21 +10,26 @@ import Foundation
 
 struct User : Decodable {
     let id : String?
-    let firstName : String?
-    let lastName : String?
-    let aboutMe : String?
+    var firstName : String?
+    var lastName : String?
+    var aboutMe : String?
     let email : String?
-    let phoneNumber : String?
-    let skype : String?
-    let facebookUrl : Bool?
-    let twitterUrl : Int?
-    let pinterestUrl: Int?
-    let imageUri : String?
-    let isAdmin : Bool?
-    let isPartner : Bool?
-    let partnerAddress : String?
-    let partnerCity : String?
-    let partnerDescription : String?
-    let partnerWebSite : String?
+    var phoneNumber : String?
+    var skype : String?
+    var facebookUrl : Bool?
+    var twitterUrl : Int?
+    var pinterestUrl: Int?
+    var imageUri : String?
+    var isAdmin : Bool?
+    var isPartner : Bool?
+    var partnerAddress : String?
+    var partnerCity : String?
+    var partnerDescription : String?
+    var partnerWebSite : String?
+    init(id : String , email : String ) {
+        self.id = id
+        self.email = email
+        
+    }
     
 }

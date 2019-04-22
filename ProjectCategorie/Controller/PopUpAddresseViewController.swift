@@ -50,10 +50,10 @@ class PopUpAddresseViewController: UIViewController  {
     }
     
     @IBAction func saveLocationButton(_ sender: Any) {
-    
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "AjouterProduitViewController") as! AjouterProduitViewController
-        self.present(newViewController, animated: true, completion: nil)
+       print(Share.sharedName.nameAdresse )
+
+        self.dismiss(animated: true, completion: nil)
+
     }
 }
     extension PopUpAddresseViewController : CLLocationManagerDelegate {
@@ -88,7 +88,14 @@ extension PopUpAddresseViewController: HandleMapSearch {
             annotation.coordinate = placemark.coordinate
             annotation.title = placemark.name
             print(placemark.name)
+            print(annotation.coordinate.latitude)
+             print(annotation.coordinate.longitude)
             Share.sharedName.nameAdresse = placemark.name
+            
+             Share.sharedName.longitude = Decimal(annotation.coordinate.longitude)
+            
+             Share.sharedName.latitude = Decimal(annotation.coordinate.latitude)
+            
 
             print(placemark.coordinate)
             

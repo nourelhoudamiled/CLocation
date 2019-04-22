@@ -73,12 +73,10 @@ extension PoPupSubCategorieViewController : UITableViewDataSource , UITableViewD
         print("sub categorie Name : " + sousCategoriList[indexPath.row].name!)
         
         Share.sharedName.subcategorieName = sousCategoriList[indexPath.row].name
-      Share.sharedName.SubcategorieId = sousCategoriList[indexPath.row].id
-        
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "AjouterProduitViewController") as! AjouterProduitViewController
-        self.present(newViewController, animated: true, completion: nil)
-        
+//        self.present(AjouterProduitViewController.self, animated: true, completion: nil)
+
+        self.dismiss(animated: true, completion: nil)
+
     }
     
     //Assign values for tableView

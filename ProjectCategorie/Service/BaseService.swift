@@ -15,7 +15,8 @@ final class BaseService: OAuth2PasswordGrantDelegate
     // var manager: Manager?
     
     
-    
+    var userList = [User]()
+
     var text:String = ""
     public var oauth2: OAuth2PasswordGrant
     
@@ -50,7 +51,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
     }
     
     
-    public func authorize(presenting view: UIViewController , texttoken : String) {
+    public func authorize(presenting view: UIViewController) {
         // oauth2.authConfig.authorizeContext = view
         oauth2.logger = OAuth2DebugLogger(.trace)
         var token = ""
@@ -85,12 +86,19 @@ final class BaseService: OAuth2PasswordGrantDelegate
                 let urlString = urlRequest.url?.absoluteString
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     AF.request(urlString!, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-                        
+                        guard let data = response.data else {return}
+                        do {
+//                        let userListJson = try JSONDecoder().decode([User].self, from: data)
+//                        for user in userListJson {
+//                            self.userList.append(User(id: user.id!, email: user.email!))
+//                        }
+//                            print("blalala\(self.userList)")
 //                        if ((error ) != nil) {
 //                            let userMessage : String = error!.localizedDescription
 //                            self.displayMessage(userMessage: userMessage)
 //                            return
 //                        }
+                            print("nour")
                         print(response.request as Any)  // original URL request
                         print(response.response as Any) // URL response
 //                        print(response.result.value as Any)
@@ -101,7 +109,9 @@ final class BaseService: OAuth2PasswordGrantDelegate
                         //        //saved to the device
                         //        UserDefaults.standard.synchronize()
                         
-                        
+                        }catch let err {
+                            print(err)
+                        }
                         
                         
                     }

@@ -71,11 +71,10 @@ extension PopupCityViewController : UITableViewDataSource , UITableViewDelegate 
         print("CITY Name : " + cityList[indexPath.row].name!)
         
         Share.sharedName.CityName = cityList[indexPath.row].name
-        
-        
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "AjouterProduitViewController") as! AjouterProduitViewController
-        self.present(newViewController, animated: true, completion: nil)
+  Share.sharedName.CityId = cityList[indexPath.row].id
+      
+  self.dismiss(animated: true, completion: nil)
+      
         
     }
     

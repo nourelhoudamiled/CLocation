@@ -51,6 +51,7 @@ class PopupRegionViewController: UIViewController {
 
 
     @IBAction func cancelButton(_ sender: Any) {
+
         dismiss(animated: true, completion: nil)
     }
 
@@ -67,7 +68,14 @@ extension PopupRegionViewController : UITableViewDelegate , UITableViewDataSourc
         print("region Name : " + RegionList[indexPath.row].name!)
         Share.sharedName.RegionName = RegionList[indexPath.row].name
         Share.sharedName.RegionId = RegionList[indexPath.row].id
-        self.dismiss(animated: true, completion: nil)
+//        if indexPath.section == 0 {
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let newViewController = storyBoard.instantiateViewController(withIdentifier: "PopupCityViewController") as! PopupCityViewController
+//            self.present(newViewController, animated: true, completion: nil)
+////        }
+
+       dismiss(animated: true, completion: nil)
+//        
         
     }
     

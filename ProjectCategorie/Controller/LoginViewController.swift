@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
        var loginService: BaseService?
     @IBOutlet var signInWithFb: UIButton!
     @IBOutlet var loginButton: UIButton!
+    var userList = [User]()
 
     @IBOutlet var viewLogin: UIView!
     @IBOutlet var PassTextField: SkyFloatingLabelTextField!
@@ -47,14 +48,16 @@ class LoginViewController: UIViewController {
             }
             loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
             
-            loginService?.authorize(presenting: self, texttoken: "")
+            loginService?.authorize(presenting: self)
+            
+            
             UserDefaults.standard.setIsLoggedIn(value: true)
             let prefs:UserDefaults = UserDefaults.standard
             
             prefs.set(1, forKey: "IsLoggedIn")
             prefs.synchronize()
             
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
             present(vc, animated: true, completion: nil)
     }
     }

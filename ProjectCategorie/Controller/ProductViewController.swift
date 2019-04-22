@@ -160,8 +160,12 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
 
         cell.nameProduct.text = ProductList[index].name
 //        cell.accessoryView?.tintColor = ProductList[index].hasFavorited! ? UIColor.red : .lightGray
-      cell.ratingLabel.text = "\(note!)"
-        cell.cosmosViewFull.rating = note!
+     
+        if let _ = note {
+            cell.ratingLabel.text = "\(note)"
+            cell.cosmosViewFull.rating = note ?? 0
+
+        }
      
         cell.cellDelegate = self
         cell.index = indexPath

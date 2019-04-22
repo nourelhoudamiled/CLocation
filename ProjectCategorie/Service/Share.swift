@@ -14,8 +14,13 @@ final class Share {
        var categorieId : Int!
         var SubcategorieId : Int!
     var CityName : String!
+      var CityId : Int!
     var RegionName : String!
     var RegionId : Int!
     var nameAdresse : String!
-     var imgArr: [URL]!
+    var idUser : String!
+       var lan : String!
+       var latitude : Decimal!
+    var longitude : Decimal!
+    
 }

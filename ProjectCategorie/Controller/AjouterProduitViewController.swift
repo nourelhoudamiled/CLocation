@@ -9,11 +9,15 @@
 import UIKit
 
 import Alamofire
-
+import ALCameraViewController
 import SWCombox
 import StepIndicator
+import Photos
+
 class AjouterProduitViewController: UIViewController {
-    
+    @IBOutlet var columnTableView: UITableView!
+//
+    @IBOutlet var imageView: UIImageView!
     @IBOutlet var backButton: UIButton!
     @IBOutlet var doneLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
@@ -32,26 +36,27 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var stepIndicatorView: StepIndicatorView!
     @IBOutlet var step3View: UIView!
     @IBOutlet var step1View: UIView!
-    
+
     @IBOutlet var step2View: UIView!
     
     @IBOutlet var minDuréLabel: UITextField!
     
     @IBOutlet var descriptionText: UITextField!
-    
-    
+    var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
+       var urlRequestAtt = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
+    var columnList = [Column]()
+
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var availbleSwith: UISwitch!
-    let imagePickerController = UIImagePickerController()
-    var imgArr: [URL]! = []
+    var imgArr: [UIImage]! = []
     @IBOutlet var priceTextField: UITextField!
     
     var amount : Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-        initScrollView()
+   
+//        UPLOD()
         
-        imagePickerController.delegate = self
         if revealViewController() != nil {
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
@@ -60,23 +65,25 @@ class AjouterProduitViewController: UIViewController {
             
             
         }
-        
-        let path = "/Users/macbook/Downloads/insights-for-instagram-master/README.md"
-        
-        do {
-            // Get the contents
-            let contents = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue)
-            print(contents)
-        }
-        catch let error as NSError {
-            print("Ooops! Something went wrong: (error)")
-        }
-        
+        columnTableView.rowHeight = UITableView.automaticDimension
+        columnTableView.estimatedRowHeight = 100
+       
+          initScrollView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        single()
+        super.viewWillAppear(animated)
+        let cn : String = Share.sharedName.categorieName ?? "Select Categorie"
+        let id : Int = Share.sharedName.categorieId ?? 1
+        print(id)
+        btnSelected.setTitle(cn,for: .normal)
+        let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Categorie"
+        
+        btnSelectSubCar.setTitle(cnsub,for: .normal)
+     single()
+
+        
+        
         
     }
     @IBAction func adresseButton(_ sender: Any) {
@@ -84,7 +91,7 @@ class AjouterProduitViewController: UIViewController {
         
     }
     func  single() {
-        
+      
         btnSelected.backgroundColor = .clear
         btnSelected.layer.cornerRadius = 5
         btnSelected.layer.borderWidth = 0.5
@@ -101,13 +108,9 @@ class AjouterProduitViewController: UIViewController {
         btnSelectCity.layer.cornerRadius = 5
         btnSelectCity.layer.borderWidth = 0.5
         btnSelectCity.layer.borderColor = UIColor.lightGray.cgColor
-        
-        let cn : String = Share.sharedName.categorieName ?? "Select Categorie"
-        let id : Int = Share.sharedName.categorieId ?? 1
-        print(id)
-        btnSelected.setTitle(cn,for: .normal)
-        let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Categorie"
-        btnSelectSubCar.setTitle(cnsub,for: .normal)
+        let addresse : String = Share.sharedName.nameAdresse ?? "name of adresse"
+        btnSelectAdresse.setTitle(addresse,for: .normal)
+   
         
         let region : String = Share.sharedName.RegionName ?? "Select region"
         let idregion : Int = Share.sharedName.RegionId ?? 1
@@ -119,7 +122,8 @@ class AjouterProduitViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+     
+
         
     }
     private func initScrollView() {
@@ -208,16 +212,18 @@ class AjouterProduitViewController: UIViewController {
         }
         
     }
+    @IBAction func uploadBtton(_ sender: Any) {
+//        myImageUploadRequest ()
+//        imgArr.append(self.imageView.image!)
+    }
     @IBAction func NexButton(_ sender: Any) {
-        
         self.stepIndicatorView.currentStep += 1
         
         
         if(stepIndicatorView.currentStep == 1)
         {
             print("step2")
-            let addresse : String = Share.sharedName.nameAdresse ?? "name of adresse"
-            btnSelectAdresse.setTitle(addresse,for: .normal)
+            
             btnSelectAdresse.backgroundColor = .clear
             btnSelectAdresse.layer.cornerRadius = 5
             btnSelectAdresse.layer.borderWidth = 0.5
@@ -240,7 +246,8 @@ class AjouterProduitViewController: UIViewController {
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             backButton.layer.isHidden = false
-            
+            getColumnFields()
+
         }
             
         else  if(stepIndicatorView.currentStep == 3)
@@ -271,40 +278,17 @@ class AjouterProduitViewController: UIViewController {
         
     }
     
+ 
+   
     
-    //
-    func postAttachement() {
-        let urlStringAttachments = "https://clocation.azurewebsites.net/api/Attachments"
-        // Set the file path
-        
-        //        let profileImageUrl = "\(Share.sharedName.imgArr!)"
-        
-        
-        //        let path: String = Share.sharedName.imgArr!
-        //   imageData = UIImagePNGRepresentation(image)
-        //        let url = NSURL(string: Share.sharedName.imgArr!)
-        
-        AF.request(urlStringAttachments, method: .post, parameters: ["productId" : 92 , "files" : [] ],encoding: JSONEncoding.default, headers: nil).responseJSON {
-            response in
-            do {
-                guard let data = response.data else {return}
-                print(response.value)
-                print(response.result)
-                
-                
-            }catch let error {
-                print(error)
-            }
-            
-        }
-        
-    }
+  
+
     //    /************** Post ***************/
     func postProduct() {
-        
         let urlString = "https://clocation.azurewebsites.net/api/Products"
         
         let idsub : Int = Share.sharedName.SubcategorieId ?? 2
+       
         AF.request(urlString, method: .post, parameters: ["name": nameTextField.text! , "description" : descriptionText.text! , "price" : "\(priceTextField.text!)" , "userGuide" : "ddd" ,  "address" : Share.sharedName.nameAdresse  , "enumSubCategoryId" : idsub , "delegation" : "delegation" , "positionLatitude" : 11 ,"positionLongitude" : 12 , "userId" : "1b7e52ac-77ca-4612-8a87-aafab5feee65", "enumCityId" : 4, "enumUniteId" : 3 ,  "files" : "28_37e05407-41b6-499a-9f06-06330dc87458.PNG"], headers: nil).responseJSON {
             response in
             
@@ -315,43 +299,174 @@ class AjouterProduitViewController: UIViewController {
             
         }
     }
+
+
+
     
     
-    @IBAction func addAction(_ sender: Any) {
-        // postProduct()
-        postAttachement()
+     func createPhoto(photo: UIImage) {
+        let urlString = "https://clocation.azurewebsites.net/api/Products"
+        
+        let idsub  = "\(Share.sharedName.SubcategorieId ?? 2)"
+         let longitude  = "\(Share.sharedName.longitude ?? 2)"
+         let latitude  = "\(Share.sharedName.latitude ?? 2)"
+         let idcity  = "\(Share.sharedName.CityId ?? 2)"
+//        let userId  = Share.sharedName.idUser
+        let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
+        let nameAdd  = Share.sharedName.nameAdresse ?? ""
+        let prix = "\(priceTextField.text!)"
+        let delegation = "delegation"
+        let idUnite = "\(3)"
+        let userGuide = "userGuide"
+    
+        
+    
+//     let parameters = ["ProductId": "39"]
+
+        AF.upload(multipartFormData: { (form: MultipartFormData) in
+
+            if let data = photo.jpegData(compressionQuality: 0.75) {
+                form.append(data, withName: "files",fileName: "file.jpg", mimeType: "image/jpg")
+                    form.append(self.nameTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"name")
+                 form.append(self.descriptionText.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"description")
+                 form.append(prix.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"price")
+                 form.append(nameAdd.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"address")
+                form.append(idsub.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumSubCategoryId")
+                form.append(userId.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userId")
+                form.append(idcity.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumCityId")
+                form.append(userGuide.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userGuide")
+                  form.append(delegation.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"delegation")
+                  form.append(idUnite.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumUniteId")
+                form.append(latitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLatitude")
+                form.append(longitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLongitude")
+                
+                
+               
+            }
+
+        }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: "http://clocation.azurewebsites.net/api/Products", method: .post).responseJSON { (response)in
+                print(response)
+
+            }
+    }
+
+    
+    
+    
+    func getColumnFields () {
+        
+        let urlString = urlRequest.url?.absoluteString
+        let idsub : Int = Share.sharedName.SubcategorieId ?? 2
+        columnList.removeAll()
+        let subCategorieURL = urlString! + "\(idsub)"
+        AF.request(subCategorieURL , method : .get ).responseJSON {
+            response in
+            do {
+                guard let data = response.data else {return}
+
+                let columnJson = try JSONDecoder().decode([Column].self, from: data)
+                for column in columnJson {
+                    self.columnList.append(column)
+                }
+            
+                print(response )
+                DispatchQueue.main.async {
+                    self.columnTableView.reloadData()
+                }
+        }
+        catch let error {
+            print(error)
+        }
+        
         
     }
     
-    @IBAction func imageButton(_ sender: Any) {
-        let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+}
+  
+    func UPLOD()
+    {
+        //Parameter HERE
+        let parameters = [
+            "ProductId": "39",
+           
+        ]
+        //Header HERE
+       
         
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
-            //check if  the camera existe in our uiimagepickercontroller or not
+        let image = UIImage.init(named: "AnneHathaway")
+        let imgData = image?.jpegData(compressionQuality: 0.7)!
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            //Parameter for Upload files
+            multipartFormData.append(imgData!, withName: "files",fileName: "AnneHathaway.png" , mimeType: "image/png")
             
-            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                self.imagePickerController.sourceType = .camera
-                self.present(self.imagePickerController , animated: true , completion: nil)
-                
-            }else {
-                print("camera not availble")
-                let alertController = UIAlertController(title: "Error", message: "camera not availble", preferredStyle: .alert)
-                let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
-                alertController.addAction(defaultAction)
-                self.present(alertController,animated: true, completion: nil)
+            for (key, value) in parameters
+            {
+                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
             }
             
-            
-        }))
+        }, usingThreshold:UInt64.init(),
+           to: "http://clocation.azurewebsites.net/api/Attachments", //URL Here
+            method: .post).responseJSON { response in
+                        print("the resopnse code is : \(response.response?.statusCode)")
+                        print("the response is : \(response)")
+                    }
         
-        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
-            
-            self.imagePickerController.sourceType = .photoLibrary
-            self.present(self.imagePickerController , animated: true , completion: nil)
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:  nil))
-        self.present(actionSheet , animated: true , completion: nil)
     }
+
+
+
+
+@IBAction func addAction(_ sender: Any) {
+    print("imgggggARRAYCOUNT = \(imgArr.count)")
+    // postProduct()
+//    postAttachement()
+   createPhoto(photo: self.imageView.image!)
+
+    
+}
+
+@IBAction func imageButton(_ sender: Any) {
+    
+    
+
+    let myPickerController = UIImagePickerController()
+    myPickerController.delegate = self
+    myPickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+
+    self.present(myPickerController, animated: true, completion: nil)
+    //    let imagePickerController = UIImagePickerController()
+
+// imagePickerController.delegate = self
+
+//    let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+//
+//    actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
+//        //check if  the camera existe in our uiimagepickercontroller or not
+//
+//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+//            self.imagePickerController.sourceType = .camera
+//            self.present(self.imagePickerController , animated: true , completion: nil)
+//
+//        }else {
+//            print("camera not availble")
+//            let alertController = UIAlertController(title: "Error", message: "camera not availble", preferredStyle: .alert)
+//            let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
+//            alertController.addAction(defaultAction)
+//            self.present(alertController,animated: true, completion: nil)
+//        }
+//
+//
+//    }))
+//
+//    actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
+//
+//        self.imagePickerController.sourceType = .photoLibrary
+//        self.present(self.imagePickerController , animated: true , completion: nil)
+//    }))
+//    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:  nil))
+//    self.present(actionSheet , animated: true , completion: nil)
+}
 
 }
 extension AjouterProduitViewController : UITextFieldDelegate {
@@ -416,11 +531,12 @@ extension AjouterProduitViewController : UICollectionViewDataSource , UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : PictureCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PictureCollectionViewCell
         
-        let profileImageUrl = imgArr[indexPath.row]
-        
-        cell.imageProduit.loadImageUsingCacheWithUrlString(profileImageUrl.absoluteString)
-        print(profileImageUrl.absoluteString)
-        //            cell.imageProduit.image = imgArr[indexPath.row]
+        //        let profileImageUrl = imgArr[indexPath.row]
+        //
+        //        cell.imageProduit.loadImageUsingCacheWithUrlString(profileImageUrl.absoluteString)
+        //        print(profileImageUrl.absoluteString)
+                  cell.imageProduit.image = imgArr[indexPath.row]
+        print(imgArr)
         cell.index = indexPath
         cell.delegate = self
         
@@ -446,33 +562,90 @@ extension AjouterProduitViewController : UICollectionViewDelegateFlowLayout {
     }
 }
 extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINavigationControllerDelegate {
-    //to get the real imaage that the user has to pick
+   // to get the real imaage that the user has to pick
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        //        let asset = info[UIImagePickerController.InfoKey.phAsset]
-        //        let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
-        //        var im = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-        //        if let ed = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-        //            im = ed
-        //        }
-        if  let image = info[UIImagePickerController.InfoKey.imageURL] as? URL{
-            imgArr.append(image)
-            
-            collectionView.reloadData()
+         if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            self.imageView.image = image
         }
-        print("image \(imgArr!)")
-        Share.sharedName.imgArr = imgArr
-        
-        print("image share \(Share.sharedName.imgArr!)")
-        
-        
-        
-        
-        //prendre image and put it in the delegete
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
+//
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//            //        let asset = info[UIImagePickerController.InfoKey.phAsset]
+//            //        let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
+//            //        var im = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+//            //        if let ed = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+//            //            im = ed
+//            //        }
+//            print("number of images  =\(imgArr.count + 1) ")
+//
+//            //prendre image and put it in the delegete
+//            picker.dismiss(animated: true) {
+//                if self.imgArr.count > 1 {
+//                    let myAlert = UIAlertController(title: "Alert", message: "Nombre dépassé", preferredStyle: UIAlertController.Style.alert)
+//                    let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
+//                        action in
+//
+//                        self.dismiss(animated: true, completion: nil)
+//                    }
+//                    myAlert.addAction(okAction)
+//                    self.present(myAlert , animated : true , completion : nil)
+//
+//                }else
+//                {
+//                    if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+//                        //                    let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+//                        //                    let asset = result.firstObject
+//                        //                    print(asset?.value(forKey: "filename"))
+//                        self.imgArr.append(image)
+////                        self.createPhoto(photo: image)
+//                        self.collectionView.reloadData()
+//                    }
+//                    print("image :\(self.imgArr)")
+//                }
+//            }
+            func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+                picker.dismiss(animated: true, completion: nil)
+            }
     
+    
+      //  }
+    }
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//
+//
+//                if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+//
+//             self.imageView.image = image
+//
+//
+//                }
+//                  picker.dismiss(animated: true)
+//        }
+//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//            picker.dismiss(animated: true, completion: nil)
+//        }
+//
+//
+//
+//}
+extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return columnList.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
+        cell.columnLabel.text = columnList[indexPath.row].name
+        if indexPath.row == 0 {
+            cell.backgroundColor = UIColor.red
+        }else {
+            
+          cell.backgroundColor = UIColor.yellow
+        }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     
 }

@@ -37,14 +37,18 @@ class PoPupCategorieViewController: UIViewController {
             
             
             do {
-                let itemDetails1 = try JSONDecoder().decode([CategorieClass].self, from: response.data!)
-                for item1 in itemDetails1 {
-                    self.CategoriesListNames.append(item1.name ?? "")
+                if let data = response.data {
+                    let itemDetails1 = try JSONDecoder().decode([CategorieClass].self, from: data)
+                    for item1 in itemDetails1 {
+                        self.CategoriesListNames.append(item1.name ?? "")
+                        
+                        self.CategoriList.append(item1)
+                    }
                     
-                    self.CategoriList.append(item1)
+                    self.tableView.reloadData()
                 }
                 
-                self.tableView.reloadData()
+               
                 
                 
             }catch let errords {
@@ -73,9 +77,8 @@ extension PoPupCategorieViewController : UITableViewDelegate , UITableViewDataSo
         Share.sharedName.categorieName = CategoriList[indexPath.row].name
         Share.sharedName.categorieId = CategoriList[indexPath.row].id
 
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "AjouterProduitViewController") as! AjouterProduitViewController
-        self.present(newViewController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+
         
     }
     

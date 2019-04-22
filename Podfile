@@ -6,12 +6,14 @@ target 'ProjectCategorie' do
   use_frameworks!
 
   # Pods for ProjectCategorie
-pod 'Alamofire', '~> 5.0.0-beta.3'
+pod 'Alamofire', '~>5.0.0-beta.5'
 pod 'SWCombox', :git => 'https://github.com/sw0906/SWCombox.git'
 pod 'SkyFloatingLabelTextField', '~> 3.0'
 pod 'p2.OAuth2', :git => 'https://github.com/p2/OAuth2', :submodules => true
 pod ‘StepIndicator’, '~> 1.0.6’
 pod 'GoogleMaps'
 pod 'GooglePlaces'
-
+pod 'MMBannerLayout'
+pod 'VerticalCardSwiper'
+pod 'ALCameraViewController'
 end

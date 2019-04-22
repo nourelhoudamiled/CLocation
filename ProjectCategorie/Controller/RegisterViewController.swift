@@ -44,7 +44,9 @@ class RegisterViewController: UIViewController  {
         
         var params :[String: AnyObject]?
         if (self.tuesTextfield.text == "Particulier" ) {
-            params = (["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : false , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! ] as [String : AnyObject])
+       
+            params = (["firstName": "string", "lastName": "string","aboutMe": "string" ,  "skype": "string","facebookUrl": "string","twitterUrl": "string","linkedinUrl": "string", "pinterestUrl": "string", "imageUri": "string", "isAdmin": false, "email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : false , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! ,  "partnerDescription": "string",
+            "partnerName": "string", "partnerWebSite": "string" ] as [String : AnyObject])
             
             var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
             urlRequest.setValue("application/json",
@@ -55,9 +57,19 @@ class RegisterViewController: UIViewController  {
             let urlString = urlRequest.url?.absoluteString
             
             AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
-                
+                do {
+                guard let data = response.data else {return}
+
+                 let userListJson = try JSONDecoder().decode(User.self, from: data)
+                    Share.sharedName.idUser = userListJson.id
+
                 print(response.value as Any)
+                }catch let err {
+                    print(err)
+                }
             }
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
+//            present(vc, animated: true, completion: nil)
         } else {
             params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : AnyObject]
             
