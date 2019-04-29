@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import UIKit
+import ImageIO
   let imageCache = NSCache<AnyObject, AnyObject>()
 extension UIView {
     
@@ -84,6 +86,55 @@ extension Data {
     mutating func append(_ string: String) {
         if let data = string.data(using: .utf8) {
             append(data)
+        }
+    }
+}
+
+extension UIView {
+    func setGradientBackground(colorOne : UIColor , colorTwo : UIColor)
+    {
+        let gradientLayer = CAGradientLayer()
+        
+        gradientLayer.frame = bounds
+        
+        gradientLayer.colors = [colorOne.cgColor, colorTwo.cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
+        layer.insertSublayer(gradientLayer, at:0)
+        
+    }
+}
+
+
+struct ImageHeaderData{
+    static var PNG: [UInt8] = [0x89]
+    static var JPEG: [UInt8] = [0xFF]
+    static var GIF: [UInt8] = [0x47]
+    static var TIFF_01: [UInt8] = [0x49]
+    static var TIFF_02: [UInt8] = [0x4D]
+}
+
+enum ImageFormat{
+    case Unknown, PNG, JPEG, GIF, TIFF
+}
+extension NSData{
+    var imageFormat: ImageFormat{
+        var buffer = [UInt8](repeating: 0, count: 1)
+        self.getBytes(&buffer, range: NSRange(location: 0,length: 1))
+        if buffer == ImageHeaderData.PNG
+        {
+            return .PNG
+        } else if buffer == ImageHeaderData.JPEG
+        {
+            return .JPEG
+        } else if buffer == ImageHeaderData.GIF
+        {
+            return .GIF
+        } else if buffer == ImageHeaderData.TIFF_01 || buffer == ImageHeaderData.TIFF_02{
+            return .TIFF
+        } else{
+            return .Unknown
         }
     }
 }

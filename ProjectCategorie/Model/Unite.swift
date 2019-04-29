@@ -13,6 +13,7 @@ struct Unite: Decodable  {
     
     let id: Int?
     let name: String?
+
     //    private enum CodingKeys: String, CodingKey {
     //        case Id = "id"
     //        case Name = "name"

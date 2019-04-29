@@ -27,4 +27,5 @@ struct ProductClass : Decodable {
     let enumCategoryId : Int?
        var hasFavorited: Bool?
     
+    
 }

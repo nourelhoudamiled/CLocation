@@ -42,11 +42,9 @@ class RegisterViewController: UIViewController  {
         let value = numtelTextField.text!
         let rewardInt = Int(value)
         
-        var params :[String: AnyObject]?
         if (self.tuesTextfield.text == "Particulier" ) {
        
-            params = (["firstName": "string", "lastName": "string","aboutMe": "string" ,  "skype": "string","facebookUrl": "string","twitterUrl": "string","linkedinUrl": "string", "pinterestUrl": "string", "imageUri": "string", "isAdmin": false, "email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : false , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! ,  "partnerDescription": "string",
-            "partnerName": "string", "partnerWebSite": "string" ] as [String : AnyObject])
+           let params = ["firstName": addressTextField.text!, "lastName": cityTextField.text! , "email" : emailTextField.text!, "password" : PassTextField.text! ]
             
             var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
             urlRequest.setValue("application/json",
@@ -58,20 +56,21 @@ class RegisterViewController: UIViewController  {
             
             AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
                 do {
+                       print(response.value)
                 guard let data = response.data else {return}
 
                  let userListJson = try JSONDecoder().decode(User.self, from: data)
-                    Share.sharedName.idUser = userListJson.id
-
-                print(response.value as Any)
+                    AppManager.shared.iduser = userListJson.id
+                        print( AppManager.shared.iduser )
+             
                 }catch let err {
                     print(err)
                 }
             }
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
-//            present(vc, animated: true, completion: nil)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
+         present(vc, animated: true, completion: nil)
         } else {
-            params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : AnyObject]
+            let params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : Any]
             
             var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
             urlRequest.setValue("application/json",

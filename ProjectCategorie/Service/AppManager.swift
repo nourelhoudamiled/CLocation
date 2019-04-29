@@ -10,4 +10,5 @@ import Foundation
 class AppManager {
     static var shared = AppManager()
     var token : String?
+    var iduser : String?
 }

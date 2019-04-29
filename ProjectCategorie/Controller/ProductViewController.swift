@@ -8,134 +8,233 @@
 
 import UIKit
 import Alamofire
-class ProductViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
-
+struct ExpandableNames {
     
+    var names : ProductClass
+    var hasFavorited: Bool
+}
+
+
+class ProductViewController: UIViewController , UITableViewDelegate , UITableViewDataSource  {
+    
+    var productList = [Int]()
+    var attachementList = [Attachement]()
+    var attachementPathFile = [String]()
+    var responseImages = [UIImage]()
+ 
+    var urlRequestImageByProductId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    
+    var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    
+    //   @IBOutlet var downloadImage: UIImageView!
+    var urlRequestAttachmentsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    
+    var urlRequestProductsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/ProductsId")!)
     var note : Double?
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     var subCategorie : SousCategClass?
     var prodArray = [ProductClass]()
     var ProductList = [ProductClass]()
-     var RatingList = [Double]()
+    var ratingNotes = [String]()
+    var showIndexPaths = false
+    var RatingList = [Double]()
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Product/")!)
-        var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
-         var urlRequestRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Rating")!)
+    var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
+    var urlRequestRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Rating")!)
+    var twoDimensionalArray = [ExpandableNames]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("sous categorie \(Share.sharedName.sousCategorie)")
+        activityIndicator.startAnimating()
         ExpandItemsApi()
-       
+//        createPhoto()
         
+        
+    }
+ 
+    func methodCosmos(cell: productTableViewCell , rating : Double) {
+
+        cell.ratingLabel.text = productTableViewCell.formatValue(rating)
+        
+        cell.ratingLabel.textColor = UIColor(red: 133/255, green: 116/255, blue: 154/255, alpha: 1)
+        
+        
+    }
+    func methodDidfinich( cell: productTableViewCell ,rating : Double)  {
+        
+        cell.ratingLabel.text = productTableViewCell.formatValue(rating)
+        cell.ratingLabel.textColor = UIColor(red: 183/255, green: 186/255, blue: 204/255, alpha: 1)
         
     }
     func someMethodIWantToCall(cell: UITableViewCell) {
-                print("Inside of ViewController now...")
+        //        print("Inside of ViewController now...")
         
         // we're going to figure out which name we're clicking on
         
-        let indexPathTapped = tableView.indexPath(for: cell)
-        print("indexPathTapped : \(indexPathTapped)")
-        let contact = ProductList[indexPathTapped!.row]
+        guard let indexPathTapped = tableView.indexPath(for: cell) else { return }
+        
+        let contact = twoDimensionalArray[indexPathTapped.row].names
         print(contact)
-//    let hasFavorited = contact.hasFavorited
-//        ProductList[indexPathTapped!.row].hasFavorited = !hasFavorited!
-//        
-//     
-//        
-//        cell.accessoryView?.tintColor = hasFavorited! ? UIColor.lightGray : .red
+        
+        let hasFavorited = twoDimensionalArray[indexPathTapped.row].hasFavorited
+        print(hasFavorited)
+        twoDimensionalArray[indexPathTapped.row].hasFavorited = !hasFavorited
+        
+        //        tableView.reloadRows(at: [indexPathTapped], with: .fade)
+        
+        cell.accessoryView?.tintColor = hasFavorited ? UIColor.red : .lightGray
     }
-  
-//    func ratingData () {
-//        let urlStringRating = urlRequest.url?.absoluteString
-//        AF.request(urlStringRating! , method: .get).responseJSON {
-//            response in
-//            do {
-//                guard let data = response.data else {return}
+    
+
+    func postFavorite (productId : Int , userId : String) {
+        let params = ["productId": productId ,  "userId": userId] as [String : Any]
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Favorites"
+        
+        AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+            case .success:
+                print(response)
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    
+   
+    func postFavorite (Id : Int , userId : String) {
+        let params = ["productId": Id ,  "userId": userId] as [String : Any]
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Favorites"
+        
+        AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+            case .success:
+                print(response)
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    func createPhoto(productId : Int) {
+        
+        let urlStringProductsId = urlRequestImageByAttachmentId.url?.absoluteString
+        let productUrl = urlStringProductsId! + "\(productId)/AttachmentsId"
+        let urlStringImageByProductId = urlRequestImageByProductId.url?.absoluteString
+
+        AF.request(productUrl).responseJSON {
+            response in
+            do {
+                guard let data = response.data else {return}
+                let attachements = try JSONDecoder().decode([Attachement].self, from: data)
+                for atachement in attachements {
+                    self.productList.append(atachement.id!)
+                    guard let  productID = atachement.id else {return}
+                    let attachementURL = urlStringImageByProductId! + "\(productID)/ImageByAttachmentId"
+                    
+                    AF.request(attachementURL , method : .get ).responseImage {
+                        response in
+                        guard let image = response.data else {return}
+                        print(image)
+                        self.responseImages.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
+                    //    self.tableView.reloadData()
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
 //
-//                let itemDetails = try JSONDecoder().decode([Rating].self, from: data)
-//                for item in itemDetails {
-//                    self.RatingList.append(item)
-//                    print("item\(item)")
-//                }
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//
-//            }catch let errors {
-//
-//                print(errors)
-//            }
-//
-//
-//            }.resume()
-//
-//    }
+                    }
+                }
+                
+                
+            }catch let error {
+                print(error)
+            }
+            
+        }
+        
+        
+    }
     func ExpandItemsApi() {
         
         let urlString = urlRequest.url?.absoluteString
         let urlStringSearchRating = urlRequestSearchRating.url?.absoluteString
         
-        guard let subCategorieID = subCategorie?.id else {
+        guard let subCategorieID = Share.sharedName.sousCategorie?.id else {
             return
         }
-        let productURL = urlString! + "\(subCategorieID)"
         
+        let productURL = urlString! + "\(subCategorieID)"
+        print("subCategorieID : \(subCategorieID)")
+    
         AF.request(productURL , method : .get).responseJSON {
             response in
             do {
-                  if let data = response.data {
+                guard let data = response.data else {return}
                 let itemDetails = try JSONDecoder().decode([ProductClass].self, from: data)
                 
                 for item in itemDetails {
                     self.ProductList.append(item)
+                    print("number of product in this catégorie \(self.productList.count)")
+
                     guard let productIdd = item.id else {
                         return
                     }
+                    
+                    let cellData = ExpandableNames(names: item, hasFavorited: true)
+                    self.twoDimensionalArray.append(cellData)
+                    
                     let SearchRatingURL = urlStringSearchRating! + "\(productIdd)"
+                    print("product id  \(productIdd)")
+                    print("product name \(item.name)")
+                    print("product description \(item.description)")
+
+
                     AF.request(SearchRatingURL , method : .get).responseJSON {
                         response in
                         do {
-
-                            self.note = response.value as? Double
-                            
-                            print("note\(self.note)")
-                        
-//                            print( "aa\(self.RatingList.append((response.value as? Double ?? 2)))")
-
-                        
-                            
-//                            var RatingList = [Rating]()
-//
-//                              if let data = response.data {
-//                            let Details = try JSONDecoder().decode([Rating].self, from: data)
-//
-//                            for items in Details {
-//                                RatingList.append(Rating(note: items.note! ))
-//                                print(items)
-//                            }
-//
-//                                print("RatingList\(RatingList)")
-//                            print("Details\(Details)")
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
+                            guard let data = response.data else {return}
+                            print(response)
+                            var notevalue = String(data: data, encoding: .utf8)!
+                            if notevalue == "\"NaN\"" {
+                                
+                                notevalue = "0"
                             }
-                           // }
+
+                            self.ratingNotes.append(notevalue)
+                           
+                            
                         } catch let err {
                             print(err)
                         }
+                      
                     }
-  
+                    self.createPhoto(productId: productIdd)
+
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+
+
                 }
-               
-                }
-                
             }catch let errors {
                 
                 print(errors)
             }
-            
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
             
             }.resume()
         
@@ -147,39 +246,51 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: false, completion: nil)
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //        let cell : productTableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! productTableViewCell
+        //        cell.link = self
+        //        let index = indexPath.row
+        //        if  cell.accessoryView?.tintColor = twoDimensionalArray[index].hasFavorited : .UIColor.red {
+        //
+        //        }
+        
+        
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ProductList.count
+        
+        return responseImages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : productTableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! productTableViewCell
-       cell.link = self
+        cell.link = self
         let index = indexPath.row
-
+        
         cell.descrpitionLabel.text = ProductList[index].description
-
-        cell.nameProduct.text = ProductList[index].name
-//        cell.accessoryView?.tintColor = ProductList[index].hasFavorited! ? UIColor.red : .lightGray
-     
-        if let _ = note {
-            cell.ratingLabel.text = "\(note)"
-            cell.cosmosViewFull.rating = note ?? 0
-
+        
+        cell.nameProduct.text = twoDimensionalArray[index].names.name
+        cell.accessoryView?.tintColor = twoDimensionalArray[index].hasFavorited ? UIColor.lightGray : UIColor.red
+        if ratingNotes.count > 0 {
+            cell.ratingLabel.text = ratingNotes[indexPath.row]
+            cell.cosmosViewFull.rating = ratingNotes[indexPath.row] as? Double ?? 0
+            
         }
-     
+        
+     cell.imageProduct.image = self.responseImages[indexPath.row]
+
+        
         cell.cellDelegate = self
         cell.index = indexPath
-    
+        
         return cell
     }
     
     
-//    @IBAction func DetailProduitAction(_ sender: Any) {
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
-////        vc.text = tableView?(tableView, didSelectRowAt: index)
-//
-//        present(vc, animated: true, completion: nil)
-//    }
+    @IBAction func DetailProduitAction(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
+        
+        present(vc, animated: true, completion: nil)
+    }
     func getProductRequest(byId Id: Int, completion: @escaping (ProductClass?) -> Void) {
         let urlString = "https://clocation.azurewebsites.net/api/Products/\(Id)"
         AF.request(urlString).response { response in
@@ -198,12 +309,30 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
 }
 
 extension ProductViewController : TableViewNew {
-    func onClickCell(index: Int) {
-      print("\(ProductList[index]) is selected")
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
-            vc.product =  ProductList[index]
-        
-                present(vc, animated: true, completion: nil)
+  
     
+    func onClickCell(index: Int) {
+        print("\(ProductList[index]) is selected")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
+        vc.product =  ProductList[index]
+        
+        present(vc, animated: true, completion: nil)
+        
     }
+    
 }
+//    func deleteFavorite (productId : Int) {
+//        let urlString = "https://clocation.azurewebsites.net/api/Favorites\(productId)"
+//        AF.request(urlString, method: .delete).responseString { response in
+//
+//            switch response.result {
+//            case .success:
+//                print(response)
+//
+//                break
+//            case .failure(let error):
+//
+//                print(error)
+//            }
+//        }
+//    }

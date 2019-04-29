@@ -15,7 +15,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
     // var manager: Manager?
     
     
-    var userList = [User]()
+    var userList = [String]()
 
     var text:String = ""
     public var oauth2: OAuth2PasswordGrant
@@ -88,11 +88,18 @@ final class BaseService: OAuth2PasswordGrantDelegate
                     AF.request(urlString!, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
                         guard let data = response.data else {return}
                         do {
+                          
+
+//
 //                        let userListJson = try JSONDecoder().decode([User].self, from: data)
+//
 //                        for user in userListJson {
-//                            self.userList.append(User(id: user.id!, email: user.email!))
+//                            self.userList.append(user.id!)
 //                        }
-//                            print("blalala\(self.userList)")
+//                            print(self.userList)
+                        
+//                            print( " users ids 1 : \(Share.sharedName.idUser)")
+                            print("blalala\(self.userList)")
 //                        if ((error ) != nil) {
 //                            let userMessage : String = error!.localizedDescription
 //                            self.displayMessage(userMessage: userMessage)

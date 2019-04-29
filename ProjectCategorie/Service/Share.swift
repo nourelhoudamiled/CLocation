@@ -18,9 +18,14 @@ final class Share {
     var RegionName : String!
     var RegionId : Int!
     var nameAdresse : String!
-    var idUser : String!
+//    var idUser : String!
        var lan : String!
        var latitude : Decimal!
     var longitude : Decimal!
+      var sousCategorie : SousCategClass?
+    var uniteName : String!
+    var uniteId : Int!
+    var etatName : String!
+    var etatId : Int!
     
 }

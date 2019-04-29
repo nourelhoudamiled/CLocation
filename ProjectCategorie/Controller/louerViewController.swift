@@ -23,16 +23,16 @@ class louerViewController: UIViewController {
     @IBOutlet var pageView: UIPageControl!
     @IBOutlet var sliderCollectionView: UICollectionView!
     
-    var imgArr = [  UIImage(named:"Alexandra Daddario"),
-                    UIImage(named:"Angelina Jolie") ,
-                    UIImage(named:"Anne Hathaway") ,
-                    UIImage(named:"Dakota Johnson") ,
-                    UIImage(named:"Emma Stone") ,
-                    UIImage(named:"Emma Watson") ,
-                    UIImage(named:"Halle Berry") ,
-                    UIImage(named:"Jennifer Lawrence") ,
-                    UIImage(named:"Jessica Alba") ,
-                    UIImage(named:"Scarlett Johansson") ]
+    var imgArr = [  UIImage(named:"AlexandraDaddario"),
+                    UIImage(named:"AngelinaJolie") ,
+                    UIImage(named:"AnneHathaway") ,
+                    UIImage(named:"DakotaJohnson") ,
+                    UIImage(named:"EmmaStone") ,
+                    UIImage(named:"EmmaWatson") ,
+                    UIImage(named:"HalleBerry") ,
+                    UIImage(named:"JenniferLawrence") ,
+                    UIImage(named:"JessicaAlba") ,
+                    UIImage(named:"ScarlettJohansson") ]
     
     var timer = Timer()
     var counter = 0
@@ -89,6 +89,12 @@ class louerViewController: UIViewController {
             counter = 1
         }
         
+    }
+    
+    @IBAction func Gotocommentaire(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CommentaireViewController") as! CommentaireViewController
+        
+        present(vc, animated: true, completion: nil)
     }
     
 }

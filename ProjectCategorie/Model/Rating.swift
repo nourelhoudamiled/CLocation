@@ -8,15 +8,12 @@
 
 import Foundation
 
-struct Rating  {
-    var id : Int?
+struct Rating : Decodable {
+    let id : Int?
     let note : Double?
-   var productId : Int?
-    var productName : String?
-    var userId : String?
-   var userName : String?
-    init(note : Double) {
-        self.note = note
-        
-    }
+   let productId : Int?
+    let productName : String?
+    let userId : String?
+   let userName : String?
+   
 }

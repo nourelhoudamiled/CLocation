@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (5.0.0-beta.5)
+  - AlamofireImage (4.0.0-beta.1):
+    - Alamofire (~> 5.0.0-beta.4)
   - ALCameraViewController (3.0.3)
+  - ASCollectionView (1.1.0)
   - GoogleMaps (3.0.3):
     - GoogleMaps/Maps (= 3.0.3)
   - GoogleMaps/Base (3.0.3)
@@ -17,7 +20,9 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-beta.5)
+  - AlamofireImage (~> 4.0.0-beta.1)
   - ALCameraViewController
+  - ASCollectionView (= 1.1.0)
   - GoogleMaps
   - GooglePlaces
   - MMBannerLayout
@@ -30,7 +35,9 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AlamofireImage
     - ALCameraViewController
+    - ASCollectionView
     - GoogleMaps
     - GooglePlaces
     - MMBannerLayout
@@ -56,7 +63,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 9afb08f7f43efcc71c072374e720fcf67521317d
+  AlamofireImage: c1e84c6391ca8bdb1f805b7b05d6123ca80a1880
   ALCameraViewController: 6398a9282057f709b87a1ecc52a83b48028ade64
+  ASCollectionView: c914ccae1cb39d146cec7f0b360206abed476765
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
   MMBannerLayout: e3ce05c289f2b484ff8356d9ed3948cdb7e194cb
@@ -66,6 +75,6 @@ SPEC CHECKSUMS:
   SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
 
-PODFILE CHECKSUM: 931cdf4e6009d24352a2457d530cf7b7f65f6251
+PODFILE CHECKSUM: 0ff018a277e786cccba47a5331147a867946be22
 
 COCOAPODS: 1.6.0

@@ -17,6 +17,12 @@ import Photos
 class AjouterProduitViewController: UIViewController {
     @IBOutlet var columnTableView: UITableView!
 //
+    @IBOutlet var btnSelectUnite: UIButton!
+    @IBOutlet var btnSelectEtat: UIButton!
+    @IBOutlet var switchDisponible: UISwitch!
+    @IBOutlet var delegationTextField: UITextField!
+    @IBOutlet var userguideTextField: UITextField!
+    @IBOutlet var step3View: UIView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var backButton: UIButton!
     @IBOutlet var doneLabel: UILabel!
@@ -30,33 +36,33 @@ class AjouterProduitViewController: UIViewController {
     
     @IBOutlet var ajouterProduit: UIButton!
     @IBOutlet var btnSelectRegion: UIButton!
-    @IBOutlet var step4View: UIView!
+    @IBOutlet var step5View: UIView!
     @IBOutlet var btnSelectSubCar: UIButton!
     @IBOutlet var btnSelected: UIButton!
     @IBOutlet var stepIndicatorView: StepIndicatorView!
-    @IBOutlet var step3View: UIView!
+    @IBOutlet var step4View: UIView!
     @IBOutlet var step1View: UIView!
 
     @IBOutlet var step2View: UIView!
     
-    @IBOutlet var minDuréLabel: UITextField!
     
+    @IBOutlet var hiddenText: UITextField!
     @IBOutlet var descriptionText: UITextField!
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
        var urlRequestAtt = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
     var columnList = [Column]()
 
     @IBOutlet var nameTextField: UITextField!
-    @IBOutlet var availbleSwith: UISwitch!
+//    @IBOutlet var availbleSwith: UISwitch!
     var imgArr: [UIImage]! = []
     @IBOutlet var priceTextField: UITextField!
     
     var amount : Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-   
 //        UPLOD()
-        
+        hiddenText.isHidden = true
+
         if revealViewController() != nil {
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
@@ -67,7 +73,8 @@ class AjouterProduitViewController: UIViewController {
         }
         columnTableView.rowHeight = UITableView.automaticDimension
         columnTableView.estimatedRowHeight = 100
-       
+        print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
+
           initScrollView()
     }
     
@@ -96,6 +103,14 @@ class AjouterProduitViewController: UIViewController {
         btnSelected.layer.cornerRadius = 5
         btnSelected.layer.borderWidth = 0.5
         btnSelected.layer.borderColor = UIColor.lightGray.cgColor
+        btnSelectUnite.backgroundColor = .clear
+        btnSelectUnite.layer.cornerRadius = 5
+        btnSelectUnite.layer.borderWidth = 0.5
+        btnSelectUnite.layer.borderColor = UIColor.lightGray.cgColor
+        btnSelectEtat.backgroundColor = .clear
+        btnSelectEtat.layer.cornerRadius = 5
+        btnSelectEtat.layer.borderWidth = 0.5
+        btnSelectEtat.layer.borderColor = UIColor.lightGray.cgColor
         btnSelectSubCar.backgroundColor = .clear
         btnSelectSubCar.layer.cornerRadius = 5
         btnSelectSubCar.layer.borderWidth = 0.5
@@ -110,14 +125,21 @@ class AjouterProduitViewController: UIViewController {
         btnSelectCity.layer.borderColor = UIColor.lightGray.cgColor
         let addresse : String = Share.sharedName.nameAdresse ?? "name of adresse"
         btnSelectAdresse.setTitle(addresse,for: .normal)
-   
-        
         let region : String = Share.sharedName.RegionName ?? "Select region"
         let idregion : Int = Share.sharedName.RegionId ?? 1
         print(idregion)
         btnSelectRegion.setTitle(region,for: .normal)
+        let unite : String = Share.sharedName.uniteName ?? "Select unite"
+        let idunite : Int = Share.sharedName.uniteId ?? 1
+        print(idunite)
+        btnSelectUnite.setTitle(unite,for: .normal)
+        let etat : String = Share.sharedName.etatName ?? "Select etat"
+        let idetat : Int = Share.sharedName.etatId ?? 1
+        print(idetat)
+        btnSelectEtat.setTitle(etat,for: .normal)
         let city : String = Share.sharedName.CityName ?? "Select city"
         btnSelectCity.setTitle(city,for: .normal)
+        
         priceTextField.placeholder = updateAmount()
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -132,6 +154,7 @@ class AjouterProduitViewController: UIViewController {
         step2View.layer.isHidden = true
         step3View.layer.isHidden = true
         step4View.layer.isHidden = true
+        step5View.layer.isHidden = true
         ajouterProduit.layer.isHidden = true
         doneLabel.layer.isHidden = true
         backButton.layer.isHidden = true
@@ -163,10 +186,11 @@ class AjouterProduitViewController: UIViewController {
         {
             print("backstep2")
             step1View.layer.isHidden = true
-            step3View.layer.isHidden = true
-            step2View.layer.isHidden = false
-            doneLabel.layer.isHidden = true
             step4View.layer.isHidden = true
+            step2View.layer.isHidden = false
+            step3View.layer.isHidden = true
+            doneLabel.layer.isHidden = true
+            step5View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             nextButton.layer.isHidden = false
             
@@ -178,6 +202,7 @@ class AjouterProduitViewController: UIViewController {
             step2View.layer.isHidden = true
             step3View.layer.isHidden = false
             step4View.layer.isHidden = true
+            step5View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             nextButton.layer.isHidden = false
@@ -189,8 +214,21 @@ class AjouterProduitViewController: UIViewController {
         {print("step4")
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
-            step3View.layer.isHidden = true
             step4View.layer.isHidden = false
+            step3View.layer.isHidden = true
+            step5View.layer.isHidden = true
+            ajouterProduit.layer.isHidden = true
+            doneLabel.layer.isHidden = true
+            nextButton.layer.isHidden = false
+            
+        }
+        else  if(stepIndicatorView.currentStep == 4)
+        {print("step5")
+            step1View.layer.isHidden = true
+            step2View.layer.isHidden = true
+            step4View.layer.isHidden = true
+            step3View.layer.isHidden = true
+            step5View.layer.isHidden = false
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             nextButton.layer.isHidden = false
@@ -201,8 +239,9 @@ class AjouterProduitViewController: UIViewController {
             print("backstep1")
             step1View.layer.isHidden = false
             step2View.layer.isHidden = true
-            step3View.layer.isHidden = true
             step4View.layer.isHidden = true
+             step3View.layer.isHidden = true
+            step5View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             nextButton.layer.isHidden = false
@@ -229,10 +268,11 @@ class AjouterProduitViewController: UIViewController {
             btnSelectAdresse.layer.borderWidth = 0.5
             btnSelectAdresse.layer.borderColor = UIColor.lightGray.cgColor
             step1View.layer.isHidden = true
+            step4View.layer.isHidden = true
             step3View.layer.isHidden = true
             step2View.layer.isHidden = false
             doneLabel.layer.isHidden = true
-            step4View.layer.isHidden = true
+            step5View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             backButton.layer.isHidden = false
             
@@ -241,8 +281,9 @@ class AjouterProduitViewController: UIViewController {
         {print("step3")
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
-            step3View.layer.isHidden = false
             step4View.layer.isHidden = true
+            step3View.layer.isHidden = false
+            step5View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             backButton.layer.isHidden = false
@@ -255,8 +296,22 @@ class AjouterProduitViewController: UIViewController {
             print("step4")
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
-            step3View.layer.isHidden = true
             step4View.layer.isHidden = false
+            step5View.layer.isHidden = true
+            step3View.layer.isHidden = true
+            ajouterProduit.layer.isHidden = true
+            doneLabel.layer.isHidden = true
+            backButton.layer.isHidden = false
+            
+        }
+        else  if(stepIndicatorView.currentStep == 4)
+        {
+            print("step5")
+            step1View.layer.isHidden = true
+            step2View.layer.isHidden = true
+            step4View.layer.isHidden = true
+            step5View.layer.isHidden = false
+            step3View.layer.isHidden = true
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             backButton.layer.isHidden = false
@@ -269,6 +324,7 @@ class AjouterProduitViewController: UIViewController {
             step2View.layer.isHidden = true
             step3View.layer.isHidden = true
             step4View.layer.isHidden = true
+            step5View.layer.isHidden = true
             nextButton.layer.isHidden = true
             ajouterProduit.layer.isHidden = false
             backButton.layer.isHidden = false
@@ -300,14 +356,12 @@ class AjouterProduitViewController: UIViewController {
         }
     }
 
-
-
-    
-    
-     func createPhoto(photo: UIImage) {
+     func createPhoto(photo: [UIImage]) {
         let urlString = "https://clocation.azurewebsites.net/api/Products"
         
         let idsub  = "\(Share.sharedName.SubcategorieId ?? 2)"
+        let idunite  = "\(Share.sharedName.uniteId ?? 2)"
+        let idetat  = "\(Share.sharedName.etatId ?? 1)"
          let longitude  = "\(Share.sharedName.longitude ?? 2)"
          let latitude  = "\(Share.sharedName.latitude ?? 2)"
          let idcity  = "\(Share.sharedName.CityId ?? 2)"
@@ -315,28 +369,38 @@ class AjouterProduitViewController: UIViewController {
         let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
         let nameAdd  = Share.sharedName.nameAdresse ?? ""
         let prix = "\(priceTextField.text!)"
-        let delegation = "delegation"
-        let idUnite = "\(3)"
-        let userGuide = "userGuide"
     
+      
         
     
-//     let parameters = ["ProductId": "39"]
+
 
         AF.upload(multipartFormData: { (form: MultipartFormData) in
-
-            if let data = photo.jpegData(compressionQuality: 0.75) {
+            for pictures in photo {
+            if let data = pictures.jpegData(compressionQuality: 0.75) {
                 form.append(data, withName: "files",fileName: "file.jpg", mimeType: "image/jpg")
+                }
                     form.append(self.nameTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"name")
+                if self.switchDisponible.isOn == true   {
+                    self.hiddenText.text = "true"
+                    form.append(self.hiddenText.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"IsAvailable")
+                }
+                else {
+                    self.hiddenText.text = "false"
+                    form.append(self.hiddenText.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"IsAvailable")
+                }
+                
+    
+   form.append(idetat.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"ProductStatusId")
                  form.append(self.descriptionText.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"description")
                  form.append(prix.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"price")
                  form.append(nameAdd.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"address")
                 form.append(idsub.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumSubCategoryId")
                 form.append(userId.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userId")
                 form.append(idcity.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumCityId")
-                form.append(userGuide.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userGuide")
-                  form.append(delegation.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"delegation")
-                  form.append(idUnite.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumUniteId")
+                form.append(self.userguideTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userGuide")
+                  form.append(self.delegationTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"delegation")
+                  form.append(idunite.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumUniteId")
                 form.append(latitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLatitude")
                 form.append(longitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLongitude")
                 
@@ -344,7 +408,7 @@ class AjouterProduitViewController: UIViewController {
                
             }
 
-        }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: "http://clocation.azurewebsites.net/api/Products", method: .post).responseJSON { (response)in
+        }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: urlString, method: .post).responseJSON { (response)in
                 print(response)
 
             }
@@ -356,9 +420,9 @@ class AjouterProduitViewController: UIViewController {
     func getColumnFields () {
         
         let urlString = urlRequest.url?.absoluteString
-        let idsub : Int = Share.sharedName.SubcategorieId ?? 2
+        let id : Int = Share.sharedName.SubcategorieId ?? 2
         columnList.removeAll()
-        let subCategorieURL = urlString! + "\(idsub)"
+        let subCategorieURL = urlString! + "\(id)"
         AF.request(subCategorieURL , method : .get ).responseJSON {
             response in
             do {
@@ -414,58 +478,66 @@ class AjouterProduitViewController: UIViewController {
         
     }
 
-
+    @IBAction func resetButton(_ sender: Any) {
+        descriptionText.text = ""
+        priceTextField.text = ""
+        nameTextField.text = ""
+        
+        
+        
+    }
+    
 
 
 @IBAction func addAction(_ sender: Any) {
     print("imgggggARRAYCOUNT = \(imgArr.count)")
     // postProduct()
 //    postAttachement()
-   createPhoto(photo: self.imageView.image!)
+   createPhoto(photo: imgArr)
 
     
 }
 
 @IBAction func imageButton(_ sender: Any) {
     
-    
+//
+//
+//    let myPickerController = UIImagePickerController()
+//    myPickerController.delegate = self
+//    myPickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+//
+//    self.present(myPickerController, animated: true, completion: nil)
+        let imagePickerController = UIImagePickerController()
 
-    let myPickerController = UIImagePickerController()
-    myPickerController.delegate = self
-    myPickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+ imagePickerController.delegate = self
 
-    self.present(myPickerController, animated: true, completion: nil)
-    //    let imagePickerController = UIImagePickerController()
+    let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
 
-// imagePickerController.delegate = self
+    actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
+        //check if  the camera existe in our uiimagepickercontroller or not
 
-//    let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
-//
-//    actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
-//        //check if  the camera existe in our uiimagepickercontroller or not
-//
-//        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-//            self.imagePickerController.sourceType = .camera
-//            self.present(self.imagePickerController , animated: true , completion: nil)
-//
-//        }else {
-//            print("camera not availble")
-//            let alertController = UIAlertController(title: "Error", message: "camera not availble", preferredStyle: .alert)
-//            let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
-//            alertController.addAction(defaultAction)
-//            self.present(alertController,animated: true, completion: nil)
-//        }
-//
-//
-//    }))
-//
-//    actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
-//
-//        self.imagePickerController.sourceType = .photoLibrary
-//        self.present(self.imagePickerController , animated: true , completion: nil)
-//    }))
-//    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:  nil))
-//    self.present(actionSheet , animated: true , completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePickerController.sourceType = .camera
+            self.present(imagePickerController , animated: true , completion: nil)
+
+        }else {
+            print("camera not availble")
+            let alertController = UIAlertController(title: "Error", message: "camera not availble", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "ok", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController,animated: true, completion: nil)
+        }
+
+
+    }))
+
+    actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
+
+        imagePickerController.sourceType = .photoLibrary
+        self.present(imagePickerController , animated: true , completion: nil)
+    }))
+    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:  nil))
+    self.present(actionSheet , animated: true , completion: nil)
 }
 
 }
@@ -563,47 +635,37 @@ extension AjouterProduitViewController : UICollectionViewDelegateFlowLayout {
 }
 extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINavigationControllerDelegate {
    // to get the real imaage that the user has to pick
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-         if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-            self.imageView.image = image
-        }
-        picker.dismiss(animated: true)
-    }
-//
-//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//            //        let asset = info[UIImagePickerController.InfoKey.phAsset]
-//            //        let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
-//            //        var im = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-//            //        if let ed = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-//            //            im = ed
-//            //        }
-//            print("number of images  =\(imgArr.count + 1) ")
-//
-//            //prendre image and put it in the delegete
-//            picker.dismiss(animated: true) {
-//                if self.imgArr.count > 1 {
-//                    let myAlert = UIAlertController(title: "Alert", message: "Nombre dépassé", preferredStyle: UIAlertController.Style.alert)
-//                    let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
-//                        action in
-//
-//                        self.dismiss(animated: true, completion: nil)
-//                    }
-//                    myAlert.addAction(okAction)
-//                    self.present(myAlert , animated : true , completion : nil)
-//
-//                }else
-//                {
-//                    if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-//                        //                    let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-//                        //                    let asset = result.firstObject
-//                        //                    print(asset?.value(forKey: "filename"))
-//                        self.imgArr.append(image)
-////                        self.createPhoto(photo: image)
-//                        self.collectionView.reloadData()
-//                    }
-//                    print("image :\(self.imgArr)")
-//                }
-//            }
+  
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+ 
+            print("number of images  =\(imgArr.count + 1) ")
+
+            //prendre image and put it in the delegete
+            picker.dismiss(animated: true) {
+                if self.imgArr.count > 2 {
+                    let myAlert = UIAlertController(title: "Alert", message: "Nombre dépassé", preferredStyle: UIAlertController.Style.alert)
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
+                        action in
+
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    myAlert.addAction(okAction)
+                    self.present(myAlert , animated : true , completion : nil)
+
+                }else
+                {
+                    if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+                        //                    let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+                        //                    let asset = result.firstObject
+                        //                    print(asset?.value(forKey: "filename"))
+                        self.imgArr.append(image)
+//                        self.createPhoto(photo: image)
+                        self.collectionView.reloadData()
+                    }
+                    print("image :\(self.imgArr)")
+                }
+            }
             func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
                 picker.dismiss(animated: true, completion: nil)
             }
@@ -628,7 +690,7 @@ extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINa
 //
 //
 //
-//}
+}
 extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return columnList.count

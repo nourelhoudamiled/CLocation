@@ -16,4 +16,6 @@ pod 'GooglePlaces'
 pod 'MMBannerLayout'
 pod 'VerticalCardSwiper'
 pod 'ALCameraViewController'
+pod 'ASCollectionView', '1.1.0'
+pod 'AlamofireImage', '~> 4.0.0-beta.1'
 end

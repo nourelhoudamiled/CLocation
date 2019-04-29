@@ -1,24 +1,21 @@
 //
-//  SearchViewCell.swift
+//  ChildSearchTableViewCell.swift
 //  ProjectCategorie
 //
-//  Created by MacBook Pro on 08/03/2019.
+//  Created by MacBook Pro on 27/04/2019.
 //  Copyright © 2019 MacBook Pro. All rights reserved.
 //
 
 import UIKit
 
-class SearchViewCell: UITableViewCell {
-    @IBOutlet weak var nameCategorie: UILabel!
+class ChildSearchTableViewCell: UITableViewCell {
+
+    @IBOutlet var label: UILabel!
     
-    @IBOutlet var viewCell: UIView!
-    @IBOutlet var imageCat: UIImageView!
-//    @IBOutlet var arrowImageView: UIImageView!
+    @IBOutlet var view: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-     
-
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -26,5 +23,5 @@ class SearchViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

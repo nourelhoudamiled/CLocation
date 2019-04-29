@@ -30,6 +30,7 @@ class PageCell: UICollectionViewCell {
     func longPressAction() {
         if let del = self.delegate {
             del.didLongPressCell()
+            
         }
     }
 //    override func awakeFromNib() {

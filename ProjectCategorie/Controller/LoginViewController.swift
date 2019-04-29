@@ -49,7 +49,8 @@ class LoginViewController: UIViewController {
             loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
             
             loginService?.authorize(presenting: self)
-            
+//            print( " users ids 2 : \(AppManager.shared.iduser)")
+
             
             UserDefaults.standard.setIsLoggedIn(value: true)
             let prefs:UserDefaults = UserDefaults.standard
