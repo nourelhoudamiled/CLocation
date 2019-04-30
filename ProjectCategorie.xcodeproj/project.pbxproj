@@ -27,6 +27,8 @@
 		FA0823EF2269C19D006AB45C /* ExampleCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0823EE2269C19D006AB45C /* ExampleCardCell.swift */; };
 		FA08D1CD225BA9490089EB8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D1CC225BA9490089EB8E /* User.swift */; };
 		FA08D1CF225BBDB30089EB8E /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D1CE225BBDB30089EB8E /* Rating.swift */; };
+		FA0BFA8A227731F500BCA6F4 /* produitParSubCatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BFA89227731F500BCA6F4 /* produitParSubCatViewController.swift */; };
+		FA0BFA8C2277322800BCA6F4 /* produitParSubViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0BFA8B2277322800BCA6F4 /* produitParSubViewCell.swift */; };
 		FA0C0C5B2263480700C7E30E /* PictureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C0C5A2263480700C7E30E /* PictureCollectionViewCell.swift */; };
 		FA0EB81C22608B3A00461BBF /* PoPupCategorieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EB81B22608B3A00461BBF /* PoPupCategorieViewController.swift */; };
 		FA0EB8202260948900461BBF /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EB81F2260948900461BBF /* Share.swift */; };
@@ -116,6 +118,8 @@
 		FA0823EE2269C19D006AB45C /* ExampleCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCardCell.swift; sourceTree = "<group>"; };
 		FA08D1CC225BA9490089EB8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FA08D1CE225BBDB30089EB8E /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
+		FA0BFA89227731F500BCA6F4 /* produitParSubCatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = produitParSubCatViewController.swift; sourceTree = "<group>"; };
+		FA0BFA8B2277322800BCA6F4 /* produitParSubViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = produitParSubViewCell.swift; sourceTree = "<group>"; };
 		FA0C0C5A2263480700C7E30E /* PictureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA0EB81B22608B3A00461BBF /* PoPupCategorieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoPupCategorieViewController.swift; sourceTree = "<group>"; };
 		FA0EB81F2260948900461BBF /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 				FA47288B227313EE006369CF /* CommentaireViewCell.swift */,
 				FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */,
 				FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */,
+				FA0BFA8B2277322800BCA6F4 /* produitParSubViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				FA43BFE92271D57100EA276C /* ListProductViewController.swift */,
 				FA472887227309AD006369CF /* CommentaireViewController.swift */,
 				FA8E2553227489CB0038DE98 /* FavoritesViewController.swift */,
+				FA0BFA89227731F500BCA6F4 /* produitParSubCatViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -546,6 +552,7 @@
 				FA0081BE226C5FB400478532 /* Media.swift in Sources */,
 				FA54B391224E597F0034EBB0 /* CosmosLayerHelper.swift in Sources */,
 				FA5C766F225E48F8009EC69E /* Page.swift in Sources */,
+				FA0BFA8A227731F500BCA6F4 /* produitParSubCatViewController.swift in Sources */,
 				FA65D9CA22326CFA0058ADFA /* SearchViewCell.swift in Sources */,
 				FA28500722563FBC00760166 /* BaseService.swift in Sources */,
 				FA2D69D822560FD900EF38B6 /* SWRevealViewController.m in Sources */,
@@ -593,6 +600,7 @@
 				FA479D9D2252221C00573235 /* CategorieClass.swift in Sources */,
 				FAE4D9D522624F4E0070EFDA /* LocationSearchTable.swift in Sources */,
 				FA54B38A224E597F0034EBB0 /* CosmosAccessibility.swift in Sources */,
+				FA0BFA8C2277322800BCA6F4 /* produitParSubViewCell.swift in Sources */,
 				FA074607225CF3A7008A744C /* SwippingController.swift in Sources */,
 				FA8E2554227489CB0038DE98 /* FavoritesViewController.swift in Sources */,
 				FA0EB8202260948900461BBF /* Share.swift in Sources */,

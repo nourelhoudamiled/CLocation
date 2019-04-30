@@ -277,7 +277,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
         }
         
      cell.imageProduct.image = self.responseImages[indexPath.row]
-
+cell.selectionStyle = .none
         
         cell.cellDelegate = self
         cell.index = indexPath

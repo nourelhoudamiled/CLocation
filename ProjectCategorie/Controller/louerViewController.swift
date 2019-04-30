@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class louerViewController: UIViewController {
     
     var product : ProductClass?
@@ -22,7 +22,15 @@ class louerViewController: UIViewController {
     @IBOutlet var adrLabel: UILabel!
     @IBOutlet var pageView: UIPageControl!
     @IBOutlet var sliderCollectionView: UICollectionView!
+    var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
+    var urlRequestImageByProductId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     
+    var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    
+    //   @IBOutlet var downloadImage: UIImageView!
+    var urlRequestAttachmentsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    
+    var urlRequestProductsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/ProductsId")!)
     var imgArr = [  UIImage(named:"AlexandraDaddario"),
                     UIImage(named:"AngelinaJolie") ,
                     UIImage(named:"AnneHathaway") ,
@@ -38,6 +46,9 @@ class louerViewController: UIViewController {
     var counter = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("product id \(product?.id)")
+//        sliderCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "sliderCell")
+
         print("product \(String(describing: product))")
         nameUniteLabel.text = product?.enumUniteName
         cityLabel.text = product?.enumCityName
@@ -74,6 +85,39 @@ class louerViewController: UIViewController {
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+//    func photos(){
+//
+//    let urlStringProductsId = urlRequestProductsId.url?.absoluteString
+//    let urlStringImageByProductId = urlRequestImageByProductId.url?.absoluteString
+//    AF.request(urlStringProductsId!).responseJSON {
+//    response in
+//    do {
+//    guard let data = response.data else {return}
+//    let attachements = try JSONDecoder().decode([Attachement].self, from: data)
+//    for atachement in attachements {
+//    self.productList.append(atachement.productId!)
+//    guard let  productID = atachement.productId else {return}
+//    let attachementURL = urlStringImageByProductId! + "\(productID)/ImageByProductId"
+//
+//    AF.request(attachementURL , method : .get ).responseImage {
+//    response in
+//    guard let image = response.data else {return}
+//    print(image)
+//    self.responseImages.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
+//    self.collectionView.reloadData()
+//
+//    }
+//    }
+//
+//
+//    }catch let error {
+//    print(error)
+//    }
+//
+//    }
+//
+//
+//    }
     @objc func changeImage() {
         
         if counter < imgArr.count {

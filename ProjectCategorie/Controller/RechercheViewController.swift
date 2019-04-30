@@ -214,7 +214,7 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
             
         }
         else {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ListProductViewController") as! ListProductViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "produitParSubCatViewController") as! produitParSubCatViewController
         Share.sharedName.sousCategorie =  CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
             present(vc, animated: true, completion: nil)
         }
