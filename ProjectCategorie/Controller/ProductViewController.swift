@@ -130,20 +130,10 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
         }
     }
     func createPhoto(productId : Int) {
-        
-        let urlStringProductsId = urlRequestImageByAttachmentId.url?.absoluteString
-        let productUrl = urlStringProductsId! + "\(productId)/AttachmentsId"
+  
         let urlStringImageByProductId = urlRequestImageByProductId.url?.absoluteString
 
-        AF.request(productUrl).responseJSON {
-            response in
-            do {
-                guard let data = response.data else {return}
-                let attachements = try JSONDecoder().decode([Attachement].self, from: data)
-                for atachement in attachements {
-                    self.productList.append(atachement.id!)
-                    guard let  productID = atachement.id else {return}
-                    let attachementURL = urlStringImageByProductId! + "\(productID)/ImageByAttachmentId"
+                    let attachementURL = urlStringImageByProductId! + "\(productId)/ImageByAttachmentId"
                     
                     AF.request(attachementURL , method : .get ).responseImage {
                         response in
@@ -156,14 +146,9 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
                         }
 //
                     }
-                }
+        
                 
-                
-            }catch let error {
-                print(error)
-            }
-            
-        }
+      
         
         
     }
@@ -192,7 +177,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
                     guard let productIdd = item.id else {
                         return
                     }
-                    
+                    self.createPhoto(productId: productIdd)
                     let cellData = ExpandableNames(names: item, hasFavorited: true)
                     self.twoDimensionalArray.append(cellData)
                     
@@ -221,7 +206,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
                         }
                       
                     }
-                    self.createPhoto(productId: productIdd)
+                    
 
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -277,7 +262,7 @@ class ProductViewController: UIViewController , UITableViewDelegate , UITableVie
         }
         
      cell.imageProduct.image = self.responseImages[indexPath.row]
-cell.selectionStyle = .none
+//cell.selectionStyle = .none
         
         cell.cellDelegate = self
         cell.index = indexPath

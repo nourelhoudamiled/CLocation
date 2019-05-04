@@ -9,17 +9,13 @@
 import UIKit
 import Alamofire
 class CommentaireViewController: UIViewController , UITextFieldDelegate  {
-    var imgArr = [UIImage(named:"AlexandraDaddario"),
-                    UIImage(named:"AngelinaJolie") ,
-                    UIImage(named:"AnneHathaway") ,
-                    UIImage(named:"DakotaJohnson") ,
-                    UIImage(named:"EmmaStone") ,
-                    UIImage(named:"EmmaWatson") ,
-                    UIImage(named:"HalleBerry") ,
-                    UIImage(named:"JenniferLawrence") ,
-                    UIImage(named:"JessicaAlba") ,
-                    UIImage(named:"ScarlettJohansson")]
+
+    var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     
+    //   @IBOutlet var downloadImage: UIImageView!
+    var urlRequestAttachmentsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    var attachementList = [Int]()
+    var responseImage = [UIImage]()
     @IBOutlet var pageView: UIPageControl!
     var timer = Timer()
     var counter = 0
@@ -53,71 +49,75 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
        let cellId = "cellId"
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        pageView.numberOfPages = imgArr.count
-        pageView.currentPage = 0
+     print("pid\(Share.sharedName.product?.id)")
+        pageView.numberOfPages = responseImage.count
+        photos()
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
-        inputTextField.delegate = self
-        uploadImageView.isUserInteractionEnabled = true
-        uploadImageView.image = UIImage(named: "upload_image_icon")
-        uploadImageView.translatesAutoresizingMaskIntoConstraints = false
-        inputContainerView.addSubview(uploadImageView)
-        //x,y,w,h
-        uploadImageView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
-        uploadImageView.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        uploadImageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        uploadImageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        sendButton.setTitle("Comment", for: UIControl.State())
-        sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-        inputContainerView.addSubview(sendButton)
-        //x,y,w,h
-        sendButton.rightAnchor.constraint(equalTo: inputContainerView.rightAnchor).isActive = true
-        sendButton.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        sendButton.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
-        
-      
-        inputContainerView.addSubview(self.inputTextField)
-        self.inputTextField.leftAnchor.constraint(equalTo: uploadImageView.rightAnchor, constant: 8).isActive = true
-        self.inputTextField.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
-        self.inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor).isActive = true
-        self.inputTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
-        //x,y,w,h
-        
-        
-        separatorLineView.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
-        separatorLineView.translatesAutoresizingMaskIntoConstraints = false
-        inputContainerView.addSubview(separatorLineView)
-        //x,y,w,h
-        separatorLineView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
-        separatorLineView.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
-        separatorLineView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
-        separatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        //        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        
-        collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundColor = UIColor.white
-       collectionView?.register(CommentaireViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.keyboardDismissMode = .interactive
     fetchdata()
    
          }
+   func ecrirecommentaire () {
+    
+    inputTextField.delegate = self
+    uploadImageView.isUserInteractionEnabled = true
+    uploadImageView.image = UIImage(named: "upload_image_icon")
+    uploadImageView.translatesAutoresizingMaskIntoConstraints = false
+    inputContainerView.addSubview(uploadImageView)
+    //x,y,w,h
+    uploadImageView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
+    uploadImageView.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
+    uploadImageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
+    uploadImageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    sendButton.setTitle("Comment", for: UIControl.State())
+    sendButton.translatesAutoresizingMaskIntoConstraints = false
+    sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
+    inputContainerView.addSubview(sendButton)
+    //x,y,w,h
+    sendButton.rightAnchor.constraint(equalTo: inputContainerView.rightAnchor).isActive = true
+    sendButton.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
+    sendButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+    sendButton.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
+    
+    
+    inputContainerView.addSubview(self.inputTextField)
+    self.inputTextField.leftAnchor.constraint(equalTo: uploadImageView.rightAnchor, constant: 8).isActive = true
+    self.inputTextField.centerYAnchor.constraint(equalTo: inputContainerView.centerYAnchor).isActive = true
+    self.inputTextField.rightAnchor.constraint(equalTo: sendButton.leftAnchor).isActive = true
+    self.inputTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor).isActive = true
+    //x,y,w,h
+    
+    
+    separatorLineView.backgroundColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+    separatorLineView.translatesAutoresizingMaskIntoConstraints = false
+    inputContainerView.addSubview(separatorLineView)
+    //x,y,w,h
+    separatorLineView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
+    separatorLineView.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
+    separatorLineView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
+    separatorLineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+    //        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+    
+    collectionView?.alwaysBounceVertical = true
+    collectionView?.backgroundColor = UIColor.white
+    //       collectionView?.register(CommentaireViewCell.self, forCellWithReuseIdentifier: cellId)
+    collectionView?.keyboardDismissMode = .interactive
+    }
     
     @IBAction func retourButton(_ sender: Any) {
            self.dismiss(animated: true, completion: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchdata()
+//        fetchdata()
+        ecrirecommentaire()
     }
     
     @objc func changeImage() {
         
-        if counter < imgArr.count {
+        if counter < responseImage.count {
             let index = IndexPath.init(item: counter, section: 0)
             self.collectionSlide.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
@@ -163,12 +163,17 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
                         for item1 in itemDetails1 {
                         
                             self.comments.append(item1)
+                            DispatchQueue.main.async(execute: {
+                                self.collectionView?.reloadData()
+                                //scroll to the last index
+                                let indexPath = IndexPath(item: self.comments.count - 1, section: 0)
+                                self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                                
+                            })
+                         
                         }
                       
-                            self.collectionView?.reloadData()
-                            //scroll to the last index
-                            let indexPath = IndexPath(item: self.comments.count - 1, section: 0)
-                            self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                    
                             
                     }
                     
@@ -184,7 +189,40 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
             }
         }
     }
-    
+    func photos(){
+        let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
+        let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
+        let productId = Share.sharedName.product?.id
+        let attachementsURL = urlStringAttachmentsId! + "\(productId!)/AttachmentsId"
+        AF.request(attachementsURL).responseJSON {
+            response in
+            do {
+                guard let data = response.data else {return}
+                let attachements = try JSONDecoder().decode([Attachement].self, from: data)
+                for atachement in attachements {
+                    self.attachementList.append(atachement.id!)
+                    guard let  attachementId = atachement.id else {return}
+                    let AttachmentIdURL = urlStringImageByAttachmentId! + "\(attachementId)/ImageByAttachmentId"
+                    
+                    AF.request(AttachmentIdURL , method : .get ).responseImage {
+                        response in
+                        guard let image = response.data else {return}
+                        print(image)
+                        self.responseImage.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
+                        self.collectionSlide.reloadData()
+                        
+                    }
+                }
+                
+                
+            }catch let error {
+                print(error)
+            }
+            
+        }
+        
+        
+    }
    func sendMessageWithProperties(_ properties: [String: AnyObject]) {
     let urlString = "https://clocation.azurewebsites.net/api/Comments"
     var values: [String: AnyObject] = ["commentaire": inputTextField.text! as AnyObject]
@@ -206,7 +244,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
             print(response)
             self.inputTextField.text = nil
             
-            self.fetchdata()
+         //   self.fetchdata()
             
                     
                 
@@ -241,7 +279,9 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        if collectionView == self.collectionSlide {
-        return imgArr.count }
+        return responseImage.count
+        
+       }
        else {
         return comments.count
         }
@@ -250,16 +290,17 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
 
  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
   if collectionView == self.collectionSlide {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath)
-    if let vc = cell.viewWithTag(111) as? UIImageView {
-        vc.image = imgArr[indexPath.row]
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCommentCollectionViewCell
+    
+    cell.imageView.image = responseImage[indexPath.row]
+       return cell
     }
     
-    return cell
-    }
   else  {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CommentaireViewCell
-        
+    cell.index = indexPath
+    cell.cellDelegate = self
+ 
         cell.CommentaireViewController = self
         let comment = comments[indexPath.item]
         cell.textView.text = comment.commentaire
@@ -277,10 +318,13 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     }
 
     fileprivate func setupCell(_ cell: CommentaireViewCell, message: Comment) {
+    
+            cell.profileImageView.image = UIImage(named: "photo")
+        
 //outgoing blue
             cell.bubbleView.backgroundColor = CommentaireViewCell.blueColor
             cell.textView.textColor = UIColor.white
-            cell.profileImageView.isHidden = true
+            cell.profileImageView.isHidden = false
 
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
@@ -311,7 +355,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     
     }
     fileprivate func estimateFrameForText(_ text: String) -> CGRect {
-        let size = CGSize(width: 300, height: 1000)
+        let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes :[NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)] , context : nil)
         
@@ -329,4 +373,71 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
+}
+extension CommentaireViewController : crud {
+    
+    func update(index: Int)
+    {          //  guard let indexPathTapped = self.collectionView.indexPath(for: cell) else { return }
+
+        let alert = UIAlertController(title: "edit comment",
+                                      message: "edit something",
+                                      preferredStyle: .alert)
+        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+            // Get 1st TextField's text
+            
+            
+            let textField = alert.textFields![0]
+            self.editCommentaire(Id: self.comments[index].id!, userId: self.comments[index].userId!, commentaire: textField.text!, productId: self.comments[index].productId!)
+          
+
+            print("commentaire update \(textField.text!)")
+        })
+        
+       //   self.collectionView.reloadData()
+        // Cancel button
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        // Add 1 textField and customize it
+        alert.addTextField { (textField: UITextField) in
+            textField.keyboardAppearance = .dark
+            textField.text = self.comments[index].commentaire
+            textField.keyboardType = .default
+            textField.autocorrectionType = .default
+            textField.placeholder = "Type something here"
+            textField.clearButtonMode = .whileEditing
+            
+            alert.addAction(submitAction)
+            alert.addAction(cancel)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func delete(index: Int) {
+        self.deleteCommentaire(Id: comments[index].id!)
+        comments.remove(at : index)
+        collectionView.reloadData()
+        
+    }
+    func deleteCommentaire (Id : Int ) {
+        
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Comments/\(Id)"
+        
+        AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            print(response)
+        }
+    }
+
+    func editCommentaire (Id : Int , userId : String , commentaire : String, productId : Int) {
+        let params = ["id": Id, "commentaire" : commentaire,"productId": productId,  "userId": userId ] as [String : Any]
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Comments/\(Id)"
+        
+        AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            print(response)
+        }
+    }
+    
 }

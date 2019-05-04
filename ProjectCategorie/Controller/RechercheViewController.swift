@@ -19,7 +19,7 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
 //    @IBOutlet var searchBar: UISearchBar!
     
     @IBOutlet var btnMenuButton: UIBarButtonItem!
-    var images = ["vehicules", "immobilier" , "Vetement",  "Meubles", "Maisson" , "Agricole" ]
+    var images = ["vehicules", "immobilier" , "Habillement et Bien Etre",  "Meubles", "Agricole" , "Pour la Maison et Jardin" , "Emploi et Services" , "Loisirs et Diverssement" , "Informatique et Multimedia" , "Autres"]
     var categorieList = [CategorieClass]()
  
     var sousCategoriesList =  [SousCategClass]()
@@ -214,7 +214,8 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
             
         }
         else {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "produitParSubCatViewController") as! produitParSubCatViewController
+       
+    let vc = self.storyboard?.instantiateViewController(withIdentifier: "produitParSubCatViewController") as! produitParSubCatViewController
         Share.sharedName.sousCategorie =  CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
             present(vc, animated: true, completion: nil)
         }

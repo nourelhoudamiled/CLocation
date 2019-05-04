@@ -22,15 +22,13 @@ class louerViewController: UIViewController {
     @IBOutlet var adrLabel: UILabel!
     @IBOutlet var pageView: UIPageControl!
     @IBOutlet var sliderCollectionView: UICollectionView!
-    var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
-    var urlRequestImageByProductId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
-    
+  
+
     var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     
     //   @IBOutlet var downloadImage: UIImageView!
     var urlRequestAttachmentsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
-    
-    var urlRequestProductsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/ProductsId")!)
+
     var imgArr = [  UIImage(named:"AlexandraDaddario"),
                     UIImage(named:"AngelinaJolie") ,
                     UIImage(named:"AnneHathaway") ,
@@ -43,6 +41,8 @@ class louerViewController: UIViewController {
                     UIImage(named:"ScarlettJohansson") ]
     
     var timer = Timer()
+    var attachementList = [Int]()
+    var responseImage = [UIImage]()
     var counter = 0
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ class louerViewController: UIViewController {
         cityLabel.text = product?.enumCityName
         descriptionLabel.text = product?.description
       
-        prixLabel.text =  "\(String(describing: product?.price))"
+        prixLabel.text =  "\(product?.price ?? 0)"
         
      
         
@@ -65,15 +65,12 @@ class louerViewController: UIViewController {
         else{
            isAvailble.isOn = false
         }
-        
-        
-        
-//        telLabel.text = product.
-        
-        pageView.numberOfPages = imgArr.count
-        pageView.currentPage = 0
+
+        pageView.numberOfPages = responseImage.count
+//        pageView.currentPage = 0
+        photos()
         DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
     }
     
@@ -85,42 +82,43 @@ class louerViewController: UIViewController {
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-//    func photos(){
-//
-//    let urlStringProductsId = urlRequestProductsId.url?.absoluteString
-//    let urlStringImageByProductId = urlRequestImageByProductId.url?.absoluteString
-//    AF.request(urlStringProductsId!).responseJSON {
-//    response in
-//    do {
-//    guard let data = response.data else {return}
-//    let attachements = try JSONDecoder().decode([Attachement].self, from: data)
-//    for atachement in attachements {
-//    self.productList.append(atachement.productId!)
-//    guard let  productID = atachement.productId else {return}
-//    let attachementURL = urlStringImageByProductId! + "\(productID)/ImageByProductId"
-//
-//    AF.request(attachementURL , method : .get ).responseImage {
-//    response in
-//    guard let image = response.data else {return}
-//    print(image)
-//    self.responseImages.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
-//    self.collectionView.reloadData()
-//
-//    }
-//    }
-//
-//
-//    }catch let error {
-//    print(error)
-//    }
-//
-//    }
-//
-//
-//    }
+    func photos(){
+        let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
+        let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
+        let productId = Share.sharedName.product?.id
+        let attachementsURL = urlStringAttachmentsId! + "\(productId!)/AttachmentsId"
+        AF.request(attachementsURL).responseJSON {
+            response in
+            do {
+                guard let data = response.data else {return}
+                let attachements = try JSONDecoder().decode([Attachement].self, from: data)
+                for atachement in attachements {
+                    self.attachementList.append(atachement.id!)
+                    guard let  attachementId = atachement.id else {return}
+                    let AttachmentIdURL = urlStringImageByAttachmentId! + "\(attachementId)/ImageByAttachmentId"
+
+                    AF.request(AttachmentIdURL , method : .get ).responseImage {
+                        response in
+                        guard let image = response.data else {return}
+                        print(image)
+                        self.responseImage.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
+                        self.sliderCollectionView.reloadData()
+                        
+                    }
+                }
+                
+                
+            }catch let error {
+                print(error)
+            }
+            
+        }
+        
+        
+    }
     @objc func changeImage() {
         
-        if counter < imgArr.count {
+        if counter < responseImage.count {
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
@@ -132,7 +130,7 @@ class louerViewController: UIViewController {
             pageView.currentPage = counter
             counter = 1
         }
-        
+    
     }
     
     @IBAction func Gotocommentaire(_ sender: Any) {
@@ -145,14 +143,26 @@ class louerViewController: UIViewController {
 
 extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imgArr.count
+        return responseImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath)
-        if let vc = cell.viewWithTag(111) as? UIImageView {
-            vc.image = imgArr[indexPath.row]
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
+        
+            cell.imageSlider.image = responseImage[indexPath.row]
+//        cell.contentView.layer.cornerRadius = 10
+//        cell.contentView.layer.borderWidth = 1.0
+//        cell.contentView.layer.borderColor = UIColor.blue.cgColor
+//        cell.contentView.layer.masksToBounds = true
+//        cell.backgroundColor = UIColor.white
+//        
+//        cell.layer.shadowColor = UIColor.gray.cgColor
+//        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+//        cell.layer.shadowRadius = 2.0
+//        cell.layer.shadowOpacity = 1.0
+//        cell.layer.masksToBounds = false
+//        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
+       
         return cell
     }
 }

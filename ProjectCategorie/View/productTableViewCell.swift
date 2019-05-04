@@ -38,13 +38,13 @@ class productTableViewCell: UITableViewCell {
         starButton.setImage(#imageLiteral(resourceName: "fav_star"), for: .normal)
         starButton.frame = CGRect(x: 333, y: 0, width: 50, height: 50)
         
-        starButton.tintColor = .red
+//        starButton.tintColor = .red
         starButton.addTarget(self, action: #selector(handleMarkAsFavorite), for: .touchUpInside)
         cosmosViewFull.didTouchCosmos = didToushCosmos
         cosmosViewFull.didFinishTouchingCosmos = didFinishTouchingCosmos
         
         
-        accessoryView = starButton
+      //  accessoryView = starButton
     }
   static  func formatValue(_ value: Double) -> String {
         return String(format: "%.2f", value)

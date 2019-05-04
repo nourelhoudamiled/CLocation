@@ -62,17 +62,7 @@ class LoginViewController: UIViewController {
             present(vc, animated: true, completion: nil)
     }
     }
-    func displayMessage(userMessage : String)
-    {
-        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
-            action in
-            self.dismiss(animated: true, completion: nil)
-        }
-        myAlert.addAction(okAction)
-        self.present(myAlert , animated : true , completion : nil)
-        
-    }
+    
     
 }
 

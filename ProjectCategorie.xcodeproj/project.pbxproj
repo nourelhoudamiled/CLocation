@@ -12,6 +12,7 @@
 		FA00BB4F22579A3E0090622F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA00BB4D22579A3D0090622F /* Main.storyboard */; };
 		FA00BB5122579A830090622F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00BB5022579A830090622F /* ProfileViewController.swift */; };
 		FA00BB532257A3DC0090622F /* Unite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA00BB522257A3DC0090622F /* Unite.swift */; };
+		FA018FAA227C7D8900A13A05 /* sliderCommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA018FA9227C7D8900A13A05 /* sliderCommentCollectionViewCell.swift */; };
 		FA01A3292268859C00CD431A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A3282268859C00CD431A /* HomeViewController.swift */; };
 		FA01A32B2268BA2D00CD431A /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A32A2268BA2D00CD431A /* RecentSearchCell.swift */; };
 		FA01A32D2268FBBF00CD431A /* TutorielViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A32C2268FBBF00CD431A /* TutorielViewController.swift */; };
@@ -23,6 +24,7 @@
 		FA05B10A2269CE1D000196DD /* ExamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA05B1092269CE1D000196DD /* ExamCell.xib */; };
 		FA05C8AC2269E559005F217D /* tuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05C8AB2269E559005F217D /* tuto.swift */; };
 		FA05C8AE226A129C005F217D /* photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05C8AD226A129C005F217D /* photo.swift */; };
+		FA0621812278861D0031AA69 /* sliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0621802278861D0031AA69 /* sliderCell.swift */; };
 		FA074607225CF3A7008A744C /* SwippingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA074606225CF3A7008A744C /* SwippingController.swift */; };
 		FA0823EF2269C19D006AB45C /* ExampleCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0823EE2269C19D006AB45C /* ExampleCardCell.swift */; };
 		FA08D1CD225BA9490089EB8E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA08D1CC225BA9490089EB8E /* User.swift */; };
@@ -92,6 +94,8 @@
 		FAF956742270BE8E00191F74 /* PoPupUniteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */; };
 		FAF956762270BEA300191F74 /* PopUpEtatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956752270BEA300191F74 /* PopUpEtatViewController.swift */; };
 		FAF956782270C34E00191F74 /* Etat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956772270C34E00191F74 /* Etat.swift */; };
+		FAFEF20B227AFA0B00B98A42 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEF20A227AFA0B00B98A42 /* Favorite.swift */; };
+		FAFEF20D227B000000B98A42 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEF20C227B000000B98A42 /* FavoriteCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +107,7 @@
 		FA00BB4E22579A3D0090622F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "../../../../Downloads/ProjectCategorie 3 2 2/ProjectCategorie/View/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		FA00BB5022579A830090622F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FA00BB522257A3DC0090622F /* Unite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unite.swift; sourceTree = "<group>"; };
+		FA018FA9227C7D8900A13A05 /* sliderCommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sliderCommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		FA01A3282268859C00CD431A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FA01A32A2268BA2D00CD431A /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		FA01A32C2268FBBF00CD431A /* TutorielViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorielViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +119,7 @@
 		FA05B1092269CE1D000196DD /* ExamCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExamCell.xib; sourceTree = "<group>"; };
 		FA05C8AB2269E559005F217D /* tuto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tuto.swift; sourceTree = "<group>"; };
 		FA05C8AD226A129C005F217D /* photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photo.swift; sourceTree = "<group>"; };
+		FA0621802278861D0031AA69 /* sliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sliderCell.swift; sourceTree = "<group>"; };
 		FA074606225CF3A7008A744C /* SwippingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwippingController.swift; sourceTree = "<group>"; };
 		FA0823EE2269C19D006AB45C /* ExampleCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCardCell.swift; sourceTree = "<group>"; };
 		FA08D1CC225BA9490089EB8E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -188,6 +194,8 @@
 		FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoPupUniteViewController.swift; sourceTree = "<group>"; };
 		FAF956752270BEA300191F74 /* PopUpEtatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpEtatViewController.swift; sourceTree = "<group>"; };
 		FAF956772270C34E00191F74 /* Etat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Etat.swift; sourceTree = "<group>"; };
+		FAFEF20A227AFA0B00B98A42 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		FAFEF20C227B000000B98A42 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +257,7 @@
 				FAF956772270C34E00191F74 /* Etat.swift */,
 				FA43BFF52271E34B00EA276C /* Attachement.swift */,
 				FA47288922730A6F006369CF /* Comment.swift */,
+				FAFEF20A227AFA0B00B98A42 /* Favorite.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,6 +283,9 @@
 				FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */,
 				FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */,
 				FA0BFA8B2277322800BCA6F4 /* produitParSubViewCell.swift */,
+				FA0621802278861D0031AA69 /* sliderCell.swift */,
+				FAFEF20C227B000000B98A42 /* FavoriteCell.swift */,
+				FA018FA9227C7D8900A13A05 /* sliderCommentCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -548,8 +560,10 @@
 				FA2094B4225660E3009BB679 /* TestViewController.swift in Sources */,
 				FA479D952252202A00573235 /* ProductClass.swift in Sources */,
 				FA472888227309AD006369CF /* CommentaireViewController.swift in Sources */,
+				FAFEF20B227AFA0B00B98A42 /* Favorite.swift in Sources */,
 				FA54B38B224E597F0034EBB0 /* CosmosSettings.swift in Sources */,
 				FA0081BE226C5FB400478532 /* Media.swift in Sources */,
+				FA0621812278861D0031AA69 /* sliderCell.swift in Sources */,
 				FA54B391224E597F0034EBB0 /* CosmosLayerHelper.swift in Sources */,
 				FA5C766F225E48F8009EC69E /* Page.swift in Sources */,
 				FA0BFA8A227731F500BCA6F4 /* produitParSubCatViewController.swift in Sources */,
@@ -579,6 +593,7 @@
 				FA54B387224E597F0034EBB0 /* CosmosDefaultSettings.swift in Sources */,
 				FA5C766B225E2CD6009EC69E /* PageCell.swift in Sources */,
 				FA54B38E224E597F0034EBB0 /* CosmosLocalizedRating.swift in Sources */,
+				FA018FAA227C7D8900A13A05 /* sliderCommentCollectionViewCell.swift in Sources */,
 				FAF956762270BEA300191F74 /* PopUpEtatViewController.swift in Sources */,
 				FA0EB8282260D8DE00461BBF /* PopupCityViewController.swift in Sources */,
 				FA47288C227313EE006369CF /* CommentaireViewCell.swift in Sources */,
@@ -617,6 +632,7 @@
 				FA03159E226B84BF0032673B /* ColumnTableViewCell.swift in Sources */,
 				FA54B390224E597F0034EBB0 /* CosmosView.swift in Sources */,
 				FA0EB82C2260DAEA00461BBF /* CityClass.swift in Sources */,
+				FAFEF20D227B000000B98A42 /* FavoriteCell.swift in Sources */,
 				FA0EB81C22608B3A00461BBF /* PoPupCategorieViewController.swift in Sources */,
 				FA54B38F224E597F0034EBB0 /* StarFillMode.swift in Sources */,
 			);

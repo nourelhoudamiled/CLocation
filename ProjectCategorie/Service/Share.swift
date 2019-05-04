@@ -23,6 +23,7 @@ final class Share {
        var latitude : Decimal!
     var longitude : Decimal!
       var sousCategorie : SousCategClass?
+    var product : ProductClass?
     var uniteName : String!
     var uniteId : Int!
     var etatName : String!
