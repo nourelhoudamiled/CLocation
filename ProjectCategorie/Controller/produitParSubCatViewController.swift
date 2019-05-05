@@ -13,6 +13,7 @@ struct Expandable {
    // var names : String?
    //var favorite: Favorite?
      var products: ProductClass?
+    var idFavoris : Int?
     var hasFavorited: Bool?
 }
 class produitParSubCatViewController: UIViewController {
@@ -20,7 +21,6 @@ class produitParSubCatViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
     var ProductList = [ProductClass]()
-   // var hasFavorited : Bool!
     var attachementListId = [Int]()
     var attachementPathFile = [String]()
     var responseImages = [UIImage]()
@@ -66,15 +66,14 @@ class produitParSubCatViewController: UIViewController {
         guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
         if twoDimensionalArray.count > 0 {
             let hasFavorited = twoDimensionalArray[indexPathTapped.row].hasFavorited
-            print(hasFavorited)
             twoDimensionalArray[indexPathTapped.row].hasFavorited = !hasFavorited!
 
-            cell.favoriteButton.tintColor = hasFavorited! ?  UIColor.red : .lightGray
-            if (hasFavorited == true) {
+            cell.favoriteButton.tintColor = hasFavorited! ?  UIColor.lightGray : .red
+            if (hasFavorited == false) {
                 self.postFavorite(Id: ProductList[indexPathTapped.row].id!, userId: "5db395d9-3b02-4c27-bb19-0f4c6ce8b851")
             }
-            if (hasFavorited == false) {
-                self.deleteFavorite(Id: favoiriteList[indexPathTapped.row].id!)
+            if (hasFavorited == true) {
+                self.deleteFavorite(Id: twoDimensionalArray[indexPathTapped.row].idFavoris ?? 0)
             }
         }
 
@@ -96,7 +95,9 @@ class produitParSubCatViewController: UIViewController {
             case .success:
                 print(response)
                 let favorite : String = "vous avez ajouter dans votre favoris"
-                self.displayMessage(userMessage: favorite)
+                self.ProductList.removeAll()
+                self.expendlistproduit()
+             self.displayMessage(userMessage: favorite)
                 
                 break
             case .failure(let error):
@@ -167,7 +168,7 @@ class produitParSubCatViewController: UIViewController {
             }
             self.ratingNotes.append(notevalue)
             self.searchImage(productId : productId)
-            self.collectionView.reloadData()
+//            self.collectionView.reloadData()
             
         }
     }
@@ -181,7 +182,7 @@ class produitParSubCatViewController: UIViewController {
             guard let image = response.data else {return}
             print(image)
             self.responseImages.append( UIImage(data: image) ?? UIImage(named: "Maisson")!)
-            self.collectionView.reloadData()
+           // self.collectionView.reloadData()
             
             
         }
@@ -194,43 +195,43 @@ class produitParSubCatViewController: UIViewController {
         guard let subCategorieID = Share.sharedName.sousCategorie?.id else {return}
         let productURL = urlString! + "\(subCategorieID)"
         print("subCategorieID : \(subCategorieID)")
+
         AF.request(productURL , method : .get).responseJSON {
             response in
             do {
                 guard let data = response.data else {return}
+
                 let itemDetails = try JSONDecoder().decode([ProductClass].self, from: data)
-                for item in itemDetails {
+//                self.ProductList.removeAll()
+
+                for item  in itemDetails {
                     self.ProductList.append(item)
-                    self.twoDimensionalArray.append(Expandable(products: item, hasFavorited: true))
+                    self.twoDimensionalArray.append(Expandable(products: item, idFavoris: nil, hasFavorited: false))
+
                     guard let productId = item.id else {return}
-                    print("produit id : \(productId)")
                     self.searchRating (productId : productId)
 
                 let urlString = self.urlRequestfavorite.url?.absoluteString
                     AF.request(urlString! , method : .get).responseJSON {
                         response in
                         do {
-                            
                             guard let data = response.data else {return }
                                 let itemDetails1 = try JSONDecoder().decode([Favorite].self, from: data)
-                                for item1 in itemDetails1 {
-                            let cellDatafalse = Expandable(products: item, hasFavorited: false)
-                        let cellDatatrue = Expandable(products: item, hasFavorited: true)
+                                for  item1 in itemDetails1{
+                                    
                                     if (item.id == item1.productId && item.name == item1.productName)
                                     {
                                         var index : Int?
                                         for i in (0...self.ProductList.count - 1) {
-                                            if self.ProductList[i].id == item.id {
+                                            if self.ProductList[i].id == item1.productId {
                                                 index = i
                                             }
                                         }
-                                       
-                                        self.twoDimensionalArray[index ?? 0] = cellDatafalse
-                                        print("celldata false  : \(cellDatafalse)")
-                                        self.collectionView.reloadData()
+                                        self.twoDimensionalArray[index ?? 0 ] = Expandable(products: item, idFavoris: item1.id, hasFavorited: true)
 
                                     }
                                     self.favoiriteList.append(item1)
+                                    self.collectionView.reloadData()
 
 
 
@@ -264,30 +265,33 @@ extension produitParSubCatViewController: UICollectionViewDelegate, UICollection
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! produitParSubViewCell
-        
+        cell.cellDelegate = self
+        cell.index = indexPath
         cell.linkto = self
         let index = indexPath.row
-    
+        if ProductList.count > 0 {
         cell.nameLabel.text = ProductList[index].name
+        }
         if twoDimensionalArray.count > 0 {
-            
+
                     if twoDimensionalArray[index].hasFavorited == true {
-                        cell.favoriteButton.tintColor = UIColor.lightGray
+                        cell.favoriteButton.tintColor = UIColor.red
                     }
-                    else if  twoDimensionalArray[index].hasFavorited == false {
-                    cell.favoriteButton.tintColor =  UIColor.red
+                    else
+                    {
+                    cell.favoriteButton.tintColor =  UIColor.lightGray
                     }
         }
 
-        if ratingNotes.count > 0 {
+
+        if responseImages.count > 0 {
+            cell.produitsImage.image = self.responseImages[indexPath.row]
+        }
             cell.ratingLabel.text = ratingNotes[indexPath.row]
             cell.cosmosView.rating = Double(ratingNotes[indexPath.row]) ?? 0
-            
-        }
         
-        cell.produitsImage.image = self.responseImages[indexPath.row]
-        cell.cellDelegate = self
-        cell.index = indexPath
+       
+     
         
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0

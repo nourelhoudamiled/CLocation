@@ -227,6 +227,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FA0A66A6227EF0CD003CE077 /* Manager  */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Manager ";
+			sourceTree = "<group>";
+		};
 		FA28500522563FA900760166 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +380,7 @@
 		FA65D9B222326BB70058ADFA /* ProjectCategorie */ = {
 			isa = PBXGroup;
 			children = (
+				FA0A66A6227EF0CD003CE077 /* Manager  */,
 				FA00BB4C225797B50090622F /* icn-dropdown.pdf */,
 				FA28500522563FA900760166 /* Service */,
 				FA65D9B322326BB70058ADFA /* AppDelegate.swift */,
