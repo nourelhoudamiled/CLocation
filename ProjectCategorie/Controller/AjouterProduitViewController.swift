@@ -339,22 +339,7 @@ class AjouterProduitViewController: UIViewController {
     
   
 
-    //    /************** Post ***************/
-    func postProduct() {
-        let urlString = "https://clocation.azurewebsites.net/api/Products"
-        
-        let idsub : Int = Share.sharedName.SubcategorieId ?? 2
-       
-        AF.request(urlString, method: .post, parameters: ["name": nameTextField.text! , "description" : descriptionText.text! , "price" : "\(priceTextField.text!)" , "userGuide" : "ddd" ,  "address" : Share.sharedName.nameAdresse  , "enumSubCategoryId" : idsub , "delegation" : "delegation" , "positionLatitude" : 11 ,"positionLongitude" : 12 , "userId" : "1b7e52ac-77ca-4612-8a87-aafab5feee65", "enumCityId" : 4, "enumUniteId" : 3 ,  "files" : "28_37e05407-41b6-499a-9f06-06330dc87458.PNG"], headers: nil).responseJSON {
-            response in
-            
-            print(response.value ?? "zz")
-            print(response.result)
-            
-            
-            
-        }
-    }
+
 
      func createPhoto(photo: [UIImage]) {
         let urlString = "https://clocation.azurewebsites.net/api/Products"
@@ -369,12 +354,6 @@ class AjouterProduitViewController: UIViewController {
         let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
         let nameAdd  = Share.sharedName.nameAdresse ?? ""
         let prix = "\(priceTextField.text!)"
-    
-      
-        
-    
-
-
         AF.upload(multipartFormData: { (form: MultipartFormData) in
             for pictures in photo {
             if let data = pictures.jpegData(compressionQuality: 0.75) {

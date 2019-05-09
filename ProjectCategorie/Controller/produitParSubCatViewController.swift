@@ -17,7 +17,9 @@ struct Expandable {
     var hasFavorited: Bool?
 }
 class produitParSubCatViewController: UIViewController {
-    
+    var startingFrame: CGRect?
+    var blackBackgroundView: UIView?
+    var startingImageView: UIImageView?
     @IBOutlet var collectionView: UICollectionView!
     var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
     var ProductList = [ProductClass]()
@@ -96,7 +98,7 @@ class produitParSubCatViewController: UIViewController {
                 print(response)
                 let favorite : String = "vous avez ajouter dans votre favoris"
                 self.ProductList.removeAll()
-                self.expendlistproduit()
+                self.expendlistproduit2()
              self.displayMessage(userMessage: favorite)
                 
                 break
@@ -139,8 +141,8 @@ class produitParSubCatViewController: UIViewController {
             switch response.result {
             case .success:
                 print(response)
-                //                let favorite : String = "vous avez ajouter dans votre favoris"
-                //                self.displayMessage(userMessage: favorite)
+                                let favorite : String = "vous avez ajouter dans votre favoris"
+                                self.displayMessage(userMessage: favorite)
                 
                 break
             case .failure(let error):
@@ -231,13 +233,77 @@ class produitParSubCatViewController: UIViewController {
 
                                     }
                                     self.favoiriteList.append(item1)
-                                    self.collectionView.reloadData()
 
 
 
                                 }
+                              self.collectionView.reloadData()
                         }catch let errords {
 
+                            print(errords)
+                        }
+                    }
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
+                }
+                
+                 self.collectionView.reloadData()
+            }catch let errors {
+                print(errors)
+            }
+            
+        }
+        
+        
+    }
+    func expendlistproduit2() {
+        let urlString = urlRequest.url?.absoluteString
+        guard let subCategorieID = Share.sharedName.sousCategorie?.id else {return}
+        let productURL = urlString! + "\(subCategorieID)"
+        print("subCategorieID : \(subCategorieID)")
+        
+        AF.request(productURL , method : .get).responseJSON {
+            response in
+            do {
+                guard let data = response.data else {return}
+                
+                let itemDetails = try JSONDecoder().decode([ProductClass].self, from: data)
+                //                self.ProductList.removeAll()
+                
+                for item  in itemDetails {
+                    self.ProductList.append(item)
+                    self.twoDimensionalArray.append(Expandable(products: item, idFavoris: nil, hasFavorited: false))
+                    
+                    guard let productId = item.id else {return}
+//                    self.searchRating (productId : productId)
+                    
+                    let urlString = self.urlRequestfavorite.url?.absoluteString
+                    AF.request(urlString! , method : .get).responseJSON {
+                        response in
+                        do {
+                            guard let data = response.data else {return }
+                            let itemDetails1 = try JSONDecoder().decode([Favorite].self, from: data)
+                            for  item1 in itemDetails1{
+                                
+                                if (item.id == item1.productId && item.name == item1.productName)
+                                {
+                                    var index : Int?
+                                    for i in (0...self.ProductList.count - 1) {
+                                        if self.ProductList[i].id == item1.productId {
+                                            index = i
+                                        }
+                                    }
+                                    self.twoDimensionalArray[index ?? 0 ] = Expandable(products: item, idFavoris: item1.id, hasFavorited: true)
+                                    
+                                }
+                                self.favoiriteList.append(item1)
+                                self.collectionView.reloadData()
+                                
+                                
+                                
+                            }
+                        }catch let errords {
+                            
                             print(errords)
                         }
                     }
@@ -254,7 +320,6 @@ class produitParSubCatViewController: UIViewController {
         
         
     }
-    
 }
 extension produitParSubCatViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -346,6 +411,70 @@ extension produitParSubCatViewController : TableNew {
         
         present(vc, animated: true, completion: nil)
         
+    }
+    
+
+    
+    //my custom zooming logic
+    func performZoomInForStartingImageView(_ startingImageView: UIImageView) {
+        
+        self.startingImageView = startingImageView
+        self.startingImageView?.isHidden = true
+        
+        startingFrame = startingImageView.superview?.convert(startingImageView.frame, to: nil)
+        
+        let zoomingImageView = UIImageView(frame: startingFrame!)
+        zoomingImageView.backgroundColor = UIColor.red
+        zoomingImageView.image = startingImageView.image
+        zoomingImageView.isUserInteractionEnabled = true
+        zoomingImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomOut)))
+        
+        if let keyWindow = UIApplication.shared.keyWindow {
+            blackBackgroundView = UIView(frame: keyWindow.frame)
+            blackBackgroundView?.backgroundColor = UIColor.black
+            blackBackgroundView?.alpha = 0
+            keyWindow.addSubview(blackBackgroundView!)
+            
+            keyWindow.addSubview(zoomingImageView)
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.blackBackgroundView?.alpha = 1
+             //   self.inputContainerView.alpha = 0
+                
+                // math?
+                // h2 / w1 = h1 / w1
+                // h2 = h1 / w1 * w1
+                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
+                
+                zoomingImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                
+                zoomingImageView.center = keyWindow.center
+                
+            }, completion: { (completed) in
+                //                    do nothing
+            })
+            
+        }
+    }
+    
+    @objc func handleZoomOut(_ tapGesture: UITapGestureRecognizer) {
+        if let zoomOutImageView = tapGesture.view {
+            //need to animate back out to controller
+            zoomOutImageView.layer.cornerRadius = 16
+            zoomOutImageView.clipsToBounds = true
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                zoomOutImageView.frame = self.startingFrame!
+                self.blackBackgroundView?.alpha = 0
+               // self.inputContainerView.alpha = 1
+                
+            }, completion: { (completed) in
+                zoomOutImageView.removeFromSuperview()
+                self.startingImageView?.isHidden = false
+            })
+        }
     }
     
 }

@@ -60,9 +60,9 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
         super.viewDidAppear(true)
         
         if (isLoggedIn()) {
-            print("c'est deja connecte")
-            
-            
+            print("c'est deja connecte \( AppManager.shared.iduser)")
+            print("user is  \( AppManager.shared.user)")
+         
         }
         
         
@@ -79,8 +79,6 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
         self.viewTable.reloadData() // notify the table view the data has changed
     }
     func dataCatégorie(){
-     
-
         print("Token ViewCont PressedButton = \( AppManager.shared.token)")
         let urlString = urlRequest.url?.absoluteString
         let urlString1 = urlRequest1.url?.absoluteString

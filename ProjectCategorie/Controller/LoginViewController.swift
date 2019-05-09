@@ -13,7 +13,7 @@ class LoginViewController: UIViewController {
        var loginService: BaseService?
     @IBOutlet var signInWithFb: UIButton!
     @IBOutlet var loginButton: UIButton!
-    var userList = [User]()
+    var user : User?
 
     @IBOutlet var viewLogin: UIView!
     @IBOutlet var PassTextField: SkyFloatingLabelTextField!

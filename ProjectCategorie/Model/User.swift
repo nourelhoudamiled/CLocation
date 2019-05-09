@@ -19,10 +19,12 @@ struct User : Decodable {
     var facebookUrl : String?
     var twitterUrl : String?
     var pinterestUrl: String?
+     var linkedinUrl: String?
     var imageUri : String?
     var isAdmin : Bool?
     var isPartner : Bool?
     var partnerAddress : String?
+     var partnerName : String?
     var partnerCity : String?
     var partnerDescription : String?
     var partnerWebSite : String?

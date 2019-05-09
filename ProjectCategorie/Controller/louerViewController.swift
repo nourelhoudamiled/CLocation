@@ -52,7 +52,7 @@ class louerViewController: UIViewController {
         print("product \(String(describing: product))")
         nameUniteLabel.text = product?.enumUniteName
         cityLabel.text = product?.enumCityName
-        descriptionLabel.text = product?.description
+        descriptionLabel.text =  (product?.name)! + "\n\n" + (product?.description)!
       
         prixLabel.text =  "\(product?.price ?? 0)"
         
@@ -150,18 +150,18 @@ extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
         
             cell.imageSlider.image = responseImage[indexPath.row]
-//        cell.contentView.layer.cornerRadius = 10
-//        cell.contentView.layer.borderWidth = 1.0
-//        cell.contentView.layer.borderColor = UIColor.blue.cgColor
-//        cell.contentView.layer.masksToBounds = true
-//        cell.backgroundColor = UIColor.white
-//        
-//        cell.layer.shadowColor = UIColor.gray.cgColor
-//        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-//        cell.layer.shadowRadius = 2.0
-//        cell.layer.shadowOpacity = 1.0
-//        cell.layer.masksToBounds = false
-//        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
+        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.blue.cgColor
+        cell.contentView.layer.masksToBounds = true
+        cell.backgroundColor = UIColor.white
+        
+        cell.layer.shadowColor = UIColor.gray.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false
+        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
        
         return cell
     }

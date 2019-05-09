@@ -103,7 +103,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     collectionView?.alwaysBounceVertical = true
     collectionView?.backgroundColor = UIColor.white
     //       collectionView?.register(CommentaireViewCell.self, forCellWithReuseIdentifier: cellId)
-    collectionView?.keyboardDismissMode = .interactive
+//    collectionView?.keyboardDismissMode = .interactive
     }
     
     @IBAction func retourButton(_ sender: Any) {
@@ -144,13 +144,14 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     
  
     @objc func handleSend() {
-        let properties = ["commentaire": inputTextField.text!]
-       sendMessageWithProperties(properties as [String : AnyObject])
+//        let properties = ["commentaire": inputTextField.text!]
+       sendMessageWithProperties()
     }
     
     func fetchdata() {
         
         let urlString = "https://clocation.azurewebsites.net/api/Comments"
+        self.comments.removeAll()
 
         AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -167,7 +168,8 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
                                 self.collectionView?.reloadData()
                                 //scroll to the last index
                                 let indexPath = IndexPath(item: self.comments.count - 1, section: 0)
-                                self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                                self.comments.sort() { $0.id! < $1.id! }
+                                self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: false)
                                 
                             })
                          
@@ -223,14 +225,14 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
         
         
     }
-   func sendMessageWithProperties(_ properties: [String: AnyObject]) {
+   func sendMessageWithProperties() {
     let urlString = "https://clocation.azurewebsites.net/api/Comments"
-    var values: [String: AnyObject] = ["commentaire": inputTextField.text! as AnyObject]
-    
-    //append properties dictionary onto values somehow??
-    //key $0, value $1
-    properties.forEach({values[$0] = $1})
-    print(properties)
+//    var values: [String: AnyObject] = ["commentaire": inputTextField.text! as AnyObject]
+//
+//    //append properties dictionary onto values somehow??
+//    //key $0, value $1
+//    properties.forEach({values[$0] = $1})
+//    print(properties)
     let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
     let userName = "alice"
     let productId = 129
@@ -244,7 +246,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
             print(response)
             self.inputTextField.text = nil
             
-         //   self.fetchdata()
+            self.fetchdata()
             
                     
                 
