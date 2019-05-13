@@ -184,13 +184,8 @@ class produitParSubCatViewController: UIViewController {
             guard let image = response.data else {return}
             print(image)
             self.responseImages.append( UIImage(data: image) ?? UIImage(named: "Maisson")!)
-           // self.collectionView.reloadData()
-            
-            
+            self.collectionView.reloadData()
         }
-        
-        
-        
     }
     func expendlistproduit() {
         let urlString = urlRequest.url?.absoluteString

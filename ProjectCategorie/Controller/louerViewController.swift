@@ -41,9 +41,9 @@ class louerViewController: UIViewController {
                     UIImage(named:"ScarlettJohansson") ]
     
     var timer = Timer()
+    var counter = 0
     var attachementList = [Int]()
     var responseImage = [UIImage]()
-    var counter = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         print("product id \(product?.id)")
@@ -65,10 +65,10 @@ class louerViewController: UIViewController {
         else{
            isAvailble.isOn = false
         }
-
+ photos()
         pageView.numberOfPages = responseImage.count
 //        pageView.currentPage = 0
-        photos()
+       
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
@@ -133,6 +133,11 @@ class louerViewController: UIViewController {
     
     }
     
+    @IBAction func reservationButton(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
+        
+        present(vc, animated: true, completion: nil)
+    }
     @IBAction func Gotocommentaire(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CommentaireViewController") as! CommentaireViewController
         

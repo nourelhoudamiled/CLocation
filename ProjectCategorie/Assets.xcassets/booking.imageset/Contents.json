@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "facebook-letter-logo (2).png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "AppIcon24x24@2x.png",
       "scale" : "2x"
     },
     {

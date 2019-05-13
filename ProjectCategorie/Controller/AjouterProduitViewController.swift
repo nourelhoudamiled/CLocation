@@ -16,7 +16,6 @@ import Photos
 
 class AjouterProduitViewController: UIViewController {
     @IBOutlet var columnTableView: UITableView!
-//
     @IBOutlet var btnSelectUnite: UIButton!
     @IBOutlet var btnSelectEtat: UIButton!
     @IBOutlet var switchDisponible: UISwitch!
@@ -29,11 +28,8 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var nombreAlLabel: UILabel!
     @IBOutlet var btnSelectAdresse: UIButton!
-    // make sure you apply the correct encapsulation principles in your classes
     @IBOutlet var nextButton: UIButton!
-    
     @IBOutlet var btnSelectCity: UIButton!
-    
     @IBOutlet var ajouterProduit: UIButton!
     @IBOutlet var btnSelectRegion: UIButton!
     @IBOutlet var step5View: UIView!
@@ -42,25 +38,18 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var stepIndicatorView: StepIndicatorView!
     @IBOutlet var step4View: UIView!
     @IBOutlet var step1View: UIView!
-
     @IBOutlet var step2View: UIView!
-    
-    
     @IBOutlet var hiddenText: UITextField!
     @IBOutlet var descriptionText: UITextField!
     var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
        var urlRequestAtt = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
     var columnList = [Column]()
-
     @IBOutlet var nameTextField: UITextField!
-//    @IBOutlet var availbleSwith: UISwitch!
     var imgArr: [UIImage]! = []
     @IBOutlet var priceTextField: UITextField!
-    
     var amount : Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UPLOD()
         hiddenText.isHidden = true
 
         if revealViewController() != nil {
@@ -68,13 +57,10 @@ class AjouterProduitViewController: UIViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             
             navigationItem.title = " Ajouter Produit "
-            
-            
         }
         columnTableView.rowHeight = UITableView.automaticDimension
         columnTableView.estimatedRowHeight = 100
         print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
-
           initScrollView()
     }
     
@@ -85,13 +71,15 @@ class AjouterProduitViewController: UIViewController {
         print(id)
         btnSelected.setTitle(cn,for: .normal)
         let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Categorie"
-        
+        getColumnFields()
         btnSelectSubCar.setTitle(cnsub,for: .normal)
      single()
+    
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
-        
-        
-        
+
     }
     @IBAction func adresseButton(_ sender: Any) {
         
@@ -287,7 +275,7 @@ class AjouterProduitViewController: UIViewController {
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             backButton.layer.isHidden = false
-            getColumnFields()
+           
 
         }
             
@@ -351,7 +339,7 @@ class AjouterProduitViewController: UIViewController {
          let latitude  = "\(Share.sharedName.latitude ?? 2)"
          let idcity  = "\(Share.sharedName.CityId ?? 2)"
 //        let userId  = Share.sharedName.idUser
-        let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
+        guard   let userId = AppManager.shared.iduser else {return}
         let nameAdd  = Share.sharedName.nameAdresse ?? ""
         let prix = "\(priceTextField.text!)"
         AF.upload(multipartFormData: { (form: MultipartFormData) in
@@ -399,7 +387,7 @@ class AjouterProduitViewController: UIViewController {
     func getColumnFields () {
         
         let urlString = urlRequest.url?.absoluteString
-        let id : Int = Share.sharedName.SubcategorieId ?? 2
+        guard let id : Int = Share.sharedName.SubcategorieId else {return}
         columnList.removeAll()
         let subCategorieURL = urlString! + "\(id)"
         AF.request(subCategorieURL , method : .get ).responseJSON {
@@ -426,52 +414,42 @@ class AjouterProduitViewController: UIViewController {
     
 }
   
-    func UPLOD()
-    {
-        //Parameter HERE
-        let parameters = [
-            "ProductId": "39",
-           
-        ]
-        //Header HERE
-       
-        
-        let image = UIImage.init(named: "AnneHathaway")
-        let imgData = image?.jpegData(compressionQuality: 0.7)!
-        
-        AF.upload(multipartFormData: { multipartFormData in
-            //Parameter for Upload files
-            multipartFormData.append(imgData!, withName: "files",fileName: "AnneHathaway.png" , mimeType: "image/png")
-            
-            for (key, value) in parameters
-            {
-                multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-            }
-            
-        }, usingThreshold:UInt64.init(),
-           to: "http://clocation.azurewebsites.net/api/Attachments", //URL Here
-            method: .post).responseJSON { response in
-                        print("the resopnse code is : \(response.response?.statusCode)")
-                        print("the response is : \(response)")
-                    }
-        
-    }
 
     @IBAction func resetButton(_ sender: Any) {
+      self.stepIndicatorView.currentStep -= 1
+        stepIndicatorView.currentStep = 0
+   initScrollView()
+        
         descriptionText.text = ""
         priceTextField.text = ""
         nameTextField.text = ""
-        
+         priceTextField.text = ""
+         userguideTextField.text = ""
+         delegationTextField.text = ""
+        let addresse : String =  "name of adresse"
+        btnSelectAdresse.setTitle(addresse,for: .normal)
+        let cn : String = "Select Categorie"
+        btnSelected.setTitle(cn,for: .normal)
+        let cnsub : String = "Select sub Categorie"
+        btnSelectSubCar.setTitle(cnsub,for: .normal)
+        let region : String = "Select region"
+        btnSelectRegion.setTitle(region,for: .normal)
+        let unite : String = "Select unite"
+        btnSelectUnite.setTitle(unite,for: .normal)
+        let etat : String = "Select etat"
+        btnSelectEtat.setTitle(etat,for: .normal)
+        let city : String = "Select city"
+        btnSelectCity.setTitle(city,for: .normal)
+        columnList.removeAll()
+        columnTableView.reloadData()
+        imgArr.removeAll()
+        collectionView.reloadData()
         
         
     }
     
-
-
 @IBAction func addAction(_ sender: Any) {
     print("imgggggARRAYCOUNT = \(imgArr.count)")
-    // postProduct()
-//    postAttachement()
    createPhoto(photo: imgArr)
 
     
@@ -479,13 +457,6 @@ class AjouterProduitViewController: UIViewController {
 
 @IBAction func imageButton(_ sender: Any) {
     
-//
-//
-//    let myPickerController = UIImagePickerController()
-//    myPickerController.delegate = self
-//    myPickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
-//
-//    self.present(myPickerController, animated: true, completion: nil)
         let imagePickerController = UIImagePickerController()
 
  imagePickerController.delegate = self
@@ -521,52 +492,10 @@ class AjouterProduitViewController: UIViewController {
 
 }
 extension AjouterProduitViewController : UITextFieldDelegate {
-    //    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    //        if let digit = Int(string) {
-    //            amount = amount * 10 + digit
-    //            priceTextField.text = updateAmount()
-    //        }
-    //        if string == "" {
-    //            amount = amount/10
-    //            priceTextField.text = updateAmount()
-    //        }
-    //        return false
-    //    }
     
 }
 
-//extension AjouterProduitViewController: SWComboxViewDataSourcce {
-//    func comboBoxSeletionItems(combox: SWComboxView) -> [Any] {
-//     
-//            return ["Nouveau", "D'occation- Comme Neuf", "Utilisé, Bon", "Utilisé, Acceptable", "Utilisé, Avoir des défauts", "Remis à neuf par le fabricant", "Remis à neuf"]
-//       
-//   
-//    }
-//    
-//    func comboxSeletionView(combox: SWComboxView) -> SWComboxSelectionView {
-//
-//            return SWComboxTextSelection()
-//  
-//    }
-//    
-//    func configureComboxCell(combox: SWComboxView, cell: inout SWComboxSelectionCell) {
-//        if combox == etatCombox {
-//            cell.selectionStyle = .none
-//            cell.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
-//        }
-//    }
-//}
-//
-//extension AjouterProduitViewController : SWComboxViewDelegate {
-//    //MARK: delegate
-//    func comboxSelected(atIndex index:Int, object: Any, combox withCombox: SWComboxView) {
-//        print("index - \(index) selected - \(object)")
-//    }
-//    
-//    func comboxOpened(isOpen: Bool, combox: SWComboxView) {
-//      
-//    }
-//}
+
 
 
 extension AjouterProduitViewController : dataCollectionProtocol {
@@ -581,12 +510,10 @@ extension AjouterProduitViewController : UICollectionViewDataSource , UICollecti
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : PictureCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PictureCollectionViewCell
-        
-        //        let profileImageUrl = imgArr[indexPath.row]
-        //
-        //        cell.imageProduit.loadImageUsingCacheWithUrlString(profileImageUrl.absoluteString)
-        //        print(profileImageUrl.absoluteString)
+  
                   cell.imageProduit.image = imgArr[indexPath.row]
+
+//        let image1 = self.resizeImage(image: cell.imageProduit.image!, targetSize:  CGSize(width: 180.0, height: 180.0))
         print(imgArr)
         cell.index = indexPath
         cell.delegate = self
@@ -614,7 +541,6 @@ extension AjouterProduitViewController : UICollectionViewDelegateFlowLayout {
 }
 extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINavigationControllerDelegate {
    // to get the real imaage that the user has to pick
-  
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
  
@@ -635,11 +561,7 @@ extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINa
                 }else
                 {
                     if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-                        //                    let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-                        //                    let asset = result.firstObject
-                        //                    print(asset?.value(forKey: "filename"))
                         self.imgArr.append(image)
-//                        self.createPhoto(photo: image)
                         self.collectionView.reloadData()
                     }
                     print("image :\(self.imgArr)")
@@ -649,26 +571,8 @@ extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINa
                 picker.dismiss(animated: true, completion: nil)
             }
     
-    
-      //  }
     }
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//
-//
-//                if  let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
-//
-//             self.imageView.image = image
-//
-//
-//                }
-//                  picker.dismiss(animated: true)
-//        }
-//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//            picker.dismiss(animated: true, completion: nil)
-//        }
-//
-//
-//
+
 }
 extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

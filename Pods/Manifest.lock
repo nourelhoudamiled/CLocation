@@ -20,6 +20,7 @@ PODS:
   - StepIndicator (1.0.6.1)
   - SWCombox (2.5)
   - VerticalCardSwiper (1.0.0)
+  - WVCheckMark (1.0.12)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-beta.5)
@@ -37,6 +38,7 @@ DEPENDENCIES:
   - StepIndicator (~> 1.0.6)
   - SWCombox (from `https://github.com/sw0906/SWCombox.git`)
   - VerticalCardSwiper
+  - WVCheckMark
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -53,6 +55,7 @@ SPEC REPOS:
     - SkyFloatingLabelTextField
     - StepIndicator
     - VerticalCardSwiper
+    - WVCheckMark
 
 EXTERNAL SOURCES:
   p2.OAuth2:
@@ -86,7 +89,8 @@ SPEC CHECKSUMS:
   StepIndicator: 73b4bcc8bcf816cb98479d99ada7e85463252caa
   SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
+  WVCheckMark: abd367048aa3793b82d1c82a15be56eea5b940a7
 
-PODFILE CHECKSUM: fca3ff0b2bfd7e63a871a3dcc3d89cc31ab00827
+PODFILE CHECKSUM: 52946a3235799995e5946b7f1a1359c177a769a7
 
 COCOAPODS: 1.6.0

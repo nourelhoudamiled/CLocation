@@ -193,6 +193,11 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
 }
 
 extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
+    
+   
+    
+//    scrollViewDidScroll
+   
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //  let cel : ChildSearchTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChildSearchTableViewCell
      
@@ -233,7 +238,6 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
         
     }
 
-  
     func numberOfSections(in tableView: UITableView) -> Int {
         return CurrentTableViewData.count
     }
