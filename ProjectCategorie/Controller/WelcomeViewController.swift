@@ -12,9 +12,24 @@ class WelcomeViewController: UIViewController {
 
     @IBOutlet var getStartedButton: UIButton!
     @IBOutlet var viewPurpel: UIView!
+    var window: UIWindow?
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//                let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
+//                if(isUserLoggedIn) {
+//                    let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+//                    let protectedPage = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
+//                    window!.rootViewController = protectedPage
+//                    window!.makeKeyAndVisible()
+//                }
+//                else{
+//                    let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+//                    let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+//                    window!.rootViewController = loginViewController
+//                    window!.makeKeyAndVisible()
+//        
+//        
+//                }
     }
     
     override func viewDidLayoutSubviews() {

@@ -18,11 +18,28 @@ class LocationRequestedController: UIViewController {
     var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     var responseImages = [UIImage]()
     var attachementListId = [Int]()
+    let cellSpacingHeight: CGFloat = 20
 
     override func viewDidLoad() {
         super.viewDidLoad()
+      //  photos(productId: 236)
         produitList()
+        tableView.rowHeight = 300
+      //  tableView.estimatedRowHeight = 223
 
+    }
+    func searchImage(productId : Int) {
+        
+        let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
+        let attachementURL = urlStringImageByAttachmentId! + "\(productId)/ImageByProductId"
+        
+        AF.request(attachementURL , method : .get ).responseImage {
+            response in
+            guard let image = response.data else {return}
+            print(image)
+            self.responseImages.append( UIImage(data: image) ?? UIImage(named: "Maisson")!)
+            self.tableView.reloadData()
+        }
     }
     func produitList() {
     
@@ -41,15 +58,13 @@ class LocationRequestedController: UIViewController {
                 print("item detaile \(itemDetails)")
                 for item  in itemDetails {
                     self.locationList.append(item)
-                    guard let productId = item.id else {return}
-                    self.photoList(productId: productId)
-                    // self.collectionView.reloadData()
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                    guard let productId = item.productId else {return}
+                    self.searchImage(productId: productId)
                     print(productId)
+
                 }
-                print(self.locationList.count)
+                self.tableView.reloadData()
+
                
             }catch let errors {
                 print(errors)
@@ -61,74 +76,48 @@ class LocationRequestedController: UIViewController {
         
         
     }
-    func photoList(productId: Int){
-    
-        let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
-        let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
-        let attachementsURL = urlStringAttachmentsId! + "\(productId)/AttachmentsId"
-        AF.request(attachementsURL).responseJSON {
-            response in
-            do {
-                guard let data = response.data else {return}
-                let attachements = try JSONDecoder().decode([Attachement].self, from: data)
-                for atachement in attachements {
-                    self.attachementListId.append(atachement.id!)
-                    guard let  attachementId = atachement.id else {return}
-                    let AttachmentIdURL = urlStringImageByAttachmentId! + "\(attachementId)/ImageByAttachmentId"
-                    
-                    AF.request(AttachmentIdURL , method : .get ).responseImage {
-                        response in
-                        guard let image = response.data else {return}
-                        print(image)
-                        guard let photo =  UIImage(data: image) else {return}
-                        self.responseImages.append(photo)
-                        // self.collectionView.reloadData()
-                    }
-                    print("responseImages.count\(self.responseImages.count)")
-                    
-                }
-                
-                
-            }catch let error {
-                print(error)
-            }
-            
-        }
-        
-        
-        }
+
+ 
         
     
     
 }
 extension LocationRequestedController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locationList.count
+        return responseImages.count
     }
-    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 5
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RequestCell", for: indexPath) as! RequestCell
+
         let index = indexPath.row
-        cell.amountLabel.text = "\(locationList[index].amount)"
-        cell.dateFin.text = "\(locationList[index].endDate)"
-        cell.dateDebut.text = "\(locationList[index].startDate)"
+        cell.amountLabel.text = "\(locationList[index].amount!)"
+        cell.dateFin.text = locationList[index].endDate
+        cell.dateDebut.text = locationList[index].startDate
         cell.nameProduit.text = locationList[index].productName
+        cell.imageProduit.image = responseImages[index]
+        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.borderColor = UIColor.black.cgColor
+        cell.contentView.layer.masksToBounds = true
+        cell.backgroundColor = UIColor.white
+        
+        cell.layer.shadowColor = UIColor.gray.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false
+        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
         return cell
     }
     
 }
-extension LocationRequestedController : UICollectionViewDataSource , UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return  responseImages.count
-    }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RequestCollectionCell", for: indexPath) as! RequestCollectionCell
-        let index = indexPath.row
-
-        cell.imageProduit.image = responseImages[index]
-        return cell
-
-    }
-
-}

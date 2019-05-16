@@ -109,7 +109,7 @@ class ProfileImageCell : UICollectionViewCell {
     
     func doConfigurationForContentOffsetY(_ offsetY: CGFloat) {
         
-        var frame: CGRect = self.profileImageView.frame;
+        var frame: CGRect = self.profileImageView.frame
         var headerViewFrame: CGRect = self.headerBarView.frame
         
         if imageViewOriginalFrame == CGRect.zero {

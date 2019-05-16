@@ -7,49 +7,112 @@
 //
 
 import UIKit
-
+import Alamofire
 class ReservationViewController: UIViewController {
 
+    @IBOutlet var totalePrixLabel: UILabel!
+    @IBOutlet var viewDuHeure: UIView!
+    @IBOutlet var viewDuDate: UIView!
+    @IBOutlet var heurefinLabel: UILabel!
+    @IBOutlet var heuredebutLabel: UILabel!
+    @IBOutlet var view4: UIView!
+    @IBOutlet var view2: UIView!
+    @IBOutlet var duration: UILabel!
+    @IBOutlet var prixanduniteLabel: UILabel!
+    @IBOutlet var viewSeparator: UIView!
+    @IBOutlet var view3: UIView!
+    @IBOutlet var view1: UIView!
     @IBOutlet var datefinLabel: UILabel!
     @IBOutlet var datedebutLabel: UILabel!
     @IBOutlet var viewDateFin: UIView!
     @IBOutlet var viewDateDebut: UIView!
+    var startdate  = Date()
+    var enddate  = Date()
+    var durree = String()
+    var components = DateComponents()
     override func viewDidLoad() {
         super.viewDidLoad()
-        styleView()
+             styleView()
+        prixanduniteLabel.text = "\(Share.sharedName.product?.price ?? 2) /  \( Share.sharedName.product?.enumUniteName ?? "jour")"
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         tap.delegate = self as? UIGestureRecognizerDelegate
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.tap2(_:)))
         tap2.delegate = self as? UIGestureRecognizerDelegate
         viewDateDebut.addGestureRecognizer(tap)
         viewDateFin.addGestureRecognizer(tap2)
-
-
+//        guard let a = Double(durree) else {return}
+//        print("durree a \(a)")
+//         print("durree \(durree)")
+      print("date du text \(duration.text)")
+       print("date fin du text \(totalePrixLabel.text)")
+      
     }
-    func styleView () {
-//        cell.imageCat.layer.cornerRadius = 20.0
-//        cell.viewCell.layer.cornerRadius = 10
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    func dateduree() {
+        
+        let calendar = Calendar.current
+        let date1 = calendar.startOfDay(for: startdate as Date)
+        let date2 = calendar.startOfDay(for: enddate as Date)
+//        if self.enddate.compare(startdate).rawValue > self.startdate.compare(enddate).rawValue {
+//            let favorite : String = "le date que vous choisir doit supperieur a la date de debut"
 //
-//        cell.viewCell.layer.shadowColor = UIColor.black.cgColor
-//        cell.viewCell.layer.shadowOpacity = 1
-//        cell.viewCell.layer.shadowOffset = CGSize.zero
-//        cell.viewCell.layer.shadowRadius = 10
+//            self.displayMessage(userMessage: favorite)
+//        }
+        components = calendar.dateComponents([.day], from: date1, to: date2)
+        duration.text =  "\(components.day ?? 0 ) days"
+        print("durree du text \(duration.text)")
+        print("date du text \(datedebutLabel.text)")
+        print("date fin du text \(datefinLabel.text)")
+        print("component \(components.day)")
+        guard let price = Share.sharedName.product?.price else {return}
+        let priceDouble = Double(price)
+        if Share.sharedName.product?.enumUniteName == "Jour" {
+        let dureeDouble = Double(components.day!)
+        let result = multiple(of: priceDouble, and: dureeDouble)
+        print("result \(result)")
+        totalePrixLabel.text = "\(result)"
+        }
+        if Share.sharedName.product?.enumUniteName == "Mois" {
+            let priceParMois = priceDouble / 30
+            let dureeDouble = Double(components.day!)
+            let result = multiple(of: priceParMois, and: dureeDouble)
+            let priceFormated = String(format: " %.2f", result)
+            print("result \(priceFormated)")
+            totalePrixLabel.text = priceFormated
+        }
+        if Share.sharedName.product?.enumUniteName == "Année" {
+            let priceParAnnee = priceDouble / 365
+            let dureeDouble = Double(components.day!)
+            let result = multiple(of: priceParAnnee, and: dureeDouble)
+            let priceFormated = String(format: " %.2f", result)
+            print("result \(priceFormated)")
+            totalePrixLabel.text = priceFormated
+        }
+    }
+
+    func multiple(of a :Double, and b: Double ) -> Double {
+        return a * b
+    }
+
+    func styleView () {
+
         viewDateDebut.layer.masksToBounds  = false
         viewDateDebut.backgroundColor = .white
         viewDateDebut.layer.cornerRadius = 14
         viewDateDebut.layer.shadowOffset = CGSize.zero
         viewDateDebut.layer.shadowRadius = 8
         viewDateDebut.layer.shadowOpacity = 0.2
-//        viewDateDebut.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 14, height: 14)).cgPath
+
         viewDateFin.layer.masksToBounds  = false
         viewDateFin.backgroundColor = .white
         viewDateFin.layer.cornerRadius = 14
         viewDateFin.layer.shadowOffset = CGSize.zero
         viewDateFin.layer.shadowRadius = 8
         viewDateFin.layer.shadowOpacity = 0.2
-//        viewDateFin.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 14, height: 14)).cgPath
-        
-    
+       
+ 
     }
   
     @objc func tap(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -59,10 +122,12 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             action in
             // self.dismiss(animated: true, completion: nil)
         }
-        alert.addDatePicker(mode: .dateAndTime, date: Date(), minimumDate: nil, maximumDate: nil) { date in
+        alert.addDatePicker(mode: .date, date: Date(), minimumDate: nil, maximumDate: nil) { date in
             print(date)
          
-            self.datedebutLabel.text = "\(date)"
+            self.startdate = date
+            self.datedebutLabel.text = "\(self.startdate)"
+
 
         }
         alert.addAction(okAction)
@@ -75,17 +140,57 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             action in
             // self.dismiss(animated: true, completion: nil)
         }
-        alert.addDatePicker(mode: .dateAndTime, date: Date(), minimumDate: nil, maximumDate: nil) { date in
+        alert.addDatePicker(mode: .date, date: Date(), minimumDate: nil, maximumDate: nil) { date in
             print(date)
-            self.datefinLabel.text = "\(date)"
-            
+            self.enddate = date
+            self.datefinLabel.text = "\(self.enddate)"
+          
+            self.dateduree()
+
         }
+        
         alert.addAction(okAction)
         self.present(alert , animated : true , completion : nil)
+      
+
+
     }
 
+
+    func PostLocation () {
+        guard let userId = AppManager.shared.iduser else {return}
+        guard let productId = Share.sharedName.product?.id else {return}
+        guard let productName = Share.sharedName.product?.name else {return}
+        guard let duration = components.day else {return}
+        guard let amount = totalePrixLabel.text else {return}
+        print("startdate \(startdate) ,startdate \(enddate)  , amount \(amount) , durationn \(duration) , userId \(userId) , productId  \(productId)")
+        let parametre = ["userId": userId ,"productId": productId,"duration": duration,"startDate": "\(startdate)","endDate": "\(enddate)", "amount": amount , "isRequested": true,
+                         "isConfirmed": false] as [String : Any]
+        let urlString = "https://clocation.azurewebsites.net/api/Location"
+        
+        AF.request(urlString, method: .post, parameters: parametre,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+            case .success:
+                print(response)
+                let favorite : String = "vous avez reservee le produit par \(productName)"
+                self.displayMessage(userMessage: favorite)
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
+    
  
     @IBAction func louerButton(_ sender: Any) {
+        PostLocation()
+    }
+    @IBAction func backButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
 }

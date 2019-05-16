@@ -149,8 +149,8 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     }
     
     func fetchdata() {
-        
-        let urlString = "https://clocation.azurewebsites.net/api/Comments"
+        guard let productId = Share.sharedName.product?.id else {return}
+        let urlString = "https://clocation.azurewebsites.net/api/Comments/\(productId)/Comment"
         self.comments.removeAll()
 
         AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
@@ -233,9 +233,9 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
 //    //key $0, value $1
 //    properties.forEach({values[$0] = $1})
 //    print(properties)
-    let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
-    let userName = "alice"
-    let productId = 129
+    let userId = AppManager.shared.iduser
+    let userName = AppManager.shared.user?.email
+    let productId = Share.sharedName.product?.id
     let productName =  "jupe"
     let params = ["userId" : userId , "userName" : userName,"productId" : productId, "productName" : productName,"commentaire" : inputTextField.text!] as [String : Any]
     AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {

@@ -100,6 +100,7 @@
 		FA8E2554227489CB0038DE98 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E2553227489CB0038DE98 /* FavoritesViewController.swift */; };
 		FA8E25572274E45E0038DE98 /* ChildSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */; };
 		FA8E25582274E45E0038DE98 /* ChildSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */; };
+		FA99334E228C3A6200897078 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99334D228C3A6200897078 /* LoadingButton.swift */; };
 		FAE4D9D522624F4E0070EFDA /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4D9D422624F4E0070EFDA /* LocationSearchTable.swift */; };
 		FAF42E40228845B200F2358A /* ImageProduitAnnonceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF42E3F228845B200F2358A /* ImageProduitAnnonceCell.swift */; };
 		FAF956742270BE8E00191F74 /* PoPupUniteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */; };
@@ -211,6 +212,7 @@
 		FA8E2553227489CB0038DE98 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSearchTableViewCell.swift; sourceTree = "<group>"; };
 		FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChildSearchTableViewCell.xib; sourceTree = "<group>"; };
+		FA99334D228C3A6200897078 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		FAE4D9D422624F4E0070EFDA /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		FAF42E3F228845B200F2358A /* ImageProduitAnnonceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProduitAnnonceCell.swift; sourceTree = "<group>"; };
 		FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoPupUniteViewController.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 				FA285008225640D800760166 /* AppManager.swift */,
 				FA28500A225640FD00760166 /* UserDefaults.swift */,
 				FA0EB81F2260948900461BBF /* Share.swift */,
+				FA99334D228C3A6200897078 /* LoadingButton.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -693,6 +696,7 @@
 				FA54B390224E597F0034EBB0 /* CosmosView.swift in Sources */,
 				FA0EB82C2260DAEA00461BBF /* CityClass.swift in Sources */,
 				FAFEF20D227B000000B98A42 /* FavoriteCell.swift in Sources */,
+				FA99334E228C3A6200897078 /* LoadingButton.swift in Sources */,
 				FA0EB81C22608B3A00461BBF /* PoPupCategorieViewController.swift in Sources */,
 				FA54B38F224E597F0034EBB0 /* StarFillMode.swift in Sources */,
 			);

@@ -12,17 +12,16 @@ protocol detailproduit {
     func delete(index : Int )
    
 }
-class ProduitDetailsListCell: UICollectionViewCell {
+class ProduitDetailsListCell: UICollectionViewCell  {
+ 
 
- //   @IBOutlet var collectionImage: UICollectionView!
+ @IBOutlet var collectionImage: UICollectionView!
     var cellDelegate : detailproduit?
     var index : IndexPath?
     @IBOutlet var produitName: UILabel!
    
-    @IBOutlet var pager: UIPageControl!
-//    @IBOutlet var imageView: UIImageView!
-//
-//    @IBOutlet var scrollView: UIScrollView!
+  @IBOutlet var imageView: UIImageView!
+
     var mesannonce: MesAnnoncesViewController?
  //  var responseImage = [UIImage]()
 //    let imageView= UIImageView()
@@ -38,7 +37,7 @@ override init(frame: CGRect) {
     super.init(frame: frame)
 //    collectionImage.register(ImageProduitAnnonceCell.self, forCellWithReuseIdentifier: "ImageProduitAnnonceCell"); //register custom UICollectionViewCell class.
 //setupViews()
- 
+  
 }
 //    func setupViews(){
 //
@@ -51,6 +50,7 @@ override init(frame: CGRect) {
     override func awakeFromNib() {
     super.awakeFromNib()
         containerDel.layer.cornerRadius = 34 / 2
+
     }
       //  collectionImage.register(ImageProduitAnnonceCell.self, forCellWithReuseIdentifier: "ImageProduitAnnonceCell") //register custom UICollectionViewCell class.
      //   setupViews()

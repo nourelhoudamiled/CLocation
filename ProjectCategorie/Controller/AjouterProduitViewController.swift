@@ -41,13 +41,15 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var step2View: UIView!
     @IBOutlet var hiddenText: UITextField!
     @IBOutlet var descriptionText: UITextField!
-    var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
+    var urlGetColumns = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
        var urlRequestAtt = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
     var columnList = [Column]()
     @IBOutlet var nameTextField: UITextField!
     var imgArr: [UIImage]! = []
     @IBOutlet var priceTextField: UITextField!
     var amount : Int = 0
+    
+    var Value : [String] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenText.isHidden = true
@@ -330,6 +332,7 @@ class AjouterProduitViewController: UIViewController {
 
 
      func createPhoto(photo: [UIImage]) {
+    
         let urlString = "https://clocation.azurewebsites.net/api/Products"
         
         let idsub  = "\(Share.sharedName.SubcategorieId ?? 2)"
@@ -376,17 +379,77 @@ class AjouterProduitViewController: UIViewController {
             }
 
         }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: urlString, method: .post).responseJSON { (response)in
-                print(response)
+            switch response.result {
+            case .success:
+//                do {
+                    print(response)
+                    let id : Int = response.value as! Int
+                    print(id)
+                    guard let data = response.data else {return}
+                    print("response\(response)")
+                    let notevalue = String(data: data, encoding: .utf8)!
+                    print(notevalue)
+//                guard let data = response.data else {return}
+//                print(data)
 
+//            let productJson = try JSONDecoder().decode(ProductClass.self, from: data)
+//                print(productJson)
+                let urlString = self.urlGetColumns.url?.absoluteString
+                guard let SubcategorieId : Int = Share.sharedName.SubcategorieId else {return}
+                print(SubcategorieId)
+                let subCategorieURL = urlString! + "\(SubcategorieId)"
+                AF.request(subCategorieURL , method : .get ).responseJSON {
+                    response in
+                    do {
+                        guard let data = response.data else {return}
+                        print(data)
+
+                        let columnJson = try JSONDecoder().decode([Column].self, from: data)
+                        for column in columnJson {
+                            self.columnList.append(column)
+                            guard let enumColumnId = column.id else {return}
+                            print(enumColumnId)
+
+                            for val in self.Value {
+                                let cell = self.columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
+                              
+                                
+                                self.Value.append(cell.columnTextField.text!)
+                                print("ee \(self.Value)")
+                    self.PostProductColumn(enumColumnId: enumColumnId, value: val , productId: notevalue)
+
+                            }
+                            
+
+                        }
+                        
+                        print(response )
+                       
+                    }
+                    catch let error {
+                        print(error)
+                    }
+                    
+                    
+                }
+//
+//             }catch {
+//                //
+//            }
+                break
+            case .failure(let error):
+
+                print(error)
             }
+            }
+            
     }
 
     
     
-    
     func getColumnFields () {
         
-        let urlString = urlRequest.url?.absoluteString
+        let urlString = urlGetColumns.url?.absoluteString
         guard let id : Int = Share.sharedName.SubcategorieId else {return}
         columnList.removeAll()
         let subCategorieURL = urlString! + "\(id)"
@@ -413,6 +476,26 @@ class AjouterProduitViewController: UIViewController {
     }
     
 }
+    func PostProductColumn ( enumColumnId : Int , value : String , productId : String  ) {
+      let id = Int(productId)
+        let parametre = ["value": value ,"productId": id!,"enumColumnId": enumColumnId] as [String : Any]
+        let urlString = "https://clocation.azurewebsites.net/api/ProductColumns"
+        
+        AF.request(urlString, method: .post, parameters: parametre,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+            case .success:
+                print(response)
+             
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
   
 
     @IBAction func resetButton(_ sender: Any) {
@@ -512,7 +595,10 @@ extension AjouterProduitViewController : UICollectionViewDataSource , UICollecti
         let cell : PictureCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PictureCollectionViewCell
   
                   cell.imageProduit.image = imgArr[indexPath.row]
-
+        
+       
+            
+       
 //        let image1 = self.resizeImage(image: cell.imageProduit.image!, targetSize:  CGSize(width: 180.0, height: 180.0))
         print(imgArr)
         cell.index = indexPath
@@ -581,6 +667,13 @@ extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
         cell.columnLabel.text = columnList[indexPath.row].name
+//
+//        Value.append(cell.columnTextField.text!)
+//        print("ee \(Value)")
+//        if Value.count > 0 {
+//        cell.columnTextField.text = Value[indexPath.row]
+//        }
+        //print("Value[indexPath.row] \(Value[indexPath.row])")
         if indexPath.row == 0 {
             cell.backgroundColor = UIColor.red
         }else {
@@ -591,6 +684,13 @@ extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSo
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
+        cell.selectionStyle = .none
+        print("column text field \(cell.columnTextField.text)")
+
+        
     }
     
 }

@@ -180,9 +180,12 @@ extension UIImage{
 
 extension UIAlertController {
     
-    
+    func addDatePicker1(mode: UIDatePicker.Mode, date: Timer?, minimumDate: Timer? = nil, maximumDate: Timer? = nil, action: DatePickerViewController.Action?) {
+        let datePicker = DatePickerViewController(mode: mode, action: action)
+        set(vc: datePicker, height: 217)
+    }
     func addDatePicker(mode: UIDatePicker.Mode, date: Date?, minimumDate: Date? = nil, maximumDate: Date? = nil, action: DatePickerViewController.Action?) {
-        let datePicker = DatePickerViewController(mode: mode, date: date, minimumDate: minimumDate, maximumDate: maximumDate, action: action)
+        let datePicker = DatePickerViewController(mode: mode, date: date , minimumDate: minimumDate, maximumDate: maximumDate, action: action)
         set(vc: datePicker, height: 217)
     }
     func set(vc: UIViewController?, width: CGFloat? = nil, height: CGFloat? = nil) {
@@ -233,5 +236,10 @@ final class DatePickerViewController: UIViewController {
     
     public func setDate(_ date: Date) {
         datePicker.setDate(date, animated: true)
+    }
+}
+extension Double {
+    func format(f: String) -> String {
+        return String(format: "%\(f)f", self)
     }
 }
