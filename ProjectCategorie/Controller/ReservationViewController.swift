@@ -68,7 +68,7 @@ class ReservationViewController: UIViewController {
         print("component \(components.day)")
         guard let price = Share.sharedName.product?.price else {return}
         let priceDouble = Double(price)
-        if Share.sharedName.product?.enumUniteName == "Jour" {
+        if Share.sharedName.product?.enumUniteName == "Jour" || Share.sharedName.product?.enumUniteName == "Pièces"   {
         let dureeDouble = Double(components.day!)
         let result = multiple(of: priceDouble, and: dureeDouble)
         print("result \(result)")
@@ -122,7 +122,21 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             action in
             // self.dismiss(animated: true, completion: nil)
         }
-        alert.addDatePicker(mode: .date, date: Date(), minimumDate: nil, maximumDate: nil) { date in
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let ymd = calendar.dateComponents([.year, .month, .day , .hour , .minute], from: date)
+//    let cal   = calendar.component(.hour, from: date)
+//        calendar.component(.month, from: date)
+//        calendar.component([.year , .month , .day], from: date)
+        
+     
+        print("eee\(ymd)")
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+       // let formattedDate = format.da(from: date)
+        //print(formattedDate)
+        alert.addDatePicker(mode: .date, date: Date(), minimumDate: date , maximumDate: nil) { date in
             print(date)
          
             self.startdate = date
@@ -140,9 +154,15 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             action in
             // self.dismiss(animated: true, completion: nil)
         }
-        alert.addDatePicker(mode: .date, date: Date(), minimumDate: nil, maximumDate: nil) { date in
+      
+        alert.addDatePicker(mode: .date, date: Date(), minimumDate: startdate, maximumDate: nil) { date in
             print(date)
             self.enddate = date
+            let formatter = DateFormatter()
+            
+            formatter.dateFormat = "dd-MMM-yyyy"
+            // again convert your date to string
+            let myStringafd = formatter.string(from: self.enddate)
             self.datefinLabel.text = "\(self.enddate)"
           
             self.dateduree()
@@ -163,6 +183,16 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         guard let productName = Share.sharedName.product?.name else {return}
         guard let duration = components.day else {return}
         guard let amount = totalePrixLabel.text else {return}
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "dd-MMM-yyyy"
+        // again convert your date to string
+//        let myStringafd = formatter.string(from: startdate)
+//        let myStringafd2 = formatter.string(from: enddate)
+//
+//        print("myStringafd \(myStringafd)")
+//
+//        print("myStringafd \(myStringafd2)")
         print("startdate \(startdate) ,startdate \(enddate)  , amount \(amount) , durationn \(duration) , userId \(userId) , productId  \(productId)")
         let parametre = ["userId": userId ,"productId": productId,"duration": duration,"startDate": "\(startdate)","endDate": "\(enddate)", "amount": amount , "isRequested": true,
                          "isConfirmed": false] as [String : Any]
@@ -184,7 +214,39 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             }
         }
     }
-    
+//    func availibility() {
+//
+//        let urlString = "http://clocation.azurewebsites.net/api/Location/IsAvailable/"
+//        guard let productId = Share.sharedName.product?.id  else {return}
+//        let productURL = urlString! + "\(productId)"
+//        print("productId : \(productId)")
+//        let param = ["productId" :  Share.sharedName.product?.id ,"startDate" :  Share.sharedName.product?.,"endDate" :  Share.sharedName.product?.id]
+//        AF.request(productURL , method : .get).responseJSON {
+//            response in
+//            do {
+//                print("response \(response)")
+//                guard let data = response.data else {return}
+//                let itemDetails = try JSONDecoder().decode([Location].self, from: data)
+//                print("item detaile \(itemDetails)")
+//                for item  in itemDetails {
+//                    self.locationList.append(item)
+//                    guard let productId = item.productId else {return}
+//                    self.searchImage(productId: productId)
+//                    print(productId)
+//
+//                }
+//                self.collectionView.reloadData()
+//
+//
+//            }catch let errors {
+//                print(errors)
+//            }
+//            self.activityIndicator.stopAnimating()
+//            self.activityIndicator.isHidden = true
+//        }
+//
+//        }
+//    }
  
     @IBAction func louerButton(_ sender: Any) {
         PostLocation()

@@ -22,6 +22,7 @@ pod 'JWTDecode', '~> 2.3'
 pod 'JBTabBarAnimation'
 pod 'AnimatedField'
 pod 'WVCheckMark'
+pod 'Koyomi'
 
 
 end

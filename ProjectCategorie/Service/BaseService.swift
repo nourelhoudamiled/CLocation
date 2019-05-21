@@ -36,7 +36,6 @@ final class BaseService: OAuth2PasswordGrantDelegate
             ] as OAuth2JSON)
         
         
-        
         oauth2.username = username
         oauth2.password = password
         oauth2.delegate = self
@@ -59,8 +58,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
     public func authorize(presenting view: UIViewController) {
         // oauth2.authConfig.authorizeContext = view
         oauth2.logger = OAuth2DebugLogger(.trace)
-        var token = ""
-        // oauth2.verbose = true
+         oauth2.verbose = true
         // as far as I know now, the following if-request is not necessary
         // because "authorizeEmbedded" is checking it already
         if oauth2.isAuthorizing {

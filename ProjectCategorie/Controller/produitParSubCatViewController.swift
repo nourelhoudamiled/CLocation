@@ -183,7 +183,7 @@ class produitParSubCatViewController: UIViewController {
             response in
             guard let image = response.data else {return}
             print(image)
-            self.responseImages.append( UIImage(data: image) ?? UIImage(named: "Maisson")!)
+            self.responseImages.append( UIImage(data: image) ?? UIImage(named: "EmmaStone")!)
             self.collectionView.reloadData()
         }
     }

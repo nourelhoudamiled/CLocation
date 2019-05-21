@@ -8,11 +8,23 @@
 
 import UIKit
 import Alamofire
+import Koyomi
+struct expend  {
+    var opened = Bool()
+    var title =  String()
+    //    var image = [UIImage]()
+    var sectionData = [ProductClass]()
+}
+struct Disponibility {
+    var startDate : String?
+    var duration : Int?
+}
 class louerViewController: UIViewController {
     
+    @IBOutlet var tableView: UITableView!
     var product : ProductClass?
     var text : Int?
-
+    var CurrentTableViewData = [expend]()
     @IBOutlet var nameUniteLabel: UILabel!
     @IBOutlet var cityLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
@@ -39,33 +51,56 @@ class louerViewController: UIViewController {
                     UIImage(named:"JenniferLawrence") ,
                     UIImage(named:"JessicaAlba") ,
                     UIImage(named:"ScarlettJohansson") ]
-    
+    var dispoList = [Disponibility]()
     var timer = Timer()
+    var sectionTitle = ["detail of Produit", "Check disponibilté"]
     var counter = 0
     var attachementList = [Int]()
+    var LocationList = [Location]()
+    var LocationListDate = [String]()
+
     var responseImage = [UIImage]()
+    var currentLocationList = [Location]()
+    
+    func tapped(cell: DisponibilteCell, sender: UISegmentedControl) {
+        self.dispoList.removeAll()
+
+        let month: MonthType = {
+            switch sender.selectedSegmentIndex {
+            case 0:  return .previous
+            case 1:  return .current
+            default: return .next
+            }
+        }()
+        let dateFormatter = DateFormatter()
+        var components = DateComponents()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        for dispo in dispoList {
+            let date = dateFormatter.date(from: dispo.startDate ?? "")
+            components.day = dispo.duration
+            let range = Calendar.current.date(byAdding: components, to: date!)
+            cell.koyomi.select(date: date!, to: range)
+
+            
+        }
+        cell.koyomi.reloadData()
+        cell.koyomi.display(in: month)
+
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+         self.tableView.register(UINib( nibName: "DetailsProductCell", bundle: nil), forCellReuseIdentifier: "DetailsProductCell")
+             self.tableView.register(UINib( nibName: "DisponibilteCell", bundle: nil), forCellReuseIdentifier: "DisponibilteCell")
+        
         print("product id \(product?.id)")
 //        sliderCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "sliderCell")
 
         print("product \(String(describing: product))")
-        nameUniteLabel.text = product?.enumUniteName
-        cityLabel.text = product?.enumCityName
-        descriptionLabel.text =  (product?.name)! + "\n\n" + (product?.description)!
-      
-        prixLabel.text =  "\(product?.price ?? 0)"
-        
-     
-        
-        adrLabel.text = product?.address
-        if (product?.isAvailable == true){
-            isAvailble.isOn = true
-        }
-        else{
-           isAvailble.isOn = false
-        }
- photos()
+
+        photos()
+        getDateDisponible()
         pageView.numberOfPages = responseImage.count
 //        pageView.currentPage = 0
        
@@ -81,6 +116,37 @@ class louerViewController: UIViewController {
     
     @IBAction func backButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func getDateDisponible () {
+            guard let productId = product?.id else {return}
+    let urlString = "http://clocation.azurewebsites.net/api/Location/AvailabilityInterval/\(productId)"
+        
+            AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
+                response in
+
+                    do {
+                        if let data = response.data {
+                            let decoder = JSONDecoder()
+                            let itemDetails1 = try decoder.decode([Location].self, from: data)
+                            self.dispoList.removeAll()
+                            for item1 in itemDetails1 {
+                                
+                                let dispo = Disponibility(startDate: item1.startDate, duration: item1.duration)
+                                self.dispoList.append(dispo)
+                                
+                                
+                                self.tableView.reloadData()
+                            }
+                          
+
+                        }
+                        
+                    }catch let errords {
+                        
+                        print(errords)
+                    }
+    }
     }
     func photos(){
         let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
@@ -191,3 +257,104 @@ extension louerViewController: UICollectionViewDelegateFlowLayout {
         return 0.0
     }
 }
+
+extension louerViewController : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if(indexPath.row == 0 ){
+            return 200
+        }else{
+            return 300
+        }
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     print( "self.dispoList \( self.dispoList)" )
+      return 2
+     
+     
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if(indexPath.row == 0  ){
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsProductCell") as! DetailsProductCell
+            if (product?.isAvailable == true){
+                cell.uiswitch.isOn = true
+            }
+            else{
+                cell.uiswitch.isOn = false
+            }
+            cell.nameDescriptionLabel.text = "produit name is : \( (product?.name)! + " descpription :" + (product?.description)!)"
+            cell.prixUniteLabel.text = "prix : \(product?.price ?? 0)" + "$  /\(product?.enumUniteName ?? "Jour")"
+            cell.cityRegionLabel.text = "city : \(product?.enumCityName ?? "") " + "/\(product?.address ?? "")"
+            cell.telephoneLabel.text = "numero telephone is :\(AppManager.shared.user?.phoneNumber ?? "12345678")"
+            return cell
+
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
+            cell.tt = self
+           let dateFormatter = DateFormatter()
+            var components = DateComponents()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            
+            for dispo in dispoList {
+                 let date = dateFormatter.date(from: dispo.startDate ?? "")
+                components.day = dispo.duration
+                let range = Calendar.current.date(byAdding: components, to: date!)
+                cell.koyomi.select(date: date!, to: range)
+                
+            }
+     
+        
+            
+            return cell
+        }
+        
+     
+    }
+    
+    func getDateFromString(dateStr: String) -> (Date?)
+    {
+        let calendar = Calendar(identifier: .gregorian)
+        let dateComponentArray = dateStr.components(separatedBy: "-")
+        
+        if dateComponentArray.count == 3 {
+            var components = DateComponents()
+            components.year = Int(dateComponentArray[0])
+            components.month = Int(dateComponentArray[1])
+            components.day = Int(dateComponentArray[2])
+            components.hour = Int(dateComponentArray[3])
+            components.minute = Int(dateComponentArray[4])
+//           components.timeZone = TimeZone(abbreviation: "GMT+0:00")
+            guard let date = calendar.date(from: components) else {
+                return (nil)
+            }
+            
+            return (date)
+        } else {
+            return (nil)
+        }
+        
+    }
+    
+}
+
+//extension DisponibilteCell: KoyomiDelegate {
+//    func koyomi(_ koyomi: Koyomi, didSelect date: Date?, forItemAt indexPath: IndexPath) {
+//        print("You Selected: \(date)")
+//    }
+//    
+//    func koyomi(_ koyomi: Koyomi, currentDateString dateString: String) {
+//        currentDateLabel.text = dateString
+//    }
+//    
+//    
+//    @objc(koyomi:shouldSelectDates:to:withPeriodLength:)
+//    func koyomi(_ koyomi: Koyomi, shouldSelectDates date: Date?, to toDate: Date?, withPeriodLength length: Int) -> Bool {
+//        
+//        if length > invalidPeriodLength {
+//            
+//            print("More than \(invalidPeriodLength) days are invalid period.")
+//            return false
+//        }
+//        return true
+//    }
+//}

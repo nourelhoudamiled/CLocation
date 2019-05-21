@@ -270,7 +270,7 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
         {
             let cel : ChildSearchTableViewCell = tableView.dequeueReusableCell(withIdentifier: "child") as! ChildSearchTableViewCell
 //            cel.animate()
-//            print("cell name \(cel.label.text)")
+           print("cell name \( CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1 ].id)")
             cel.label.text = CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1 ].name!
            // cel.setCellContent(text: )
             

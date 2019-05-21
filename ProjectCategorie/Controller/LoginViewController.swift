@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
     @IBAction func LoginButton(_ sender: Any) {
         let userLoggedIn = UserDefaults.standard.bool(forKey: "LOGGED_IN")
         
-        let token = loginService?.oauth2.accessToken
+        let token = loginService?.oauth2.refreshToken
         
         if (!userLoggedIn || (userLoggedIn && token == nil))  {
             if nameLabel.text!.isEmpty {

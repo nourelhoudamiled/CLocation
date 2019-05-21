@@ -14,6 +14,7 @@ PODS:
     - GoogleMaps/Base (= 3.0.3)
   - JBTabBarAnimation (1.0.0)
   - JWTDecode (2.3.0)
+  - Koyomi (1.2.7)
   - MMBannerLayout (2.0.0)
   - p2.OAuth2 (4.2.0)
   - SkyFloatingLabelTextField (3.6.0)
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - GooglePlaces
   - JBTabBarAnimation
   - JWTDecode (~> 2.3)
+  - Koyomi
   - MMBannerLayout
   - p2.OAuth2 (from `https://github.com/p2/OAuth2`)
   - SkyFloatingLabelTextField (~> 3.0)
@@ -51,6 +53,7 @@ SPEC REPOS:
     - GooglePlaces
     - JBTabBarAnimation
     - JWTDecode
+    - Koyomi
     - MMBannerLayout
     - SkyFloatingLabelTextField
     - StepIndicator
@@ -83,6 +86,7 @@ SPEC CHECKSUMS:
   GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
   JBTabBarAnimation: 34a3d3abc0f53bd3baaa69cb8610be7236aa6d31
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
+  Koyomi: f03615b8d2bb5a5a4752c6404a9794ed7ef7b327
   MMBannerLayout: e3ce05c289f2b484ff8356d9ed3948cdb7e194cb
   p2.OAuth2: d5ea9b928fc5d10d088d419db6f3380578b6f866
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
@@ -91,6 +95,6 @@ SPEC CHECKSUMS:
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
   WVCheckMark: abd367048aa3793b82d1c82a15be56eea5b940a7
 
-PODFILE CHECKSUM: 52946a3235799995e5946b7f1a1359c177a769a7
+PODFILE CHECKSUM: 97de42c59efc15353b510cb448345a2059b9cda7
 
 COCOAPODS: 1.6.0
