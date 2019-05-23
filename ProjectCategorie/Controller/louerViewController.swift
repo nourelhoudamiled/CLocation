@@ -13,14 +13,18 @@ struct expend  {
     var opened = Bool()
     var title =  String()
     //    var image = [UIImage]()
-    var sectionData = [ProductClass]()
+  //  var sectionData = [String]()
 }
 struct Disponibility {
     var startDate : String?
     var duration : Int?
+    var endDate : String?
+
 }
 class louerViewController: UIViewController {
-    
+     var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
+    @IBOutlet var cosmosView: CosmosView!
+    @IBOutlet var labelName: UILabel!
     @IBOutlet var tableView: UITableView!
     var product : ProductClass?
     var text : Int?
@@ -53,7 +57,6 @@ class louerViewController: UIViewController {
                     UIImage(named:"ScarlettJohansson") ]
     var dispoList = [Disponibility]()
     var timer = Timer()
-    var sectionTitle = ["detail of Produit", "Check disponibilté"]
     var counter = 0
     var attachementList = [Int]()
     var LocationList = [Location]()
@@ -63,15 +66,6 @@ class louerViewController: UIViewController {
     var currentLocationList = [Location]()
     
     func tapped(cell: DisponibilteCell, sender: UISegmentedControl) {
-        self.dispoList.removeAll()
-
-        let month: MonthType = {
-            switch sender.selectedSegmentIndex {
-            case 0:  return .previous
-            case 1:  return .current
-            default: return .next
-            }
-        }()
         let dateFormatter = DateFormatter()
         var components = DateComponents()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -81,18 +75,30 @@ class louerViewController: UIViewController {
             components.day = dispo.duration
             let range = Calendar.current.date(byAdding: components, to: date!)
             cell.koyomi.select(date: date!, to: range)
-
+            
             
         }
         cell.koyomi.reloadData()
+        let month: MonthType = {
+            switch sender.selectedSegmentIndex {
+            case 0:  return .previous
+            case 1:  return .current
+            default: return .next
+            }
+        }()
+   
         cell.koyomi.display(in: month)
 
 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        labelName.text = product?.name
+        searchRating(productId: (product?.id)!)
          self.tableView.register(UINib( nibName: "DetailsProductCell", bundle: nil), forCellReuseIdentifier: "DetailsProductCell")
+         self.tableView.register(UINib( nibName: "DetailOfUserCell", bundle: nil), forCellReuseIdentifier: "DetailOfUserCell")
              self.tableView.register(UINib( nibName: "DisponibilteCell", bundle: nil), forCellReuseIdentifier: "DisponibilteCell")
+         self.tableView.register(UINib( nibName: "TitleCell", bundle: nil), forCellReuseIdentifier: "TitleCell")
         
         print("product id \(product?.id)")
 //        sliderCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "sliderCell")
@@ -101,17 +107,40 @@ class louerViewController: UIViewController {
 
         photos()
         getDateDisponible()
+     
         pageView.numberOfPages = responseImage.count
 //        pageView.currentPage = 0
        
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
+           CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "Locataire Detail "), expend(opened: false, title: "Disponibilite" ) ]
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func searchRating (productId : Int) {
+        
+        let urlStringSearchRating = urlRequestSearchRating.url?.absoluteString
+        let SearchRatingURL = urlStringSearchRating! + "\(productId)"
+        
+        AF.request(SearchRatingURL , method : .get).responseJSON {
+            response in
+            
+            guard let data = response.data else {return}
+            print("response\(response)")
+            var notevalue = String(data: data, encoding: .utf8)!
+            print("notevalue\(notevalue)")
+            if notevalue == "\"NaN\"" {
+                
+                notevalue = "0"
+            }
+            self.cosmosView.rating = Double(notevalue) ?? 0
+           
+            
+        }
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -121,7 +150,7 @@ class louerViewController: UIViewController {
     func getDateDisponible () {
             guard let productId = product?.id else {return}
     let urlString = "http://clocation.azurewebsites.net/api/Location/AvailabilityInterval/\(productId)"
-        
+        print(productId)
             AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
                 response in
 
@@ -129,10 +158,9 @@ class louerViewController: UIViewController {
                         if let data = response.data {
                             let decoder = JSONDecoder()
                             let itemDetails1 = try decoder.decode([Location].self, from: data)
-                            self.dispoList.removeAll()
                             for item1 in itemDetails1 {
                                 
-                                let dispo = Disponibility(startDate: item1.startDate, duration: item1.duration)
+                                let dispo = Disponibility(startDate: item1.startDate, duration: item1.duration , endDate: item1.endDate)
                                 self.dispoList.append(dispo)
                                 
                                 
@@ -219,8 +247,9 @@ extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
-        
+        if (responseImage.count > 0) {
             cell.imageSlider.image = responseImage[indexPath.row]
+        }
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
         cell.contentView.layer.borderColor = UIColor.blue.cgColor
@@ -261,100 +290,120 @@ extension louerViewController: UICollectionViewDelegateFlowLayout {
 extension louerViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(indexPath.row == 0 ){
-            return 200
+            return 50
         }else{
-            return 300
+            return 230
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            if CurrentTableViewData[indexPath.section].opened == true {
+                CurrentTableViewData[indexPath.section].opened = false
+                let sections = IndexSet.init(integer : indexPath.section)
+                tableView.reloadSections(sections, with: .none)
+            }else{
+                CurrentTableViewData[indexPath.section].opened = true
+                let sections = IndexSet.init(integer : indexPath.section)
+                tableView.reloadSections(sections, with: .none)
+            }
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
      print( "self.dispoList \( self.dispoList)" )
-      return 2
-     
+    
+            
+            if CurrentTableViewData[section].opened == true
+            {
+                return 2
+                
+            }else {
+                return 1
+            }
+            
      
     }
+    func numberOfSections(in tableView: UITableView) -> Int {
+ return CurrentTableViewData.count
+        
+    }
+//    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        return 2
+//    }
+//    
+//    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return section == 0 ? DateModel.dayCountPerRow : DateModel.maxCellCount
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if(indexPath.row == 0  ){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsProductCell") as! DetailsProductCell
-            if (product?.isAvailable == true){
-                cell.uiswitch.isOn = true
+//        if(indexPath.section == 0  ){
+            if indexPath.row == 0 {
+  let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell") as! TitleCell
+                cell.titleLabel.text = CurrentTableViewData[indexPath.section].title
+                cell.viewCell.layer.borderWidth = 1.0
+                cell.viewCell.layer.borderColor = UIColor.gray.cgColor
+               cell.accessoryType = .disclosureIndicator
+                //cell.selectionStyle = .none
+                return cell
             }
-            else{
-                cell.uiswitch.isOn = false
-            }
-            cell.nameDescriptionLabel.text = "produit name is : \( (product?.name)! + " descpription :" + (product?.description)!)"
-            cell.prixUniteLabel.text = "prix : \(product?.price ?? 0)" + "$  /\(product?.enumUniteName ?? "Jour")"
-            cell.cityRegionLabel.text = "city : \(product?.enumCityName ?? "") " + "/\(product?.address ?? "")"
-            cell.telephoneLabel.text = "numero telephone is :\(AppManager.shared.user?.phoneNumber ?? "12345678")"
-            return cell
+            else
+            {
+                if (indexPath.section == 0) {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsProductCell") as! DetailsProductCell
+//                    if (product?.isAvailable == true){
+//                        cell.uiswitch.isOn = true
+//                    }
+//                    else{
+//                        cell.uiswitch.isOn = false
+//                    }
+                    cell.nameDescriptionLabel.text = product?.description
+                    cell.prixUniteLabel.text = "\(product?.price ?? 0)" + "$  /\(product?.enumUniteName ?? "Jour")"
+                    cell.cityRegionLabel.text = "\(product?.enumCityName ?? "") " + "/\(product?.address ?? "")"
+                    cell.telephoneLabel.text = "\(AppManager.shared.user?.phoneNumber ?? "12345678")"
+                    cell.selectionStyle = .none
 
-        }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
-            cell.tt = self
-           let dateFormatter = DateFormatter()
-            var components = DateComponents()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                       return cell
+                }
+                if (indexPath.section == 1 ) {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "DetailOfUserCell") as! DetailOfUserCell
             
-            for dispo in dispoList {
-                 let date = dateFormatter.date(from: dispo.startDate ?? "")
-                components.day = dispo.duration
-                let range = Calendar.current.date(byAdding: components, to: date!)
-                cell.koyomi.select(date: date!, to: range)
+                    cell.nameUserLabel.text = AppManager.shared.user?.firstName
+                    cell.phoneNumberLabel.text =  AppManager.shared.user?.phoneNumber
+                    cell.cityLabel.text = AppManager.shared.user?.partnerCity
+                    cell.selectionStyle = .none
+                    
+                    return cell
+                }
+                else {
+//                    let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+//                    cell.textLabel?.text = CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
+//                    print(" blalal\(CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1])")
+                    print("blala\(indexPath.section)")
+                                let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
+                                cell.tt = self
+                               let dateFormatter = DateFormatter()
+                                var components = DateComponents()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                    
+                                for dispo in dispoList {
+                                     let date = dateFormatter.date(from: dispo.startDate ?? "")
+                                    components.day = dispo.duration
+                                    let range = Calendar.current.date(byAdding: components, to: date!)
+                                    cell.koyomi.select(date: date!, to: range)
+                    
+                    
+                                }
+                    cell.selectionStyle = .none
+
+                    return cell
+                }
                 
             }
-     
-        
-            
-            return cell
-        }
+
+
         
      
     }
-    
-    func getDateFromString(dateStr: String) -> (Date?)
-    {
-        let calendar = Calendar(identifier: .gregorian)
-        let dateComponentArray = dateStr.components(separatedBy: "-")
-        
-        if dateComponentArray.count == 3 {
-            var components = DateComponents()
-            components.year = Int(dateComponentArray[0])
-            components.month = Int(dateComponentArray[1])
-            components.day = Int(dateComponentArray[2])
-            components.hour = Int(dateComponentArray[3])
-            components.minute = Int(dateComponentArray[4])
-//           components.timeZone = TimeZone(abbreviation: "GMT+0:00")
-            guard let date = calendar.date(from: components) else {
-                return (nil)
-            }
-            
-            return (date)
-        } else {
-            return (nil)
-        }
-        
-    }
+
     
 }
 
-//extension DisponibilteCell: KoyomiDelegate {
-//    func koyomi(_ koyomi: Koyomi, didSelect date: Date?, forItemAt indexPath: IndexPath) {
-//        print("You Selected: \(date)")
-//    }
-//    
-//    func koyomi(_ koyomi: Koyomi, currentDateString dateString: String) {
-//        currentDateLabel.text = dateString
-//    }
-//    
-//    
-//    @objc(koyomi:shouldSelectDates:to:withPeriodLength:)
-//    func koyomi(_ koyomi: Koyomi, shouldSelectDates date: Date?, to toDate: Date?, withPeriodLength length: Int) -> Bool {
-//        
-//        if length > invalidPeriodLength {
-//            
-//            print("More than \(invalidPeriodLength) days are invalid period.")
-//            return false
-//        }
-//        return true
-//    }
-//}

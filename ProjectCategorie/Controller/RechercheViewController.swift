@@ -39,26 +39,22 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
         print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
         if revealViewController() != nil {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
-                navigationItem.title = " Rechercher Produit "
-            
-            
-            
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+            self.navigationController?.navigationBar.shadowImage = UIImage()
         }
-        viewTable.rowHeight = UITableView.automaticDimension
-        viewTable.estimatedRowHeight = 100
+        setUpSearchBar()
+
          self.viewTable.register(UINib( nibName: "ChildSearchTableViewCell", bundle: nil), forCellReuseIdentifier: "child")
 //        viewTable.register(ChildSearchTableViewCell.self, forCellReuseIdentifier: "child")
 
        // viewTable.register(ChildSearchTableViewCell.self, forCellReuseIdentifier: "cell")
 
         dataCatégorie()
-        setUpSearchBar()
-//        alterLayout()
         activityIndicator.startAnimating()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
+
         if (isLoggedIn()) {
             print("c'est deja connecte \( AppManager.shared.iduser)")
             print("user is  \( AppManager.shared.user)")
@@ -132,9 +128,8 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
 
   func setUpSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
-      
-    
+    self.navigationItem.searchController = searchController
+
 //        searchBar.delegate = self
         
         let scb = searchController.searchBar
@@ -169,14 +164,6 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
         
     }
   
-    // Search Bar
-    func alterLayout() {
-        viewTable.tableHeaderView = UIView()
-        // search bar in section header
-        viewTable.estimatedSectionHeaderHeight = 50
-        // search bar in navigation bar
-     
-    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
  

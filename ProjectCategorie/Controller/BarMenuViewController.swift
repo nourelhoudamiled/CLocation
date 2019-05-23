@@ -24,6 +24,7 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
                 imageProfile.layer.borderColor = UIColor.red.cgColor
                 self.imageProfile.layer.cornerRadius = self.imageProfile.frame.size.width / 2;
                 self.imageProfile.clipsToBounds = true
+        nameProfile.text = AppManager.shared.user?.firstName
         
         
             }
@@ -52,10 +53,10 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
                 {
         
                     let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vs = mainStoryboard.instantiateViewController(withIdentifier: "RechercheViewController") as! RechercheViewController
+                    let vs = mainStoryboard.instantiateViewController(withIdentifier: "HomeTabBarViewController") as! HomeTabBarViewController
                     let newFrontViewController = UINavigationController.init(rootViewController: vs)
                     revealViewController.pushFrontViewController(newFrontViewController, animated: true)
-        
+                    
                 }
                 if cell.barLabel.text! == "Booking"
                 {
@@ -108,7 +109,7 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
                 if cell.barLabel.text! == "Messages"
                 {
                     let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vs = mainStoryboard.instantiateViewController(withIdentifier: "TestViewController") as! TestViewController
+                    let vs = mainStoryboard.instantiateViewController(withIdentifier: "TestViewController") as! HomeController
                     let newFrontViewController = UINavigationController.init(rootViewController: vs)
                     revealViewController.pushFrontViewController(newFrontViewController, animated: true)
                     

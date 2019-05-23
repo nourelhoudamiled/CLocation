@@ -26,7 +26,7 @@ class RequestCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        confirmeButton.setImage(#imageLiteral(resourceName: "fav_star"), for: .normal)
+//        confirmeButton.setImage(#imageLiteral(resourceName: "checkrouge"), for: .normal)
         confirmeButton.frame = CGRect(x: 333, y: 0, width: 50, height: 50)
         confirmeButton.addTarget(self, action: #selector(handleMarkAsFavorite), for: .touchUpInside)
     }

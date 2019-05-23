@@ -10,6 +10,12 @@ import UIKit
 import Alamofire
 class ReservationViewController: UIViewController {
 
+    @IBOutlet var viewTotale: UIView!
+    @IBOutlet var viewDuration: UIView!
+    @IBOutlet var viewOfDays: UIView!
+    @IBOutlet var viewOfAmount: UIView!
+    @IBOutlet var tableView: UIView!
+    @IBOutlet var BigView: UIView!
     @IBOutlet var totalePrixLabel: UILabel!
     @IBOutlet var viewDuHeure: UIView!
     @IBOutlet var viewDuDate: UIView!
@@ -40,9 +46,19 @@ class ReservationViewController: UIViewController {
         tap2.delegate = self as? UIGestureRecognizerDelegate
         viewDateDebut.addGestureRecognizer(tap)
         viewDateFin.addGestureRecognizer(tap2)
-//        guard let a = Double(durree) else {return}
-//        print("durree a \(a)")
-//         print("durree \(durree)")
+    
+        BigView.layer.borderWidth = 1.0
+        BigView.layer.borderColor = UIColor.gray.cgColor
+        viewTotale.layer.borderWidth = 1.0
+        viewTotale.layer.borderColor = UIColor.gray.cgColor
+        viewDuration.layer.borderWidth = 1.0
+        viewDuration.layer.borderColor = UIColor.gray.cgColor
+        viewOfAmount.layer.borderWidth = 1.0
+        viewOfAmount.layer.borderColor = UIColor.gray.cgColor
+        viewOfDays.layer.borderWidth = 1.0
+        viewOfDays.layer.borderColor = UIColor.gray.cgColor
+
+
       print("date du text \(duration.text)")
        print("date fin du text \(totalePrixLabel.text)")
       
@@ -50,16 +66,12 @@ class ReservationViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
+  
     func dateduree() {
         
         let calendar = Calendar.current
         let date1 = calendar.startOfDay(for: startdate as Date)
         let date2 = calendar.startOfDay(for: enddate as Date)
-//        if self.enddate.compare(startdate).rawValue > self.startdate.compare(enddate).rawValue {
-//            let favorite : String = "le date que vous choisir doit supperieur a la date de debut"
-//
-//            self.displayMessage(userMessage: favorite)
-//        }
         components = calendar.dateComponents([.day], from: date1, to: date2)
         duration.text =  "\(components.day ?? 0 ) days"
         print("durree du text \(duration.text)")
@@ -163,7 +175,7 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             formatter.dateFormat = "dd-MMM-yyyy"
             // again convert your date to string
             let myStringafd = formatter.string(from: self.enddate)
-            self.datefinLabel.text = "\(self.enddate)"
+            self.datefinLabel.text = "\(myStringafd)"
           
             self.dateduree()
 

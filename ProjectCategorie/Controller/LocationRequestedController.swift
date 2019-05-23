@@ -35,44 +35,37 @@ class LocationRequestedController: UIViewController {
             let hasconfirme = location.isConfirmed
            location.isConfirmed = !hasconfirme!
             cell.confirmeButton.tintColor = hasconfirme! ?  UIColor.lightGray : .red
-        cell.confirmeButton.setImage(hasconfirme! ?  UIImage(named: "fav_star") : UIImage(named: "del") , for: .normal)
+        cell.confirmeButton.setImage(hasconfirme! ?  UIImage(named: "checkrouge") : UIImage(named: "checkvert") , for: .normal)
             if (hasconfirme == false) {
-                updateLocationWithConfirmation(Id:  location.id ?? 0 ,  userId: location.userId ?? "", productId: location.productId ?? 0, duration: location.duration ?? 0 , startDate: location.startDate ?? "", endDate: location.endDate ?? "", amount: location.amount ?? 0.0, isRequested: false, isConfirmed: true)
+                updateLocationWithConfirmation(Id:  location.id! ,  userId: location.userId!, productId: location.productId!, duration: location.duration! , startDate: location.startDate!, endDate: location.endDate!, amount: location.amount!)
 //                self.postFavorite(Id: ProductList[indexPathTapped.row].id!, userId: "5db395d9-3b02-4c27-bb19-0f4c6ce8b851")
             }
         
   
          print(hasconfirme)
     }
-    func updateLocationWithConfirmation (Id : Int , userId : String ,productId : Int,duration : Int, startDate : String , endDate : String , amount : Decimal , isRequested : Bool , isConfirmed : Bool) {
+    func updateLocationWithConfirmation (Id : Int , userId : String ,productId : Int,duration : Int, startDate : String , endDate : String , amount : Decimal) {
     
-        let params = ["id": Id ,  "userId": userId , "productId" : productId , "duration" : duration , "startDate" : startDate , "endDate" : endDate , "amount" : amount,  "isRequested" : false ,"isConfirmed" : true] as [String : Any]
+        let params = ["id": Id ,  "userId": userId , "productId" : productId , "duration" : duration , "startDate" : startDate , "endDate" : endDate , "amount" : amount,  "isRequested" : true ,"isConfirmed" : true] as [String : Any]
 
         let urlString = "https://clocation.azurewebsites.net/api/Location/\(Id)"
 
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
 
-            switch response.result {
-            case .success:
                 print(response)
                 let favorite : String = "vous avez accepeter ce demande "
                 self.displayMessage(userMessage: favorite)
 
-                break
-            case .failure(let error):
-
-                print(error)
-            }
+           
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.startAnimating()
       //  photos(productId: 236)
         produitList()
         tableView.rowHeight = 300
-      //  tableView.estimatedRowHeight = 223
+        activityIndicator.startAnimating()
 
     }
     func searchImage(productId : Int) {
@@ -86,13 +79,14 @@ class LocationRequestedController: UIViewController {
             print(image)
             self.responseImages.append( UIImage(data: image) ?? UIImage(named: "EmmaStone")!)
             self.tableView.reloadData()
+      
         }
     }
     func produitList() {
         
         let urlString = urlRequestProductByUserId.url?.absoluteString
         //guard let userId = AppManager.shared.iduser else {return}
-        let productURL = urlString! + "83a22f90-ef02-40bc-971e-2cda1296bf01"
+        let productURL = urlString! + "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
        // print("useriD : \(userId)")
         
         AF.request(productURL , method : .get).responseJSON {
@@ -109,13 +103,7 @@ class LocationRequestedController: UIViewController {
                    // print(item.isConfirmed)
 //                    self.twoDimensionalArray.append(Confirme(locations: item))
 
-//                    if (item.isConfirmed == true)
-//                    {
-//
-////                        self.twoDimensionalArray.append(Confirme(locations: item, hasconfirme: true))
-//                        self.tableView.reloadData()
-//
-//                    }
+               
                     guard let productId = item.productId else {return}
                     self.searchImage(productId: productId)
                     print(productId)
@@ -162,11 +150,12 @@ extension LocationRequestedController : UITableViewDelegate , UITableViewDataSou
         cell.nameProduit.text = " name of product : " + locationList[index].productName!
         cell.imageProduit.image = responseImages[index]
             if locationList[index].isConfirmed == true {
-                cell.confirmeButton.tintColor = UIColor.red
+                cell.confirmeButton.setImage(UIImage(named: "checkvert") , for: .normal)
             }
             else
             {
-                cell.confirmeButton.tintColor =  UIColor.lightGray
+                cell.confirmeButton.setImage(UIImage(named: "checkrouge") , for: .normal)
+
             }
   
         cell.contentView.layer.cornerRadius = 10

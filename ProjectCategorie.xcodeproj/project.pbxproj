@@ -23,6 +23,8 @@
 		FA046C442281E31A0096456A /* ProfilTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA046C432281E31A0096456A /* ProfilTabBarController.swift */; };
 		FA0481A82261E47C007641CD /* PopUpAddresseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0481A72261E47C007641CD /* PopUpAddresseViewController.swift */; };
 		FA0481AA2261EA94007641CD /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0481A92261EA94007641CD /* SearchResultsController.swift */; };
+		FA04B1D62296A32E00F133A1 /* DetailOfUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04B1D42296A32E00F133A1 /* DetailOfUserCell.swift */; };
+		FA04B1D72296A32E00F133A1 /* DetailOfUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA04B1D52296A32E00F133A1 /* DetailOfUserCell.xib */; };
 		FA04D49022857B2700221A3B /* ReservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04D48F22857B2700221A3B /* ReservationViewController.swift */; };
 		FA04D49222858CD200221A3B /* MesDemandeReservationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04D49122858CD200221A3B /* MesDemandeReservationController.swift */; };
 		FA04D49422858CFA00221A3B /* LocationRequestedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04D49322858CFA00221A3B /* LocationRequestedController.swift */; };
@@ -48,7 +50,7 @@
 		FA0EB8282260D8DE00461BBF /* PopupCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EB8272260D8DE00461BBF /* PopupCityViewController.swift */; };
 		FA0EB82A2260DADD00461BBF /* RegionClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EB8292260DADD00461BBF /* RegionClass.swift */; };
 		FA0EB82C2260DAEA00461BBF /* CityClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EB82B2260DAEA00461BBF /* CityClass.swift */; };
-		FA2094B4225660E3009BB679 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2094B3225660E3009BB679 /* TestViewController.swift */; };
+		FA2094B4225660E3009BB679 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2094B3225660E3009BB679 /* HomeController.swift */; };
 		FA28500722563FBC00760166 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28500622563FBC00760166 /* BaseService.swift */; };
 		FA285009225640D800760166 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA285008225640D800760166 /* AppManager.swift */; };
 		FA28500B225640FD00760166 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28500A225640FD00760166 /* UserDefaults.swift */; };
@@ -108,6 +110,11 @@
 		FAF956742270BE8E00191F74 /* PoPupUniteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */; };
 		FAF956762270BEA300191F74 /* PopUpEtatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956752270BEA300191F74 /* PopUpEtatViewController.swift */; };
 		FAF956782270C34E00191F74 /* Etat.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956772270C34E00191F74 /* Etat.swift */; };
+		FAFA572B22944D5D00ED6F4E /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA572922944D5D00ED6F4E /* HomeCell.swift */; };
+		FAFA572C22944D5D00ED6F4E /* HomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAFA572A22944D5D00ED6F4E /* HomeCell.xib */; };
+		FAFA572E22954E7500ED6F4E /* HomeTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA572D22954E7500ED6F4E /* HomeTabBarViewController.swift */; };
+		FAFA573122958EA500ED6F4E /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA572F22958EA500ED6F4E /* TitleCell.swift */; };
+		FAFA573222958EA500ED6F4E /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAFA573022958EA500ED6F4E /* TitleCell.xib */; };
 		FAFE9B7A228EAE120061A109 /* DetailsProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFE9B78228EAE120061A109 /* DetailsProductCell.swift */; };
 		FAFE9B7B228EAE120061A109 /* DetailsProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAFE9B79228EAE120061A109 /* DetailsProductCell.xib */; };
 		FAFE9B7E228EB4380061A109 /* DisponibilteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFE9B7C228EB4380061A109 /* DisponibilteCell.swift */; };
@@ -136,6 +143,8 @@
 		FA046C432281E31A0096456A /* ProfilTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilTabBarController.swift; sourceTree = "<group>"; };
 		FA0481A72261E47C007641CD /* PopUpAddresseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAddresseViewController.swift; sourceTree = "<group>"; };
 		FA0481A92261EA94007641CD /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
+		FA04B1D42296A32E00F133A1 /* DetailOfUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOfUserCell.swift; sourceTree = "<group>"; };
+		FA04B1D52296A32E00F133A1 /* DetailOfUserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailOfUserCell.xib; sourceTree = "<group>"; };
 		FA04D48F22857B2700221A3B /* ReservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationViewController.swift; sourceTree = "<group>"; };
 		FA04D49122858CD200221A3B /* MesDemandeReservationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MesDemandeReservationController.swift; sourceTree = "<group>"; };
 		FA04D49322858CFA00221A3B /* LocationRequestedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRequestedController.swift; sourceTree = "<group>"; };
@@ -161,7 +170,7 @@
 		FA0EB8272260D8DE00461BBF /* PopupCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupCityViewController.swift; sourceTree = "<group>"; };
 		FA0EB8292260DADD00461BBF /* RegionClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionClass.swift; sourceTree = "<group>"; };
 		FA0EB82B2260DAEA00461BBF /* CityClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityClass.swift; sourceTree = "<group>"; };
-		FA2094B3225660E3009BB679 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		FA2094B3225660E3009BB679 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		FA28500622563FBC00760166 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		FA285008225640D800760166 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		FA28500A225640FD00760166 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
@@ -226,6 +235,11 @@
 		FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoPupUniteViewController.swift; sourceTree = "<group>"; };
 		FAF956752270BEA300191F74 /* PopUpEtatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpEtatViewController.swift; sourceTree = "<group>"; };
 		FAF956772270C34E00191F74 /* Etat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Etat.swift; sourceTree = "<group>"; };
+		FAFA572922944D5D00ED6F4E /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		FAFA572A22944D5D00ED6F4E /* HomeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeCell.xib; sourceTree = "<group>"; };
+		FAFA572D22954E7500ED6F4E /* HomeTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarViewController.swift; sourceTree = "<group>"; };
+		FAFA572F22958EA500ED6F4E /* TitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
+		FAFA573022958EA500ED6F4E /* TitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleCell.xib; sourceTree = "<group>"; };
 		FAFE9B78228EAE120061A109 /* DetailsProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsProductCell.swift; sourceTree = "<group>"; };
 		FAFE9B79228EAE120061A109 /* DetailsProductCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsProductCell.xib; sourceTree = "<group>"; };
 		FAFE9B7C228EB4380061A109 /* DisponibilteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisponibilteCell.swift; sourceTree = "<group>"; };
@@ -342,6 +356,12 @@
 				FAFE9B79228EAE120061A109 /* DetailsProductCell.xib */,
 				FAFE9B7C228EB4380061A109 /* DisponibilteCell.swift */,
 				FAFE9B7D228EB4380061A109 /* DisponibilteCell.xib */,
+				FAFA572922944D5D00ED6F4E /* HomeCell.swift */,
+				FAFA572A22944D5D00ED6F4E /* HomeCell.xib */,
+				FAFA572F22958EA500ED6F4E /* TitleCell.swift */,
+				FAFA573022958EA500ED6F4E /* TitleCell.xib */,
+				FA04B1D42296A32E00F133A1 /* DetailOfUserCell.swift */,
+				FA04B1D52296A32E00F133A1 /* DetailOfUserCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -358,7 +378,7 @@
 				FA2D69E1225625A800EF38B6 /* BarMenuViewController.swift */,
 				FA28500C2256412500760166 /* LoginViewController.swift */,
 				FA28500E2256415600760166 /* RegisterViewController.swift */,
-				FA2094B3225660E3009BB679 /* TestViewController.swift */,
+				FA2094B3225660E3009BB679 /* HomeController.swift */,
 				FA00BB5022579A830090622F /* ProfileViewController.swift */,
 				FA42495A2259FE84001D5873 /* WelcomeViewController.swift */,
 				FA074606225CF3A7008A744C /* SwippingController.swift */,
@@ -382,6 +402,7 @@
 				FA04D48F22857B2700221A3B /* ReservationViewController.swift */,
 				FA04D49122858CD200221A3B /* MesDemandeReservationController.swift */,
 				FA04D49322858CFA00221A3B /* LocationRequestedController.swift */,
+				FAFA572D22954E7500ED6F4E /* HomeTabBarViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -516,8 +537,11 @@
 				FA65D9BE22326BB80058ADFA /* LaunchScreen.storyboard in Resources */,
 				FA8E25582274E45E0038DE98 /* ChildSearchTableViewCell.xib in Resources */,
 				FA43BFEC2271D8B000EA276C /* Header.xib in Resources */,
+				FA04B1D72296A32E00F133A1 /* DetailOfUserCell.xib in Resources */,
 				FA65D9BB22326BB80058ADFA /* Assets.xcassets in Resources */,
 				FAFE9B7F228EB4380061A109 /* DisponibilteCell.xib in Resources */,
+				FAFA573222958EA500ED6F4E /* TitleCell.xib in Resources */,
+				FAFA572C22944D5D00ED6F4E /* HomeCell.xib in Resources */,
 				FA015842228D826B006831A4 /* MesDemandeCell.xib in Resources */,
 				FAFE9B7B228EAE120061A109 /* DetailsProductCell.xib in Resources */,
 			);
@@ -632,7 +656,7 @@
 				FA54B389224E597F0034EBB0 /* CosmosTouchTarget.swift in Sources */,
 				FA01A32B2268BA2D00CD431A /* RecentSearchCell.swift in Sources */,
 				FA54B39F224E83F80034EBB0 /* AjouterProduitViewController.swift in Sources */,
-				FA2094B4225660E3009BB679 /* TestViewController.swift in Sources */,
+				FA2094B4225660E3009BB679 /* HomeController.swift in Sources */,
 				FA479D952252202A00573235 /* ProductClass.swift in Sources */,
 				FA2CEA6422806D5E00CE8F5F /* ProfileImageCell.swift in Sources */,
 				FA04D49A2285AB5200221A3B /* Location.swift in Sources */,
@@ -641,6 +665,7 @@
 				FA54B38B224E597F0034EBB0 /* CosmosSettings.swift in Sources */,
 				FA0081BE226C5FB400478532 /* Media.swift in Sources */,
 				FA0621812278861D0031AA69 /* sliderCell.swift in Sources */,
+				FAFA573122958EA500ED6F4E /* TitleCell.swift in Sources */,
 				FA04D4962285A30800221A3B /* RequestCell.swift in Sources */,
 				FA54B391224E597F0034EBB0 /* CosmosLayerHelper.swift in Sources */,
 				FA5C766F225E48F8009EC69E /* Page.swift in Sources */,
@@ -648,6 +673,7 @@
 				FA65D9CA22326CFA0058ADFA /* SearchViewCell.swift in Sources */,
 				FA28500722563FBC00760166 /* BaseService.swift in Sources */,
 				FA2D69D822560FD900EF38B6 /* SWRevealViewController.m in Sources */,
+				FA04B1D62296A32E00F133A1 /* DetailOfUserCell.swift in Sources */,
 				FA0481AA2261EA94007641CD /* SearchResultsController.swift in Sources */,
 				FA54B399224E60010034EBB0 /* productTableViewCell.swift in Sources */,
 				FA0C0C5B2263480700C7E30E /* PictureCollectionViewCell.swift in Sources */,
@@ -715,10 +741,12 @@
 				FA43BFF62271E34B00EA276C /* Attachement.swift in Sources */,
 				FA65D9B422326BB70058ADFA /* AppDelegate.swift in Sources */,
 				FA5C766D225E3D8D009EC69E /* Page2Cell.swift in Sources */,
+				FAFA572B22944D5D00ED6F4E /* HomeCell.swift in Sources */,
 				FA046C442281E31A0096456A /* ProfilTabBarController.swift in Sources */,
 				FAFE9B7E228EB4380061A109 /* DisponibilteCell.swift in Sources */,
 				FA00BB5122579A830090622F /* ProfileViewController.swift in Sources */,
 				FA03159E226B84BF0032673B /* ColumnTableViewCell.swift in Sources */,
+				FAFA572E22954E7500ED6F4E /* HomeTabBarViewController.swift in Sources */,
 				FA54B390224E597F0034EBB0 /* CosmosView.swift in Sources */,
 				FA0EB82C2260DAEA00461BBF /* CityClass.swift in Sources */,
 				FAFEF20D227B000000B98A42 /* FavoriteCell.swift in Sources */,

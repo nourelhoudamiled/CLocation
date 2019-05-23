@@ -17,9 +17,10 @@ class MesDemandeReservationController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.startAnimating()
 produitList()
         self.collectionView.register(UINib( nibName: "MesDemandeCell", bundle: nil), forCellWithReuseIdentifier: "MesDemandeCell")
+        activityIndicator.startAnimating()
+
     }
     func searchImage(productId : Int) {
         
@@ -47,14 +48,16 @@ produitList()
                 guard let data = response.data else {return}
                 let itemDetails = try JSONDecoder().decode([Location].self, from: data)
                 print("item detaile \(itemDetails)")
+                self.locationList.removeAll()
                 for item  in itemDetails {
                     self.locationList.append(item)
                     guard let productId = item.productId else {return}
                     self.searchImage(productId: productId)
                     print(productId)
-                    
+                //    self.collectionView.reloadData()
+
                 }
-                self.collectionView.reloadData()
+             // self.collectionView.reloadData()
                 
                 
             }catch let errors {
@@ -81,20 +84,24 @@ extension MesDemandeReservationController: UICollectionViewDelegate, UICollectio
         cell.index = indexPath
         cell.delegate = self 
 //        cell.periodLabel.text = " period : " + locationList[index].startDate! + " \n  to " + locationList[index].endDate!
+        if locationList.count > 0 {
         cell.nameProduit.text = " name of product \n " + locationList[index].productName!
+            if locationList[index].isConfirmed == true {
+                cell.requestButton.backgroundColor = UIColor.green
+                cell.requestButton.setTitle("Confirmer", for: .normal)
+                cell.cancelButton.isHidden = true
+               
+              
+            }
+            else {
+                 cell.requestButton.backgroundColor = UIColor.gray
+            
+            }
+        }
         if responseImages.count > 0 {
         cell.imageProduit.image = responseImages[index]
         }
-        if locationList[index].isConfirmed == true {
-         cell.requestButton.backgroundColor = UIColor.green
-            cell.requestButton.setTitle("Confirmer", for: .normal)
-            cell.cancelButton.isHidden = true
-        }
-        else if locationList[index].isConfirmed == false {
-            cell.requestButton.backgroundColor = UIColor.gray
-         
-
-        }
+       
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
         cell.contentView.layer.borderColor = UIColor.blue.cgColor
@@ -130,7 +137,20 @@ extension MesDemandeReservationController : UICollectionViewDelegateFlowLayout {
 
 extension MesDemandeReservationController : MesDemandeReservationProtocol {
     func deleteData(indx: Int) {
+        collectionView.reloadData()
+        deleteDemande(Id: locationList[indx].id!)
+        locationList.removeAll()
         responseImages.remove(at : indx)
         collectionView.reloadData()
+    }
+    func deleteDemande (Id : Int ) {
+        
+        
+        let urlString = "https://clocation.azurewebsites.net//api/Location/\(Id)"
+        
+        AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            print(response)
+        }
     }
 }

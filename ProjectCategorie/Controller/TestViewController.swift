@@ -9,7 +9,7 @@
 import UIKit
 import SkyFloatingLabelTextField
 import Alamofire
-class TestViewController: UIViewController {
+class HomeController: UIViewController {
 
     @IBOutlet var nameText: SkyFloatingLabelTextField!
     @IBOutlet var idText: SkyFloatingLabelTextField!
