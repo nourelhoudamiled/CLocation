@@ -9,18 +9,14 @@
 import UIKit
 import Alamofire
 import Koyomi
+import FSCalendar
 struct expend  {
     var opened = Bool()
     var title =  String()
     //    var image = [UIImage]()
   //  var sectionData = [String]()
 }
-struct Disponibility {
-    var startDate : String?
-    var duration : Int?
-    var endDate : String?
 
-}
 class louerViewController: UIViewController {
      var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
     @IBOutlet var cosmosView: CosmosView!
@@ -38,6 +34,7 @@ class louerViewController: UIViewController {
     @IBOutlet var adrLabel: UILabel!
     @IBOutlet var pageView: UIPageControl!
     @IBOutlet var sliderCollectionView: UICollectionView!
+
   
 
     var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
@@ -65,32 +62,31 @@ class louerViewController: UIViewController {
     var responseImage = [UIImage]()
     var currentLocationList = [Location]()
     
-    func tapped(cell: DisponibilteCell, sender: UISegmentedControl) {
-        let dateFormatter = DateFormatter()
-        var components = DateComponents()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        
-        for dispo in dispoList {
-            let date = dateFormatter.date(from: dispo.startDate ?? "")
-            components.day = dispo.duration
-            let range = Calendar.current.date(byAdding: components, to: date!)
-            cell.koyomi.select(date: date!, to: range)
-            
-            
-        }
-        cell.koyomi.reloadData()
-        let month: MonthType = {
-            switch sender.selectedSegmentIndex {
-            case 0:  return .previous
-            case 1:  return .current
-            default: return .next
-            }
-        }()
-   
-        cell.koyomi.display(in: month)
-
-
-    }
+//    func tapped(cell: DisponibilteCell, sender: UISegmentedControl) {
+//        let dateFormatter = DateFormatter()
+//        var components = DateComponents()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+//
+//        for dispo in dispoList {
+//            let date = dateFormatter.date(from: dispo.startDate ?? "")
+//            components.day = dispo.duration
+//            let range = Calendar.current.date(byAdding: components, to: date!)
+//            cell.koyomi.select(date: date!, to: range)
+//
+//
+//        }
+//        let month: MonthType = {
+//            switch sender.selectedSegmentIndex {
+//            case 0:  return .previous
+//            case 1:  return .current
+//            default: return .next
+//            }
+//        }()
+//
+//        cell.koyomi.display(in: month)
+//
+//
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         labelName.text = product?.name
@@ -100,20 +96,17 @@ class louerViewController: UIViewController {
              self.tableView.register(UINib( nibName: "DisponibilteCell", bundle: nil), forCellReuseIdentifier: "DisponibilteCell")
          self.tableView.register(UINib( nibName: "TitleCell", bundle: nil), forCellReuseIdentifier: "TitleCell")
         
-        print("product id \(product?.id)")
-//        sliderCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "sliderCell")
 
-        print("product \(String(describing: product))")
 
-        photos()
+      //  photos()
         getDateDisponible()
      
         pageView.numberOfPages = responseImage.count
 //        pageView.currentPage = 0
        
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
-        }
+//        DispatchQueue.main.async {
+//            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+//        }
            CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "Locataire Detail "), expend(opened: false, title: "Disponibilite" ) ]
     }
     
@@ -130,11 +123,8 @@ class louerViewController: UIViewController {
             response in
             
             guard let data = response.data else {return}
-            print("response\(response)")
             var notevalue = String(data: data, encoding: .utf8)!
-            print("notevalue\(notevalue)")
             if notevalue == "\"NaN\"" {
-                
                 notevalue = "0"
             }
             self.cosmosView.rating = Double(notevalue) ?? 0
@@ -143,14 +133,11 @@ class louerViewController: UIViewController {
         }
     }
     
-    @IBAction func backButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+
     
     func getDateDisponible () {
             guard let productId = product?.id else {return}
     let urlString = "http://clocation.azurewebsites.net/api/Location/AvailabilityInterval/\(productId)"
-        print(productId)
             AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
                 response in
 
@@ -172,7 +159,6 @@ class louerViewController: UIViewController {
                         
                     }catch let errords {
                         
-                        print(errords)
                     }
     }
     }
@@ -194,7 +180,6 @@ class louerViewController: UIViewController {
                     AF.request(AttachmentIdURL , method : .get ).responseImage {
                         response in
                         guard let image = response.data else {return}
-                        print(image)
                         self.responseImage.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
                         self.sliderCollectionView.reloadData()
                         
@@ -203,7 +188,8 @@ class louerViewController: UIViewController {
                 
                 
             }catch let error {
-                print(error)
+//
+                
             }
             
         }
@@ -229,43 +215,43 @@ class louerViewController: UIViewController {
     
     @IBAction func reservationButton(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ReservationViewController") as! ReservationViewController
-        
-        present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+
     }
     @IBAction func Gotocommentaire(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CommentaireViewController") as! CommentaireViewController
-        
-        present(vc, animated: true, completion: nil)
-    }
-    
-}
+        self.navigationController?.pushViewController(vc, animated: true)
 
-extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return responseImage.count
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
-        if (responseImage.count > 0) {
-            cell.imageSlider.image = responseImage[indexPath.row]
-        }
-        cell.contentView.layer.cornerRadius = 10
-        cell.contentView.layer.borderWidth = 1.0
-        cell.contentView.layer.borderColor = UIColor.blue.cgColor
-        cell.contentView.layer.masksToBounds = true
-        cell.backgroundColor = UIColor.white
-        
-        cell.layer.shadowColor = UIColor.gray.cgColor
-        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        cell.layer.shadowRadius = 2.0
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.masksToBounds = false
-        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
-       
-        return cell
-    }
 }
+//
+//extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return responseImage.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
+//        if (responseImage.count > 0) {
+//            cell.imageSlider.image = responseImage[indexPath.row]
+//        }
+//        cell.contentView.layer.cornerRadius = 10
+//        cell.contentView.layer.borderWidth = 1.0
+//        cell.contentView.layer.masksToBounds = true
+//        cell.backgroundColor = UIColor.white
+//
+//        cell.layer.shadowColor = UIColor.gray.cgColor
+//        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+//        cell.layer.shadowRadius = 2.0
+//        cell.layer.shadowOpacity = 1.0
+//        cell.layer.masksToBounds = false
+//        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
+//
+//        return cell
+//    }
+//}
 
 extension louerViewController: UICollectionViewDelegateFlowLayout {
     
@@ -342,23 +328,18 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
                 cell.viewCell.layer.borderWidth = 1.0
                 cell.viewCell.layer.borderColor = UIColor.gray.cgColor
                cell.accessoryType = .disclosureIndicator
-                //cell.selectionStyle = .none
+                cell.selectionStyle = .none
                 return cell
             }
             else
             {
                 if (indexPath.section == 0) {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsProductCell") as! DetailsProductCell
-//                    if (product?.isAvailable == true){
-//                        cell.uiswitch.isOn = true
-//                    }
-//                    else{
-//                        cell.uiswitch.isOn = false
-//                    }
+
                     cell.nameDescriptionLabel.text = product?.description
                     cell.prixUniteLabel.text = "\(product?.price ?? 0)" + "$  /\(product?.enumUniteName ?? "Jour")"
                     cell.cityRegionLabel.text = "\(product?.enumCityName ?? "") " + "/\(product?.address ?? "")"
-                    cell.telephoneLabel.text = "\(AppManager.shared.user?.phoneNumber ?? "12345678")"
+                    cell.telephoneLabel.text = product?.userName
                     cell.selectionStyle = .none
 
                        return cell
@@ -374,12 +355,11 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
                     return cell
                 }
                 else {
-//                    let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-//                    cell.textLabel?.text = CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
-//                    print(" blalal\(CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1])")
-                    print("blala\(indexPath.section)")
+
                                 let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
                                 cell.tt = self
+                    cell.fsCalendar.delegate  = self
+                    cell.fsCalendar.dataSource = self
                                let dateFormatter = DateFormatter()
                                 var components = DateComponents()
                                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -407,3 +387,38 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
     
 }
 
+extension louerViewController :  FSCalendarDelegate , FSCalendarDataSource , FSCalendarDelegateAppearance  {
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        
+        let dateFormatter = DateFormatter()
+        var components = DateComponents()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        for dispo in dispoList {
+            let dateT = dateFormatter.date(from: dispo.startDate ?? "")
+            let dateF = dateFormatter.date(from: dispo.endDate ?? "")
+            
+            let calendar = NSCalendar.current
+            let normalizedStartDate = calendar.startOfDay(for: dateT!)
+            let normalizedEndDate = calendar.startOfDay(for: dateF!)
+            var dates: [Date] = []
+            var currentDate = normalizedStartDate
+            repeat {
+                currentDate =  calendar.date(byAdding: .day, value: 1, to: currentDate)!
+                dates.append(currentDate)
+            } while !calendar.isDate(currentDate, inSameDayAs: normalizedEndDate)
+            print(dates)
+          
+            
+            for d in dates {
+                if date == d {
+                    return .blue
+                }
+            }
+            
+            
+                    }
+        
+       return .red
+    }
+}

@@ -14,7 +14,7 @@ import Foundation
 
 struct Column : Decodable {
     let id : Int?
-    let name : String?
+    var name : String?
     let enumSubCategoryId: Int?
     let enumSubCategoryName : String?
 }

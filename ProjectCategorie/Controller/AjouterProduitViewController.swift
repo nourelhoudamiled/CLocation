@@ -14,6 +14,10 @@ import SWCombox
 import StepIndicator
 import Photos
 
+struct ProductColumnValue {
+    var value : String?
+    var id : Int?
+}
 class AjouterProduitViewController: UIViewController {
     @IBOutlet var columnTableView: UITableView!
     @IBOutlet var btnSelectUnite: UIButton!
@@ -49,7 +53,7 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var priceTextField: UITextField!
     var amount : Int = 0
     
-    var Value : [String] = []
+    var valuesColumn : [ProductColumnValue] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenText.isHidden = true
@@ -65,7 +69,7 @@ class AjouterProduitViewController: UIViewController {
         print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
           initScrollView()
     }
-    
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let cn : String = Share.sharedName.categorieName ?? "Select Categorie"
@@ -379,9 +383,7 @@ class AjouterProduitViewController: UIViewController {
             }
 
         }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: urlString, method: .post).responseJSON { (response)in
-            switch response.result {
-            case .success:
-//                do {
+            do {
                     print(response)
                     let id : Int = response.value as! Int
                     print(id)
@@ -389,57 +391,14 @@ class AjouterProduitViewController: UIViewController {
                     print("response\(response)")
                     let notevalue = String(data: data, encoding: .utf8)!
                     print(notevalue)
-//                guard let data = response.data else {return}
-//                print(data)
 
-//            let productJson = try JSONDecoder().decode(ProductClass.self, from: data)
-//                print(productJson)
-                let urlString = self.urlGetColumns.url?.absoluteString
-                guard let SubcategorieId : Int = Share.sharedName.SubcategorieId else {return}
-                print(SubcategorieId)
-                let subCategorieURL = urlString! + "\(SubcategorieId)"
-                AF.request(subCategorieURL , method : .get ).responseJSON {
-                    response in
-                    do {
-                        guard let data = response.data else {return}
-                        print(data)
+                          for val in self.valuesColumn {
 
-                        let columnJson = try JSONDecoder().decode([Column].self, from: data)
-                        for column in columnJson {
-                            self.columnList.append(column)
-                            guard let enumColumnId = column.id else {return}
-                            print(enumColumnId)
+                  self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
 
-                            for val in self.Value {
-                                let cell = self.columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
-                              
-                                
-                                self.Value.append(cell.columnTextField.text!)
-                                print("ee \(self.Value)")
-                    self.PostProductColumn(enumColumnId: enumColumnId, value: val , productId: notevalue)
-
-                            }
-                            
-
-                        }
-                        
-                        print(response )
-                       
-                    }
-                    catch let error {
-                        print(error)
-                    }
-                    
-                    
-                }
-//
-//             }catch {
-//                //
-//            }
-                break
-            case .failure(let error):
-
-                print(error)
+                           }
+            }catch {
+                //
             }
             }
             
@@ -461,6 +420,8 @@ class AjouterProduitViewController: UIViewController {
                 let columnJson = try JSONDecoder().decode([Column].self, from: data)
                 for column in columnJson {
                     self.columnList.append(column)
+                    
+                    self.valuesColumn.append(ProductColumnValue(value: "", id: column.id))
                 }
             
                 print(response )
@@ -574,11 +535,6 @@ class AjouterProduitViewController: UIViewController {
 }
 
 }
-extension AjouterProduitViewController : UITextFieldDelegate {
-    
-}
-
-
 
 
 extension AjouterProduitViewController : dataCollectionProtocol {
@@ -661,25 +617,23 @@ extension AjouterProduitViewController :  UIImagePickerControllerDelegate , UINa
 
 }
 extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return columnList.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell") as! ColumnTableViewCell
+        let cell = columnTableView.dequeueReusableCell(withIdentifier: "ColumnTableViewCell", for: indexPath) as! ColumnTableViewCell
         cell.columnLabel.text = columnList[indexPath.row].name
 //
+        cell.columnTextField.tag = indexPath.row
+        cell.columnTextField.delegate = self
 //        Value.append(cell.columnTextField.text!)
 //        print("ee \(Value)")
 //        if Value.count > 0 {
-//        cell.columnTextField.text = Value[indexPath.row]
+        cell.columnTextField.text = valuesColumn[indexPath.row].value
 //        }
         //print("Value[indexPath.row] \(Value[indexPath.row])")
-        if indexPath.row == 0 {
-            cell.backgroundColor = UIColor.red
-        }else {
-            
-          cell.backgroundColor = UIColor.yellow
-        }
+ 
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -693,4 +647,17 @@ extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSo
         
     }
     
+    
+}
+extension AjouterProduitViewController: UITextFieldDelegate {
+    // or whatever method(s) matches the app's
+    // input style for this view
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {
+            return // nothing to update
+        }
+        // use the field's tag
+        // to update the correct element
+        valuesColumn[textField.tag].value = text
+    }
 }

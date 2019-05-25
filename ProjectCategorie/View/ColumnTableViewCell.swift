@@ -12,6 +12,11 @@ class ColumnTableViewCell: UITableViewCell {
 
     @IBOutlet var columnTextField: UITextField!
     @IBOutlet var columnLabel: UILabel!
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

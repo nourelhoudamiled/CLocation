@@ -31,8 +31,7 @@ class RequestCell: UITableViewCell {
         confirmeButton.addTarget(self, action: #selector(handleMarkAsFavorite), for: .touchUpInside)
     }
     @objc private func handleMarkAsFavorite() {
-        print("Marking as confirm")
-        linkto?.someMethodIWantToCall(cell: self)
+    
         
         
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 import  Koyomi
-
+import FSCalendar
 class DisponibilteCell: UITableViewCell {
     let invalidPeriodLength = 90
     var tt : louerViewController?
@@ -28,6 +28,7 @@ class DisponibilteCell: UITableViewCell {
                 .setWeekFont(size: 10)
         }
     }
+    @IBOutlet var fsCalendar: FSCalendar!
     @IBOutlet var currentDateLabel: UILabel!
     @IBOutlet  weak var segmentedControl: UISegmentedControl! {
         didSet {
@@ -52,7 +53,7 @@ class DisponibilteCell: UITableViewCell {
         // Initialization code
     }
     @IBAction func tappedControl(_ sender: UISegmentedControl) {
-        tt?.tapped(cell : self , sender : sender)
+//        tt?.tapped(cell : self , sender : sender)
 //        let month: MonthType = {
 //            switch sender.selectedSegmentIndex {
 //            case 0:  return .previous

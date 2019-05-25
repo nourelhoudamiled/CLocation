@@ -23,6 +23,5 @@ pod 'JBTabBarAnimation'
 pod 'AnimatedField'
 pod 'WVCheckMark'
 pod 'Koyomi'
-
-
+pod 'FSCalendar'
 end

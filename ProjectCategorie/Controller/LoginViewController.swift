@@ -23,11 +23,9 @@ class LoginViewController: UIViewController {
         
       
         loginButton.frame = CGRect(x: 160, y: 100, width: 50, height: 50)
-        loginButton.layer.cornerRadius = 0.5 * loginButton.bounds.size.width
+       // loginButton.layer.cornerRadius = 0.5 * loginButton.bounds.size.width
 //        loginButton.layer.cornerRadius = 50.0
-      
-        signInWithFb.layer.cornerRadius = 10.0
-        
+              
     }
     override func viewDidLayoutSubviews() {
         viewLogin.roundCorners(corners: [.bottomLeft], radius: 80.0)

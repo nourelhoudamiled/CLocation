@@ -60,6 +60,10 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Grh-Gg-un5" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="0.0" width="324" height="224.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -67,12 +71,16 @@
                             <constraint firstAttribute="bottom" secondItem="mgd-Oh-f7G" secondAttribute="bottom" id="A8q-nG-kpt"/>
                             <constraint firstAttribute="trailing" secondItem="mgd-Oh-f7G" secondAttribute="trailing" id="F5a-hE-vrq"/>
                             <constraint firstItem="mgd-Oh-f7G" firstAttribute="leading" secondItem="aQl-tU-Qhk" secondAttribute="leading" id="H6G-y6-5VL"/>
+                            <constraint firstAttribute="trailing" secondItem="Grh-Gg-un5" secondAttribute="trailing" id="HBU-fn-SuA"/>
                             <constraint firstItem="DPe-6S-wIM" firstAttribute="centerX" secondItem="aQl-tU-Qhk" secondAttribute="centerX" id="Rcp-bG-kg9"/>
                             <constraint firstItem="DPe-6S-wIM" firstAttribute="top" secondItem="aQl-tU-Qhk" secondAttribute="top" id="S4e-SR-XSZ"/>
                             <constraint firstItem="J0A-BF-per" firstAttribute="top" secondItem="DPe-6S-wIM" secondAttribute="bottom" constant="1" id="Xnc-fP-ZB7"/>
+                            <constraint firstItem="Grh-Gg-un5" firstAttribute="top" secondItem="aQl-tU-Qhk" secondAttribute="top" id="b9l-59-BHU"/>
                             <constraint firstItem="mgd-Oh-f7G" firstAttribute="top" secondItem="J0A-BF-per" secondAttribute="bottom" constant="2" id="kQk-Hv-p5u"/>
                             <constraint firstItem="J0A-BF-per" firstAttribute="centerX" secondItem="aQl-tU-Qhk" secondAttribute="centerX" id="lSw-gF-yKL"/>
                             <constraint firstItem="J0A-BF-per" firstAttribute="top" secondItem="DPe-6S-wIM" secondAttribute="bottom" constant="1" id="of6-Pg-oft"/>
+                            <constraint firstItem="Grh-Gg-un5" firstAttribute="leading" secondItem="aQl-tU-Qhk" secondAttribute="leading" id="p3f-gA-WNk"/>
+                            <constraint firstAttribute="bottom" secondItem="Grh-Gg-un5" secondAttribute="bottom" id="vnO-ef-3NF"/>
                             <constraint firstItem="mgd-Oh-f7G" firstAttribute="top" secondItem="J0A-BF-per" secondAttribute="bottom" constant="2" id="wBX-fX-LBM"/>
                         </constraints>
                     </view>
@@ -87,6 +95,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="currentDateLabel" destination="J0A-BF-per" id="sGW-WO-Ifx"/>
+                <outlet property="fsCalendar" destination="Grh-Gg-un5" id="lPU-8d-Blo"/>
                 <outlet property="koyomi" destination="mgd-Oh-f7G" id="L18-XO-kpi"/>
                 <outlet property="segmentedControl" destination="DPe-6S-wIM" id="e1K-9V-MrP"/>
             </connections>

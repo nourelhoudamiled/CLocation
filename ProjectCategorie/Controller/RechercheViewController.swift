@@ -41,6 +41,7 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
+
         }
         setUpSearchBar()
 
@@ -207,7 +208,8 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
        
     let vc = self.storyboard?.instantiateViewController(withIdentifier: "produitParSubCatViewController") as! produitParSubCatViewController
         Share.sharedName.sousCategorie =  CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
-            present(vc, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -38,9 +38,9 @@ produitList()
     func produitList() {
         
         let urlString = urlRequestUserLocation.url?.absoluteString
-        guard let userId = AppManager.shared.iduser else {return}
-        let productURL = urlString! + "\(userId)"
-        print("useriD : \(userId)")
+      //  guard let userId = AppManager.shared.iduser else {return}
+        let productURL = urlString! + "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
+      //  print("useriD : \(userId)")
         AF.request(productURL , method : .get).responseJSON {
             response in
             do {
@@ -83,8 +83,9 @@ extension MesDemandeReservationController: UICollectionViewDelegate, UICollectio
         let index = indexPath.row
         cell.index = indexPath
         cell.delegate = self 
-//        cell.periodLabel.text = " period : " + locationList[index].startDate! + " \n  to " + locationList[index].endDate!
+     
         if locationList.count > 0 {
+               cell.periodLabel.text = " period : " + locationList[index].startDate! + " \n  to " + locationList[index].endDate!
         cell.nameProduit.text = " name of product \n " + locationList[index].productName!
             if locationList[index].isConfirmed == true {
                 cell.requestButton.backgroundColor = UIColor.green
@@ -104,7 +105,7 @@ extension MesDemandeReservationController: UICollectionViewDelegate, UICollectio
        
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
-        cell.contentView.layer.borderColor = UIColor.blue.cgColor
+        cell.contentView.layer.borderColor = UIColor.black.cgColor
         cell.contentView.layer.masksToBounds = true
         cell.backgroundColor = UIColor.white
 

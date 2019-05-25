@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         GMSServices.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
-           GMSPlacesClient.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
+        GMSPlacesClient.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
         
 //        
 //        var rootViewController = self.window!.rootViewController

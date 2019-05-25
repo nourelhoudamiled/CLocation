@@ -39,7 +39,7 @@ class ReservationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
              styleView()
-        prixanduniteLabel.text = "\(Share.sharedName.product?.price ?? 2) /  \( Share.sharedName.product?.enumUniteName ?? "jour")"
+        prixanduniteLabel.text = "\(Share.sharedName.product?.price ?? 2) DT /  \( Share.sharedName.product?.enumUniteName ?? "jour")"
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         tap.delegate = self as? UIGestureRecognizerDelegate
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.tap2(_:)))
@@ -58,9 +58,6 @@ class ReservationViewController: UIViewController {
         viewOfDays.layer.borderWidth = 1.0
         viewOfDays.layer.borderColor = UIColor.gray.cgColor
 
-
-      print("date du text \(duration.text)")
-       print("date fin du text \(totalePrixLabel.text)")
       
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -112,14 +109,12 @@ class ReservationViewController: UIViewController {
 
         viewDateDebut.layer.masksToBounds  = false
         viewDateDebut.backgroundColor = .white
-        viewDateDebut.layer.cornerRadius = 14
         viewDateDebut.layer.shadowOffset = CGSize.zero
         viewDateDebut.layer.shadowRadius = 8
         viewDateDebut.layer.shadowOpacity = 0.2
 
         viewDateFin.layer.masksToBounds  = false
         viewDateFin.backgroundColor = .white
-        viewDateFin.layer.cornerRadius = 14
         viewDateFin.layer.shadowOffset = CGSize.zero
         viewDateFin.layer.shadowRadius = 8
         viewDateFin.layer.shadowOpacity = 0.2
@@ -132,17 +127,11 @@ class ReservationViewController: UIViewController {
 let alert = UIAlertController(title: "Date Picker", message: "Select Date", preferredStyle: alertStyle)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
             action in
-            // self.dismiss(animated: true, completion: nil)
         }
         let date = Date()
         let calendar = Calendar.current
         
         let ymd = calendar.dateComponents([.year, .month, .day , .hour , .minute], from: date)
-//    let cal   = calendar.component(.hour, from: date)
-//        calendar.component(.month, from: date)
-//        calendar.component([.year , .month , .day], from: date)
-        
-     
         print("eee\(ymd)")
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -150,9 +139,12 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         //print(formattedDate)
         alert.addDatePicker(mode: .date, date: Date(), minimumDate: date , maximumDate: nil) { date in
             print(date)
-         
+            let formatter = DateFormatter()
             self.startdate = date
-            self.datedebutLabel.text = "\(self.startdate)"
+            formatter.dateFormat = "dd-MMM-yyyy"
+            // again convert your date to string
+            let myStringafd = formatter.string(from: self.startdate)
+            self.datedebutLabel.text = "\(myStringafd)"
 
 
         }
@@ -171,7 +163,7 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             print(date)
             self.enddate = date
             let formatter = DateFormatter()
-            
+
             formatter.dateFormat = "dd-MMM-yyyy"
             // again convert your date to string
             let myStringafd = formatter.string(from: self.enddate)
@@ -263,8 +255,6 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
     @IBAction func louerButton(_ sender: Any) {
         PostLocation()
     }
-    @IBAction func backButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+    
     
 }

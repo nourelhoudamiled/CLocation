@@ -119,8 +119,6 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
                 {
                    
                     
-                    if revealViewController != nil {
-                        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
                         let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let vs = mainStoryboard.instantiateViewController(withIdentifier: "ProfilTabBarController")
                         let newFrontViewController = UINavigationController.init(rootViewController: vs)
@@ -128,9 +126,7 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
                         
                     }
                  
-                    
-                    
-                }
+       
         
             }
     
