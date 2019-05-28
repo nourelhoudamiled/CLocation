@@ -24,4 +24,5 @@ pod 'AnimatedField'
 pod 'WVCheckMark'
 pod 'Koyomi'
 pod 'FSCalendar'
+pod 'FaveButton'
 end

@@ -27,6 +27,17 @@ class CommentaireViewCell: UICollectionViewCell {
         return tv
     }()
     
+    let userText : UITextView = {
+       let tv = UITextView()
+        tv.text = "SAMPLE TEXT FOR NOW"
+
+        tv.font = UIFont.systemFont(ofSize: 12)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.backgroundColor = UIColor.clear
+        tv.textColor = .black
+        tv.isEditable = false
+        return tv
+    }()
     static let blueColor = UIColor(red: 0/255, green: 137/255, blue: 249/255, alpha: 1)
     
     let bubbleView: UIView = {
@@ -57,16 +68,21 @@ class CommentaireViewCell: UICollectionViewCell {
         addSubview(bubbleView)
         addSubview(textView)
         addSubview(profileImageView)
-        
+        addSubview(userText)
         
         
         //x,y,w,h
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 1).isActive = true
-        profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
         //x,y,w,h
-        
+        userText.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 1).isActive = true
+       // userText.topAnchor.constraint(equalTo: profileImageView.topAnchor).isActive = true
+        userText.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+
+        userText.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        userText.heightAnchor.constraint(equalToConstant: 32).isActive = true
         //x,y,w,h
         
         bubbleViewRightAnchor = bubbleView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 50)

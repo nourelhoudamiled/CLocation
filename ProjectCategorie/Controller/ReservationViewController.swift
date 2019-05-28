@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 class ReservationViewController: UIViewController {
 
+    @IBOutlet var reserverButton: UIButton!
+    @IBOutlet var dispoLabel: UILabel!
     @IBOutlet var viewTotale: UIView!
     @IBOutlet var viewDuration: UIView!
     @IBOutlet var viewOfDays: UIView!
@@ -32,6 +34,7 @@ class ReservationViewController: UIViewController {
     @IBOutlet var datedebutLabel: UILabel!
     @IBOutlet var viewDateFin: UIView!
     @IBOutlet var viewDateDebut: UIView!
+    var notevalue = Int()
     var startdate  = Date()
     var enddate  = Date()
     var durree = String()
@@ -40,6 +43,26 @@ class ReservationViewController: UIViewController {
         super.viewDidLoad()
              styleView()
         prixanduniteLabel.text = "\(Share.sharedName.product?.price ?? 2) DT /  \( Share.sharedName.product?.enumUniteName ?? "jour")"
+        guard let price = Share.sharedName.product?.price else {return}
+        let priceDouble = Double(price)
+        if Share.sharedName.product?.enumUniteName == "Mois" {
+            let priceParMois = priceDouble / 30
+            let priceFormated = String(format: " %.2f", priceParMois)
+          totalePrixLabel.text = "\(priceFormated)"
+        }
+        if Share.sharedName.product?.enumUniteName == "Année" {
+            let priceParAnnee = priceDouble / 365
+            let priceFormated = String(format: " %.2f", priceParAnnee)
+
+            totalePrixLabel.text = "\(priceFormated)"
+        }
+        if Share.sharedName.product?.enumUniteName == "Jour"   {
+           let priceFormated = String(format: " %.2f", priceDouble)
+            totalePrixLabel.text = "\(priceFormated)"
+        }
+        datedebutLabel.text = Date().toString()
+        datefinLabel.text = Date().toString()
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         tap.delegate = self as? UIGestureRecognizerDelegate
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.tap2(_:)))
@@ -57,8 +80,9 @@ class ReservationViewController: UIViewController {
         viewOfAmount.layer.borderColor = UIColor.gray.cgColor
         viewOfDays.layer.borderWidth = 1.0
         viewOfDays.layer.borderColor = UIColor.gray.cgColor
+     availibility(debut: Date().toString(), fin: Date().toString())
 
-      
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -70,15 +94,14 @@ class ReservationViewController: UIViewController {
         let date1 = calendar.startOfDay(for: startdate as Date)
         let date2 = calendar.startOfDay(for: enddate as Date)
         components = calendar.dateComponents([.day], from: date1, to: date2)
-        duration.text =  "\(components.day ?? 0 ) days"
-        print("durree du text \(duration.text)")
-        print("date du text \(datedebutLabel.text)")
-        print("date fin du text \(datefinLabel.text)")
-        print("component \(components.day)")
+        let plusF = plus(of: components.day ?? 0, and: 1)
+     print("plusun \(plusF)")
+        duration.text =  "\(plusF) days"
+ 
         guard let price = Share.sharedName.product?.price else {return}
         let priceDouble = Double(price)
         if Share.sharedName.product?.enumUniteName == "Jour" || Share.sharedName.product?.enumUniteName == "Pièces"   {
-        let dureeDouble = Double(components.day!)
+        let dureeDouble = Double(components.day!  ) + 1
         let result = multiple(of: priceDouble, and: dureeDouble)
         print("result \(result)")
         totalePrixLabel.text = "\(result)"
@@ -86,7 +109,9 @@ class ReservationViewController: UIViewController {
         if Share.sharedName.product?.enumUniteName == "Mois" {
             let priceParMois = priceDouble / 30
             let dureeDouble = Double(components.day!)
-            let result = multiple(of: priceParMois, and: dureeDouble)
+            let plusun = dureeDouble + 1
+            print("plusun \(plusun)")
+            let result = multiple(of: priceParMois, and: plusun)
             let priceFormated = String(format: " %.2f", result)
             print("result \(priceFormated)")
             totalePrixLabel.text = priceFormated
@@ -94,13 +119,17 @@ class ReservationViewController: UIViewController {
         if Share.sharedName.product?.enumUniteName == "Année" {
             let priceParAnnee = priceDouble / 365
             let dureeDouble = Double(components.day!)
+            let plusun = dureeDouble + 1
+            print(plusun)
             let result = multiple(of: priceParAnnee, and: dureeDouble)
             let priceFormated = String(format: " %.2f", result)
             print("result \(priceFormated)")
             totalePrixLabel.text = priceFormated
         }
     }
-
+    func plus(of a :Int, and b: Int ) -> Int {
+        return a + b
+    }
     func multiple(of a :Double, and b: Double ) -> Double {
         return a * b
     }
@@ -133,18 +162,28 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         
         let ymd = calendar.dateComponents([.year, .month, .day , .hour , .minute], from: date)
         print("eee\(ymd)")
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-       // let formattedDate = format.da(from: date)
-        //print(formattedDate)
-        alert.addDatePicker(mode: .date, date: Date(), minimumDate: date , maximumDate: nil) { date in
+     
+        alert.addDatePicker(mode: .date, date: Date(), minimumDate: Date() , maximumDate: nil) { date in
             print(date)
-            let formatter = DateFormatter()
+         
             self.startdate = date
-            formatter.dateFormat = "dd-MMM-yyyy"
-            // again convert your date to string
-            let myStringafd = formatter.string(from: self.startdate)
-            self.datedebutLabel.text = "\(myStringafd)"
+            if self.startdate < self.enddate {
+                self.datedebutLabel.text = self.startdate.toString()
+                self.datefinLabel.text = self.enddate.toString()
+                self.availibility(debut: self.startdate.toString()
+                    , fin: self.enddate.toString())
+            }
+            else {
+                self.datedebutLabel.text = self.startdate.toString()
+                self.datefinLabel.text = self.startdate.toString()
+                self.availibility(debut: self.startdate.toString()
+                    , fin: self.startdate.toString())
+            }
+        
+          self.dateduree()
+           
+       
+
 
 
         }
@@ -156,20 +195,20 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         let alert = UIAlertController(title: "Date Picker", message: "Select Date", preferredStyle: alertStyle)
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default ) {
             action in
-            // self.dismiss(animated: true, completion: nil)
         }
       
         alert.addDatePicker(mode: .date, date: Date(), minimumDate: startdate, maximumDate: nil) { date in
             print(date)
             self.enddate = date
-            let formatter = DateFormatter()
+            
 
-            formatter.dateFormat = "dd-MMM-yyyy"
-            // again convert your date to string
-            let myStringafd = formatter.string(from: self.enddate)
-            self.datefinLabel.text = "\(myStringafd)"
+            self.datefinLabel.text = self.enddate.toString()
           
             self.dateduree()
+            self.availibility(debut: self.startdate.toString()
+                , fin: self.enddate.toString())
+            print("rr\(self.notevalue)")
+
 
         }
         
@@ -187,16 +226,8 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         guard let productName = Share.sharedName.product?.name else {return}
         guard let duration = components.day else {return}
         guard let amount = totalePrixLabel.text else {return}
-        let formatter = DateFormatter()
-        
-        formatter.dateFormat = "dd-MMM-yyyy"
-        // again convert your date to string
-//        let myStringafd = formatter.string(from: startdate)
-//        let myStringafd2 = formatter.string(from: enddate)
-//
-//        print("myStringafd \(myStringafd)")
-//
-//        print("myStringafd \(myStringafd2)")
+      
+
         print("startdate \(startdate) ,startdate \(enddate)  , amount \(amount) , durationn \(duration) , userId \(userId) , productId  \(productId)")
         let parametre = ["userId": userId ,"productId": productId,"duration": duration,"startDate": "\(startdate)","endDate": "\(enddate)", "amount": amount , "isRequested": true,
                          "isConfirmed": false] as [String : Any]
@@ -218,42 +249,49 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
             }
         }
     }
-//    func availibility() {
-//
-//        let urlString = "http://clocation.azurewebsites.net/api/Location/IsAvailable/"
-//        guard let productId = Share.sharedName.product?.id  else {return}
-//        let productURL = urlString! + "\(productId)"
-//        print("productId : \(productId)")
-//        let param = ["productId" :  Share.sharedName.product?.id ,"startDate" :  Share.sharedName.product?.,"endDate" :  Share.sharedName.product?.id]
-//        AF.request(productURL , method : .get).responseJSON {
-//            response in
-//            do {
-//                print("response \(response)")
-//                guard let data = response.data else {return}
-//                let itemDetails = try JSONDecoder().decode([Location].self, from: data)
-//                print("item detaile \(itemDetails)")
-//                for item  in itemDetails {
-//                    self.locationList.append(item)
-//                    guard let productId = item.productId else {return}
-//                    self.searchImage(productId: productId)
-//                    print(productId)
-//
-//                }
-//                self.collectionView.reloadData()
-//
-//
-//            }catch let errors {
-//                print(errors)
-//            }
-//            self.activityIndicator.stopAnimating()
-//            self.activityIndicator.isHidden = true
-//        }
-//
-//        }
-//    }
- 
+    func availibility(  debut : String , fin : String){
+
+        let urlString = "http://clocation.azurewebsites.net/api/Location/IsAvailable/"
+        guard let productId = Share.sharedName.product?.id  else {return}
+
+//   let productURL = urlString + "\(productId)/" + "\(self.startdate.toString())/" + "\(self.enddate.toString())"
+        let productURL = urlString + "\(productId)/" + debut + "/" + fin
+   print(productURL)
+        AF.request(productURL , method : .get).responseJSON {
+            response in
+           //guard let data = response.data else {return}
+                print("response \(response.result)")
+            self.notevalue = response.value as! Int
+               print("ee\(response.value)")
+          
+            if self.notevalue == 0 {
+                self.dispoLabel.text = "Cet article n'est pas disponible à ces dates"
+                self.reserverButton.isEnabled = false
+
+                self.dispoLabel.textColor = .mainRed
+                print("rr\(self.notevalue)")
+            }
+            else {
+                self.dispoLabel.text = "Cet article est disponible à ces dates"
+                self.dispoLabel.textColor = .mainVert
+                self.reserverButton.isEnabled = true
+
+                print("rr\(self.notevalue)")
+            }
+           
+
+
+        
+        }
+
+        
+    }
+
     @IBAction func louerButton(_ sender: Any) {
+       
+       
         PostLocation()
+  
     }
     
     

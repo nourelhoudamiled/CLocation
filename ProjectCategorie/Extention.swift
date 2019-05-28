@@ -37,7 +37,15 @@ extension UIView {
 }
 extension UIColor {
     static var mainPink = UIColor(red: 232/255, green: 68/255, blue: 133/255, alpha: 1)
+    static var mainGray = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+    static var mainVert = UIColor(red: 36/255, green: 189/255, blue: 119/255, alpha: 1)
+    static var mainRed = UIColor(red: 228/255, green: 86/255, blue: 71/255, alpha: 1)
+      static var mainRoze = UIColor(red: 226/255, green: 38/255, blue: 77/255, alpha: 1)
+   static var main = UIColor(red: 137/255, green: 156/255, blue: 167/255, alpha: 1.0)
+
 }
+
+
 
 extension UIImageView {
 
@@ -139,7 +147,17 @@ extension NSData{
         }
     }
 }
+extension Date {
+    
+    func toString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: self)
+    }
+}
 extension UIViewController {
+  
     func setTabBarVisible(visible:Bool, animated:Bool) {
         
         //* This cannot be called before viewDidLayoutSubviews(), because the frame is not set before this time
@@ -178,6 +196,20 @@ func displayMessage(userMessage : String)
     self.present(myAlert , animated : true , completion : nil)
     
 }
+    func alertdisaper(userMessage : String)
+    {
+        // the alert view
+        let alert = UIAlertController(title: "Message", message: userMessage, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        alert.view.alpha = 0.4
+        alert.view.backgroundColor = .white
+        // change to desired number of séeconds (in this case 5 seconds)
+        let when = DispatchTime.now() + 2
+        DispatchQueue.main.asyncAfter(deadline: when){
+            // your code with delay
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
 
     
     @objc func hideKeyboardWhenTap() {

@@ -5,6 +5,7 @@ PODS:
   - ALCameraViewController (3.0.3)
   - AnimatedField (2.1.0)
   - ASCollectionView (1.1.0)
+  - FaveButton (3.2.0)
   - FSCalendar (2.8.0)
   - GoogleMaps (3.0.3):
     - GoogleMaps/Maps (= 3.0.3)
@@ -30,6 +31,7 @@ DEPENDENCIES:
   - ALCameraViewController
   - AnimatedField
   - ASCollectionView (= 1.1.0)
+  - FaveButton
   - FSCalendar
   - GoogleMaps
   - GooglePlaces
@@ -51,6 +53,7 @@ SPEC REPOS:
     - ALCameraViewController
     - AnimatedField
     - ASCollectionView
+    - FaveButton
     - FSCalendar
     - GoogleMaps
     - GooglePlaces
@@ -85,6 +88,7 @@ SPEC CHECKSUMS:
   ALCameraViewController: 6398a9282057f709b87a1ecc52a83b48028ade64
   AnimatedField: b1976f8d6fe9598141c520f8d3012adfef0dd1f9
   ASCollectionView: c914ccae1cb39d146cec7f0b360206abed476765
+  FaveButton: c818ab3d04d22a7615e93f08c7b35932acb3f735
   FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
@@ -99,6 +103,6 @@ SPEC CHECKSUMS:
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
   WVCheckMark: abd367048aa3793b82d1c82a15be56eea5b940a7
 
-PODFILE CHECKSUM: b99e4738dd2bb0d760c12d63fe5df331a3dc7027
+PODFILE CHECKSUM: 3eb4738ee99206dcd498b9ca1743d64ca1ca73e9
 
 COCOAPODS: 1.6.0

@@ -18,7 +18,8 @@ struct expend  {
 }
 
 class louerViewController: UIViewController {
-     var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
     @IBOutlet var cosmosView: CosmosView!
     @IBOutlet var labelName: UILabel!
     @IBOutlet var tableView: UITableView!
@@ -39,19 +40,8 @@ class louerViewController: UIViewController {
 
     var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     
-    //   @IBOutlet var downloadImage: UIImageView!
     var urlRequestAttachmentsId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
 
-    var imgArr = [  UIImage(named:"AlexandraDaddario"),
-                    UIImage(named:"AngelinaJolie") ,
-                    UIImage(named:"AnneHathaway") ,
-                    UIImage(named:"DakotaJohnson") ,
-                    UIImage(named:"EmmaStone") ,
-                    UIImage(named:"EmmaWatson") ,
-                    UIImage(named:"HalleBerry") ,
-                    UIImage(named:"JenniferLawrence") ,
-                    UIImage(named:"JessicaAlba") ,
-                    UIImage(named:"ScarlettJohansson") ]
     var dispoList = [Disponibility]()
     var timer = Timer()
     var counter = 0
@@ -62,31 +52,7 @@ class louerViewController: UIViewController {
     var responseImage = [UIImage]()
     var currentLocationList = [Location]()
     
-//    func tapped(cell: DisponibilteCell, sender: UISegmentedControl) {
-//        let dateFormatter = DateFormatter()
-//        var components = DateComponents()
-//        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-//
-//        for dispo in dispoList {
-//            let date = dateFormatter.date(from: dispo.startDate ?? "")
-//            components.day = dispo.duration
-//            let range = Calendar.current.date(byAdding: components, to: date!)
-//            cell.koyomi.select(date: date!, to: range)
-//
-//
-//        }
-//        let month: MonthType = {
-//            switch sender.selectedSegmentIndex {
-//            case 0:  return .previous
-//            case 1:  return .current
-//            default: return .next
-//            }
-//        }()
-//
-//        cell.koyomi.display(in: month)
-//
-//
-//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         labelName.text = product?.name
@@ -98,18 +64,24 @@ class louerViewController: UIViewController {
         
 
 
-      //  photos()
         getDateDisponible()
      
-        pageView.numberOfPages = responseImage.count
-//        pageView.currentPage = 0
-       
-//        DispatchQueue.main.async {
-//            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
-//        }
-           CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "Locataire Detail "), expend(opened: false, title: "Disponibilite" ) ]
+
+           CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "Disponibilite "), expend(opened: false, title: "Locataire Detail" ) ]
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        activityIndicator.startAnimating()
+
+        photos()
+        
+        pageView.numberOfPages = responseImage.count
+        pageView.currentPage = 0
+        
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -191,7 +163,8 @@ class louerViewController: UIViewController {
 //
                 
             }
-            
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
         }
         
         
@@ -226,32 +199,36 @@ class louerViewController: UIViewController {
     }
     
 }
-//
-//extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return responseImage.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
-//        if (responseImage.count > 0) {
-//            cell.imageSlider.image = responseImage[indexPath.row]
-//        }
-//        cell.contentView.layer.cornerRadius = 10
-//        cell.contentView.layer.borderWidth = 1.0
-//        cell.contentView.layer.masksToBounds = true
-//        cell.backgroundColor = UIColor.white
-//
-//        cell.layer.shadowColor = UIColor.gray.cgColor
-//        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
-//        cell.layer.shadowRadius = 2.0
-//        cell.layer.shadowOpacity = 1.0
-//        cell.layer.masksToBounds = false
-//        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
-//
-//        return cell
-//    }
-//}
+
+extension louerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return responseImage.count
+    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
+        if (responseImage.count > 0) {
+            cell.imageSlider.image = responseImage[indexPath.row]
+        }
+        
+        cell.contentView.layer.cornerRadius = 10
+        cell.contentView.layer.borderWidth = 1.0
+        cell.contentView.layer.masksToBounds = true
+        cell.backgroundColor = UIColor.white
+
+        cell.layer.shadowColor = UIColor.gray.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        cell.layer.shadowRadius = 2.0
+        cell.layer.shadowOpacity = 1.0
+        cell.layer.masksToBounds = false
+        cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
+
+        return cell
+    }
+}
 
 extension louerViewController: UICollectionViewDelegateFlowLayout {
     
@@ -278,6 +255,9 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
         if(indexPath.row == 0 ){
             return 50
         }else{
+             if (indexPath.section == 1) {
+            return 300 
+            }
             return 230
         }
     }
@@ -345,36 +325,37 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
                        return cell
                 }
                 if (indexPath.section == 1 ) {
+                 
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
+                    cell.tt = self
+                    cell.fsCalendar.delegate  = self
+                    cell.fsCalendar.dataSource = self
+//                    let dateFormatter = DateFormatter()
+//                    var components = DateComponents()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+//
+//                    for dispo in dispoList {
+//                        let date = dateFormatter.date(from: dispo.startDate ?? "")
+//                        components.day = dispo.duration
+//                        let range = Calendar.current.date(byAdding: components, to: date!)
+//
+//
+//                    }
+                    cell.selectionStyle = .none
+                    
+                    return cell
+                }
+                else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "DetailOfUserCell") as! DetailOfUserCell
-            
+                    
                     cell.nameUserLabel.text = AppManager.shared.user?.firstName
                     cell.phoneNumberLabel.text =  AppManager.shared.user?.phoneNumber
                     cell.cityLabel.text = AppManager.shared.user?.partnerCity
                     cell.selectionStyle = .none
                     
                     return cell
-                }
-                else {
 
-                                let cell = tableView.dequeueReusableCell(withIdentifier: "DisponibilteCell") as! DisponibilteCell
-                                cell.tt = self
-                    cell.fsCalendar.delegate  = self
-                    cell.fsCalendar.dataSource = self
-                               let dateFormatter = DateFormatter()
-                                var components = DateComponents()
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-                    
-                                for dispo in dispoList {
-                                     let date = dateFormatter.date(from: dispo.startDate ?? "")
-                                    components.day = dispo.duration
-                                    let range = Calendar.current.date(byAdding: components, to: date!)
-                                    cell.koyomi.select(date: date!, to: range)
-                    
-                    
-                                }
-                    cell.selectionStyle = .none
-
-                    return cell
+                   
                 }
                 
             }

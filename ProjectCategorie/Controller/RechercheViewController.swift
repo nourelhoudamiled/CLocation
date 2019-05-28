@@ -37,10 +37,13 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
+
+        UITabBar.appearance().barTintColor = UIColor.white
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         if revealViewController() != nil {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
+       
 
         }
         setUpSearchBar()

@@ -17,6 +17,8 @@ struct Expandable {
     var hasFavorited: Bool?
 }
 class produitParSubCatViewController: UIViewController {
+    
+   
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
     var startingImageView: UIImageView?
@@ -49,17 +51,17 @@ class produitParSubCatViewController: UIViewController {
     
     func methodCosmos(cell: produitParSubViewCell , rating : Double) {
         
-        cell.ratingLabel.text = produitParSubViewCell.formatValue(rating)
-        
-        cell.ratingLabel.textColor = UIColor(red: 133/255, green: 116/255, blue: 154/255, alpha: 1)
+//        cell.ratingLabel.text = produitParSubViewCell.formatValue(rating)
+//
+//        cell.ratingLabel.textColor = UIColor(red: 133/255, green: 116/255, blue: 154/255, alpha: 1)
         
         
     }
     func methodDidfinich( cell: produitParSubViewCell ,rating : Double)  {
         guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
         
-        cell.ratingLabel.text = produitParSubViewCell.formatValue(rating)
-        cell.ratingLabel.textColor = UIColor(red: 183/255, green: 186/255, blue: 204/255, alpha: 1)
+//        cell.ratingLabel.text = produitParSubViewCell.formatValue(rating)
+//        cell.ratingLabel.textColor = UIColor(red: 183/255, green: 186/255, blue: 204/255, alpha: 1)
         postRating (Id : ProductList[indexPathTapped.row].id! , userId : "83a22f90-ef02-40bc-971e-2cda1296bf01" , note : rating)
         
     }
@@ -69,12 +71,14 @@ class produitParSubCatViewController: UIViewController {
         if twoDimensionalArray.count > 0 {
             let hasFavorited = twoDimensionalArray[indexPathTapped.row].hasFavorited
             twoDimensionalArray[indexPathTapped.row].hasFavorited = !hasFavorited!
-
-            cell.favoriteButton.tintColor = hasFavorited! ?  UIColor.lightGray : .red
+// let color  = isSelected ? selectedColor : normalColor
+            cell.favoriteButton.isSelected = hasFavorited! ?  false : true
             if (hasFavorited == false) {
+                 cell.viewProduit.alpha = 0.5 // 50% opacity
                 self.postFavorite(Id: ProductList[indexPathTapped.row].id!, userId: "5db395d9-3b02-4c27-bb19-0f4c6ce8b851")
             }
             if (hasFavorited == true) {
+                 cell.viewProduit.alpha = 1 // 50% opacity
                 self.deleteFavorite(Id: twoDimensionalArray[indexPathTapped.row].idFavoris ?? 0)
             }
         }
@@ -96,10 +100,11 @@ class produitParSubCatViewController: UIViewController {
             switch response.result {
             case .success:
                 print(response)
+                  print("ajout")
                 let favorite : String = "vous avez ajouter dans votre favoris"
                 self.ProductList.removeAll()
                 self.expendlistproduit2()
-             self.displayMessage(userMessage: favorite)
+             self.alertdisaper(userMessage: favorite)
                 
                 break
             case .failure(let error):
@@ -120,8 +125,9 @@ class produitParSubCatViewController: UIViewController {
             switch response.result {
             case .success:
                 print(response)
+                print("delete")
                 let favorite : String = "vous avez supprimer cette favoris"
-                self.displayMessage(userMessage: favorite)
+                self.alertdisaper(userMessage: favorite)
                 
                 break
             case .failure(let error):
@@ -142,7 +148,7 @@ class produitParSubCatViewController: UIViewController {
             case .success:
                 print(response)
                                 let favorite : String = "vous avez ajouter dans votre favoris"
-                                self.displayMessage(userMessage: favorite)
+                                self.alertdisaper(userMessage: favorite)
                 
                 break
             case .failure(let error):
@@ -331,15 +337,18 @@ extension produitParSubCatViewController: UICollectionViewDelegate, UICollection
         let index = indexPath.row
         if ProductList.count > 0 {
         cell.nameLabel.text = ProductList[index].name
+            cell.userLabel.text = ProductList[index].userName
+            cell.prixLabel.text = "\(ProductList[index].price!) DT"
+
         }
         if twoDimensionalArray.count > 0 {
 
                     if twoDimensionalArray[index].hasFavorited == true {
-                        cell.favoriteButton.tintColor = UIColor.red
+                        cell.favoriteButton.isSelected = true
                     }
                     else
                     {
-                    cell.favoriteButton.tintColor =  UIColor.lightGray
+                    cell.favoriteButton.isSelected =  false
                     }
         }
 
@@ -347,7 +356,6 @@ extension produitParSubCatViewController: UICollectionViewDelegate, UICollection
         if responseImages.count > 0 {
             cell.produitsImage.image = self.responseImages[indexPath.row]
         }
-            cell.ratingLabel.text = ratingNotes[indexPath.row]
             cell.cosmosView.rating = Double(ratingNotes[indexPath.row]) ?? 0
         
        
@@ -355,7 +363,7 @@ extension produitParSubCatViewController: UICollectionViewDelegate, UICollection
         
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
-        cell.contentView.layer.borderColor = UIColor.blue.cgColor
+        cell.contentView.layer.borderColor = UIColor.gray.cgColor
         cell.contentView.layer.masksToBounds = true
         cell.backgroundColor = UIColor.white
         
@@ -376,14 +384,22 @@ extension produitParSubCatViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\(ProductList[indexPath.row]) is selected")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
+        vc.product =  ProductList[indexPath.row]
+        Share.sharedName.product =  ProductList[indexPath.row]
+        
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let bounds = collectionView.bounds
         let heightVal = self.view.frame.height
         let widthVal = self.view.frame.width
-        let cellsize = (heightVal < widthVal) ?  bounds.height/2 : bounds.width/2
+        let cellsize = (heightVal < widthVal) ?  bounds.height : bounds.width 
         
-        return CGSize(width: cellsize - 10   , height:  cellsize - 10  )
+        return CGSize(width: cellsize - 10   , height:  cellsize - 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -397,17 +413,7 @@ extension produitParSubCatViewController : UICollectionViewDelegateFlowLayout {
 extension produitParSubCatViewController : TableNew {
     
     
-    func onClickCell(index: Int) {
-        print("\(ProductList[index]) is selected")
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "louerViewController") as! louerViewController
-        vc.product =  ProductList[index]
-        Share.sharedName.product =  ProductList[index]
-        
-        
-        present(vc, animated: true, completion: nil)
-        
-    }
-    
+ 
 
     
     //my custom zooming logic

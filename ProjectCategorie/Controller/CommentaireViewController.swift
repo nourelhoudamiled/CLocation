@@ -306,6 +306,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
         cell.CommentaireViewController = self
         let comment = comments[indexPath.item]
         cell.textView.text = comment.commentaire
+    cell.userText.text = comment.userName
         setupCell(cell, message: comment)
 
         if let text = comment.commentaire {

@@ -44,7 +44,7 @@ class AjouterProduitViewController: UIViewController {
     @IBOutlet var step1View: UIView!
     @IBOutlet var step2View: UIView!
     @IBOutlet var hiddenText: UITextField!
-    @IBOutlet var descriptionText: UITextField!
+    @IBOutlet var descriptionText: UITextView!
     var urlGetColumns = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/SubCategory/Column/")!)
        var urlRequestAtt = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments")!)
     var columnList = [Column]()
@@ -57,6 +57,9 @@ class AjouterProduitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenText.isHidden = true
+        descriptionText.layer.cornerRadius = 10
+       descriptionText.layer.borderWidth = 1.0
+        descriptionText.layer.borderColor = UIColor.mainGray.cgColor
 
         if revealViewController() != nil {
             
@@ -77,7 +80,7 @@ class AjouterProduitViewController: UIViewController {
         print(id)
         btnSelected.setTitle(cn,for: .normal)
         let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Categorie"
-        getColumnFields()
+//        getColumnFields()
         btnSelectSubCar.setTitle(cnsub,for: .normal)
      single()
     
@@ -134,7 +137,7 @@ class AjouterProduitViewController: UIViewController {
         let city : String = Share.sharedName.CityName ?? "Select city"
         btnSelectCity.setTitle(city,for: .normal)
         
-        priceTextField.placeholder = updateAmount()
+      //  priceTextField.placeholder = updateAmount()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -158,12 +161,12 @@ class AjouterProduitViewController: UIViewController {
         
     }
     
-    func updateAmount() -> String? {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = NumberFormatter.Style.currency
-        let amoun = Double(amount/100) + Double(amount%100)/100
-        return formatter.string(from: NSNumber(value: amoun))
-    }
+//    func updateAmount() -> String? {
+//        let formatter = NumberFormatter()
+//        formatter.numberStyle = NumberFormatter.Style.currency
+//        let amoun = Double(amount/100) + Double(amount%100)/100
+//        return formatter.string(from: NSNumber(value: amoun))
+//    }
     
     @IBAction func stepperButton(_ sender: UIStepper) {
         nombreAlLabel.text = String(sender.value)
@@ -256,31 +259,44 @@ class AjouterProduitViewController: UIViewController {
         if(stepIndicatorView.currentStep == 1)
         {
             print("step2")
+            if descriptionText.text.isEmpty {
+                displayMessage(userMessage: "enter your description")
+                self.stepIndicatorView.currentStep -= 1
+                
+            }else {
+                btnSelectAdresse.backgroundColor = .clear
+                btnSelectAdresse.layer.cornerRadius = 5
+                btnSelectAdresse.layer.borderWidth = 0.5
+                btnSelectAdresse.layer.borderColor = UIColor.lightGray.cgColor
+                step1View.layer.isHidden = true
+                step4View.layer.isHidden = true
+                step3View.layer.isHidden = true
+                step2View.layer.isHidden = false
+                doneLabel.layer.isHidden = true
+                step5View.layer.isHidden = true
+                ajouterProduit.layer.isHidden = true
+                backButton.layer.isHidden = false
+            }
             
-            btnSelectAdresse.backgroundColor = .clear
-            btnSelectAdresse.layer.cornerRadius = 5
-            btnSelectAdresse.layer.borderWidth = 0.5
-            btnSelectAdresse.layer.borderColor = UIColor.lightGray.cgColor
-            step1View.layer.isHidden = true
-            step4View.layer.isHidden = true
-            step3View.layer.isHidden = true
-            step2View.layer.isHidden = false
-            doneLabel.layer.isHidden = true
-            step5View.layer.isHidden = true
-            ajouterProduit.layer.isHidden = true
-            backButton.layer.isHidden = false
+          
             
         }
         else  if(stepIndicatorView.currentStep == 2)
         {print("step3")
-            step1View.layer.isHidden = true
-            step2View.layer.isHidden = true
-            step4View.layer.isHidden = true
-            step3View.layer.isHidden = false
-            step5View.layer.isHidden = true
-            ajouterProduit.layer.isHidden = true
-            doneLabel.layer.isHidden = true
-            backButton.layer.isHidden = false
+            if priceTextField.text!.isEmpty {
+                displayMessage(userMessage: "enter your price")
+                self.stepIndicatorView.currentStep -= 1
+            }else {
+                step1View.layer.isHidden = true
+                step2View.layer.isHidden = true
+                step4View.layer.isHidden = true
+                step3View.layer.isHidden = false
+                step5View.layer.isHidden = true
+                ajouterProduit.layer.isHidden = true
+                doneLabel.layer.isHidden = true
+                backButton.layer.isHidden = false
+            }
+     
            
 
         }
@@ -288,6 +304,7 @@ class AjouterProduitViewController: UIViewController {
         else  if(stepIndicatorView.currentStep == 3)
         {
             print("step4")
+            getColumnFields()
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
             step4View.layer.isHidden = false
@@ -346,7 +363,8 @@ class AjouterProduitViewController: UIViewController {
          let latitude  = "\(Share.sharedName.latitude ?? 2)"
          let idcity  = "\(Share.sharedName.CityId ?? 2)"
 //        let userId  = Share.sharedName.idUser
-        guard   let userId = AppManager.shared.iduser else {return}
+//        guard   let userId = AppManager.shared.iduser else {return}
+       let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
         let nameAdd  = Share.sharedName.nameAdresse ?? ""
         let prix = "\(priceTextField.text!)"
         AF.upload(multipartFormData: { (form: MultipartFormData) in
@@ -383,26 +401,32 @@ class AjouterProduitViewController: UIViewController {
             }
 
         }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: urlString, method: .post).responseJSON { (response)in
-            do {
-                    print(response)
-                    let id : Int = response.value as! Int
-                    print(id)
-                    guard let data = response.data else {return}
-                    print("response\(response)")
-                    let notevalue = String(data: data, encoding: .utf8)!
-                    print(notevalue)
-
-                          for val in self.valuesColumn {
-
-                  self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
-
-                           }
-            }catch {
-                //
+            switch response.result {
+            case .success:
+             
+                print(response)
+                let id : Int = response.value as! Int
+                print(id)
+                guard let data = response.data else {return}
+                print("response\(response)")
+                let notevalue = String(data: data, encoding: .utf8)!
+                print(notevalue)
+                
+                for val in self.valuesColumn {
+                    
+                    self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
+                    
+                }
+               
+                break
+            case .failure(let error):
+                
+                print(error)
             }
-            }
-            
+        }
+        
     }
+
 
     
     
@@ -465,7 +489,6 @@ class AjouterProduitViewController: UIViewController {
    initScrollView()
         
         descriptionText.text = ""
-        priceTextField.text = ""
         nameTextField.text = ""
          priceTextField.text = ""
          userguideTextField.text = ""
@@ -551,11 +574,7 @@ extension AjouterProduitViewController : UICollectionViewDataSource , UICollecti
         let cell : PictureCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PictureCollectionViewCell
   
                   cell.imageProduit.image = imgArr[indexPath.row]
-        
-       
-            
-       
-//        let image1 = self.resizeImage(image: cell.imageProduit.image!, targetSize:  CGSize(width: 180.0, height: 180.0))
+    
         print(imgArr)
         cell.index = indexPath
         cell.delegate = self
@@ -627,12 +646,10 @@ extension AjouterProduitViewController : UITableViewDelegate , UITableViewDataSo
 //
         cell.columnTextField.tag = indexPath.row
         cell.columnTextField.delegate = self
-//        Value.append(cell.columnTextField.text!)
-//        print("ee \(Value)")
-//        if Value.count > 0 {
+
         cell.columnTextField.text = valuesColumn[indexPath.row].value
-//        }
-        //print("Value[indexPath.row] \(Value[indexPath.row])")
+        print("value \(valuesColumn[indexPath.row].value)")
+
  
         return cell
     }
