@@ -42,18 +42,26 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
         loginServices?.oauth2.username    = nil
         loginServices?.oauth2.password    = nil
         
-        
-        print(  loginServices?.oauth2.accessToken ?? "")
-        let storage = HTTPCookieStorage.shared
-        storage.cookies?.forEach() {
-            storage.deleteCookie($0)
-            print(storage)
-        }
-        print("logout ")
-        UserDefaults.standard.set("", forKey: "Token")
-        UserDefaults.standard.setIsLoggedIn(value: false)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        present(vc, animated: true, completion: nil)
+//    if AppManager.shared.iduser != nil {
+//
+//        
+//            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = mainStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController")
+//            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//            let nc = UINavigationController(rootViewController: vc)
+//            nc.isNavigationBarHidden = true
+//            appDelegate.window?.rootViewController = nc
+//        
+//    }
+    UserDefaults.standard.set(nil, forKey: "idCurrentUser")
+    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    
+    let vc = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let nc = UINavigationController(rootViewController: vc)
+    nc.isNavigationBarHidden = true
+    appDelegate.window?.rootViewController = nc
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

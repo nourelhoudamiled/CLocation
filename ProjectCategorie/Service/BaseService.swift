@@ -103,12 +103,14 @@ final class BaseService: OAuth2PasswordGrantDelegate
                             guard let data = response.data else {return}
                             do {
                                  let user = try JSONDecoder().decode(User.self, from: data)
-                                AppManager.shared.user = user
-                                print(user.id)
+                               // AppManager.shared.user = user
                                 print(response.request as Any)  // original URL request
                                 print(response.response as Any) // URL response
-                                
-                                
+                                let userStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                let vc = userStoryboard.instantiateViewController(withIdentifier: "TutorielViewController")
+                                view.navigationController?.pushViewController(vc, animated: true)
+                                UserDefaults.standard.set(user.id, forKey: "idCurrentUser")
+
                             }catch let err {
                                 print(err)
                             }
@@ -122,7 +124,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
             }
             }
                 else {
-                    UserDefaults.standard.setIsLoggedIn(value: false)
+                self.displayMessage(userMessage: "invalid_username_or_password")
                     print("Authorization was canceled or went wrong: \(String(describing: error?.description))")
                 }
             }

@@ -32,33 +32,47 @@ class LoginViewController: UIViewController {
      
         
     }
+  
     
     @IBAction func LoginButton(_ sender: Any) {
-        let userLoggedIn = UserDefaults.standard.bool(forKey: "LOGGED_IN")
         
-        let token = loginService?.oauth2.refreshToken
-        
-        if (!userLoggedIn || (userLoggedIn && token == nil))  {
-            if nameLabel.text!.isEmpty {
-                let userMessage : String = "Please type in your email addresse"
-                displayMessage(userMessage: userMessage)
-                return
-            }
+        if self.nameLabel.text == "" || self.PassTextField.text == "" {
+            displayMessage(userMessage: "Entrez un e-mail et mot de passe valides")
+            
+        }
+        else {
             loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
+                      loginService?.authorize(presenting: self)
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
+//                    present(vc, animated: true, completion: nil)
             
-            loginService?.authorize(presenting: self)
-//            print( " users ids 2 : \(AppManager.shared.iduser)")
-
-            
-            UserDefaults.standard.setIsLoggedIn(value: true)
-            let prefs:UserDefaults = UserDefaults.standard
-            
-            prefs.set(1, forKey: "IsLoggedIn")
-            prefs.synchronize()
-            
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
-            present(vc, animated: true, completion: nil)
-    }
+        }
+        
+        
+//        let userLoggedIn = UserDefaults.standard.bool(forKey: "LOGGED_IN")
+        
+        
+//        if (!userLoggedIn || (userLoggedIn ))  {
+//            if nameLabel.text!.isEmpty {
+//                let userMessage : String = "Please type in your email addresse"
+//                displayMessage(userMessage: userMessage)
+//                return
+//            }
+//            loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
+//
+//            loginService?.authorize(presenting: self)
+////            print( " users ids 2 : \(AppManager.shared.iduser)")
+//
+//
+//            UserDefaults.standard.setIsLoggedIn(value: true)
+//            let prefs:UserDefaults = UserDefaults.standard
+//
+//            prefs.set(1, forKey: "IsLoggedIn")
+//            prefs.synchronize()
+//
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
+//            present(vc, animated: true, completion: nil)
+//    }
     }
     
     
