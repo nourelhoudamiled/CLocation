@@ -38,6 +38,8 @@ class ReservationViewController: UIViewController {
     var startdate  = Date()
     var enddate  = Date()
     var durree = String()
+    var product : ProductClass?
+
     var components = DateComponents()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,8 +83,17 @@ class ReservationViewController: UIViewController {
         viewOfDays.layer.borderWidth = 1.0
         viewOfDays.layer.borderColor = UIColor.gray.cgColor
      availibility(debut: Date().toString(), fin: Date().toString())
-
+        print("startdate \(startdate) ,startdate \(enddate)  , amount \(totalePrixLabel.text) , durationn \(components.day) , userId \("5db395d9-3b02-4c27-bb19-0f4c6ce8b851") , productId  \( Share.sharedName.product?.id)")
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -172,6 +183,8 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
                 self.datefinLabel.text = self.enddate.toString()
                 self.availibility(debut: self.startdate.toString()
                     , fin: self.enddate.toString())
+                self.dateduree()
+
             }
             else {
                 self.datedebutLabel.text = self.startdate.toString()
@@ -180,7 +193,6 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
                     , fin: self.startdate.toString())
             }
         
-          self.dateduree()
            
        
 
@@ -221,7 +233,8 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
 
 
     func PostLocation () {
-        guard let userId = AppManager.shared.iduser else {return}
+//        guard let userId = AppManager.shared.iduser else {return}
+        let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
         guard let productId = Share.sharedName.product?.id else {return}
         guard let productName = Share.sharedName.product?.name else {return}
         guard let duration = components.day else {return}
@@ -235,18 +248,30 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         
         AF.request(urlString, method: .post, parameters: parametre,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
+            let favorite : String = "vous avez reservee le produit par \(productName)"
+            let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
             
-            switch response.result {
-            case .success:
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
                 print(response)
-                let favorite : String = "vous avez reservee le produit par \(productName)"
-                self.displayMessage(userMessage: favorite)
+                
+                //    self.displayMessageOui(userMessage: favorite)
                 
                 break
-            case .failure(let error):
+                case .failure(let error):
                 
                 print(error)
             }
+            
+        }))
+            
+            alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+            }))
+     
+            self.present(alert, animated: true)
+       
         }
     }
     func availibility(  debut : String , fin : String){

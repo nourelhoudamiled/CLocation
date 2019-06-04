@@ -25,4 +25,7 @@ pod 'WVCheckMark'
 pod 'Koyomi'
 pod 'FSCalendar'
 pod 'FaveButton'
+pod 'DJSemiModalViewController'
+pod 'RSSelectionMenu', '~> 6.0.3'
+
 end

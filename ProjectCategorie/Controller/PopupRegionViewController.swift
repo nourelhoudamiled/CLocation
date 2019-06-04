@@ -27,6 +27,7 @@ class PopupRegionViewController: UIViewController {
     }
     
     func getRegionNames(){
+        
         let urlString = urlRequest.url?.absoluteString
         AF.request(urlString! , method : .get).responseJSON {
             

@@ -43,8 +43,12 @@ class LoginViewController: UIViewController {
         else {
             loginService = BaseService(clientID: "postman-api", clientSecret: "secret", username: nameLabel.text!, password: PassTextField.text!)
                       loginService?.authorize(presenting: self)
-//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
-//                    present(vc, animated: true, completion: nil)
+           
+            let userStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = userStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController")
+                   // present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(vc, animated: true)
+
             
         }
         

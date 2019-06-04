@@ -19,22 +19,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="350" height="320.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SoA-7k-ZBF">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="320"/>
+                        <collectionViewLayout key="collectionViewLayout" id="N9F-yb-HUx" customClass="MMBannerLayout" customModule="MMBannerLayout"/>
+                    </collectionView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Nh-69-tMU">
                         <rect key="frame" x="0.0" y="0.0" width="350" height="320.5"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="57V-PW-AVt">
-                                <rect key="frame" x="14" y="14" width="322" height="185"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l8b-LS-98g">
-                                        <rect key="frame" x="0.0" y="0.0" width="322" height="185"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="322" id="jHH-Vs-jEE"/>
-                                    <constraint firstAttribute="height" constant="185" id="pyc-Eu-n7N"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XrN-Ks-cKq" customClass="CosmosView" customModule="ProjectCategorie" customModuleProvider="target">
                                 <rect key="frame" x="14" y="207" width="322" height="28"/>
                                 <constraints>
@@ -62,6 +53,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="57V-PW-AVt">
+                                <rect key="frame" x="14" y="14" width="322" height="185"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l8b-LS-98g">
+                                        <rect key="frame" x="0.0" y="-8" width="322" height="185"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="322" id="jHH-Vs-jEE"/>
+                                    <constraint firstAttribute="height" constant="185" id="pyc-Eu-n7N"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -78,17 +82,38 @@
                             <constraint firstItem="Ms7-Md-cPS" firstAttribute="top" secondItem="NYk-8P-CgZ" secondAttribute="bottom" constant="8" id="mhl-Lu-MjB"/>
                             <constraint firstAttribute="trailing" secondItem="57V-PW-AVt" secondAttribute="trailing" constant="14" id="xKJ-Uh-mrm"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="XrN-Ks-cKq"/>
+                                <exclude reference="NYk-8P-CgZ"/>
+                                <exclude reference="Ms7-Md-cPS"/>
+                                <exclude reference="57V-PW-AVt"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="SoA-7k-ZBF" secondAttribute="trailing" id="2EM-zG-EWL"/>
                     <constraint firstAttribute="bottom" secondItem="7Nh-69-tMU" secondAttribute="bottom" id="8w0-0C-UWN"/>
                     <constraint firstItem="7Nh-69-tMU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BSa-35-6k7"/>
                     <constraint firstItem="7Nh-69-tMU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="HVa-Op-VSN"/>
                     <constraint firstAttribute="trailing" secondItem="7Nh-69-tMU" secondAttribute="trailing" id="KSZ-rO-VbC"/>
+                    <constraint firstAttribute="bottom" secondItem="SoA-7k-ZBF" secondAttribute="bottom" constant="0.5" id="mmt-XF-MLu"/>
+                    <constraint firstItem="SoA-7k-ZBF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nLV-P1-qTI"/>
+                    <constraint firstItem="SoA-7k-ZBF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zdV-Ci-cnc"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="subviews">
+                        <exclude reference="7Nh-69-tMU"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="SoA-7k-ZBF" firstAttribute="leading" secondItem="njF-e1-oar" secondAttribute="leading" id="6Hf-em-tf0"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="collectionView" destination="SoA-7k-ZBF" id="SOF-3H-Yh4"/>
                 <outlet property="imageProduit" destination="l8b-LS-98g" id="xkg-my-K5I"/>
                 <outlet property="nameProduit" destination="NYk-8P-CgZ" id="2O5-CF-Qbr"/>
                 <outlet property="prixLabel" destination="Ms7-Md-cPS" id="RMd-Nh-sRG"/>

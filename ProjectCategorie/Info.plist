@@ -47,6 +47,8 @@
 	<string>Because we can!!</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Because we can!!</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string></string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

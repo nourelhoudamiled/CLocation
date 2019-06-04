@@ -26,6 +26,8 @@ final class Share {
     var product : ProductClass?
     var uniteName : String!
     var uniteId : Int!
+    var currencySymbol : String!
+    var currencyId : String!
     var etatName : String!
     var etatId : Int!
     

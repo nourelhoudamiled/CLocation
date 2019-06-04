@@ -20,6 +20,8 @@ class MesDemandeCell: UICollectionViewCell {
     @IBOutlet var imageProduit: UIImageView!
     @IBOutlet var nameProduit: UILabel!
     
+    @IBOutlet var totaleLabel: UILabel!
+    @IBOutlet var durrationLabel: UILabel!
     @IBOutlet var periodLabel: UILabel!
     @IBOutlet var viewOfLabel: UIView!
    
@@ -31,12 +33,7 @@ class MesDemandeCell: UICollectionViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        requestButton.layer.cornerRadius = 10
-        requestButton.layer.borderWidth = 1.0
-        requestButton.layer.borderColor = UIColor.black.cgColor
-        cancelButton.layer.cornerRadius = 10
-        cancelButton.layer.borderWidth = 1.0
-        cancelButton.layer.borderColor = UIColor.black.cgColor
+       
         
     }
 

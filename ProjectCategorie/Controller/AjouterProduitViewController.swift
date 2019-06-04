@@ -19,18 +19,19 @@ struct ProductColumnValue {
     var id : Int?
 }
 class AjouterProduitViewController: UIViewController {
+    
+    @IBOutlet var btnSelectCurrency: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var columnTableView: UITableView!
     @IBOutlet var btnSelectUnite: UIButton!
     @IBOutlet var btnSelectEtat: UIButton!
     @IBOutlet var switchDisponible: UISwitch!
-    @IBOutlet var delegationTextField: UITextField!
     @IBOutlet var userguideTextField: UITextField!
     @IBOutlet var step3View: UIView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var backButton: UIButton!
     @IBOutlet var doneLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var nombreAlLabel: UILabel!
     @IBOutlet var btnSelectAdresse: UIButton!
     @IBOutlet var nextButton: UIButton!
     @IBOutlet var btnSelectCity: UIButton!
@@ -57,6 +58,7 @@ class AjouterProduitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hiddenText.isHidden = true
+        activityIndicator.isHidden = true
         descriptionText.layer.cornerRadius = 10
        descriptionText.layer.borderWidth = 1.0
         descriptionText.layer.borderColor = UIColor.mainGray.cgColor
@@ -65,23 +67,17 @@ class AjouterProduitViewController: UIViewController {
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
             
-            navigationItem.title = " Ajouter Produit "
+            navigationItem.title = " Add Produit "
         }
         columnTableView.rowHeight = UITableView.automaticDimension
         columnTableView.estimatedRowHeight = 100
-        print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
           initScrollView()
     }
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let cn : String = Share.sharedName.categorieName ?? "Select Categorie"
-        let id : Int = Share.sharedName.categorieId ?? 1
-        print(id)
-        btnSelected.setTitle(cn,for: .normal)
-        let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Categorie"
-//        getColumnFields()
-        btnSelectSubCar.setTitle(cnsub,for: .normal)
+        getColumnFields()
+
      single()
     
     }
@@ -120,8 +116,19 @@ class AjouterProduitViewController: UIViewController {
         btnSelectCity.layer.cornerRadius = 5
         btnSelectCity.layer.borderWidth = 0.5
         btnSelectCity.layer.borderColor = UIColor.lightGray.cgColor
-        let addresse : String = Share.sharedName.nameAdresse ?? "name of adresse"
+        let cn : String = Share.sharedName.categorieName ?? "Select Category"
+        let id : Int = Share.sharedName.categorieId ?? 1
+        print(id)
+        btnSelected.setTitle(cn,for: .normal)
+        let cnsub : String = Share.sharedName.subcategorieName ?? "Select sub Category"
+        //        getColumnFields()
+        btnSelectSubCar.setTitle(cnsub,for: .normal)
+        let addresse : String = Share.sharedName.nameAdresse ?? "Select address"
         btnSelectAdresse.setTitle(addresse,for: .normal)
+        let currencySymbol : String = Share.sharedName.currencySymbol ?? "Select currency"
+        let currencyId : String = Share.sharedName.currencyId ?? ""
+        let currency = currencyId + currencySymbol
+        btnSelectCurrency.setTitle(currency,for: .normal)
         let region : String = Share.sharedName.RegionName ?? "Select region"
         let idregion : Int = Share.sharedName.RegionId ?? 1
         print(idregion)
@@ -130,7 +137,7 @@ class AjouterProduitViewController: UIViewController {
         let idunite : Int = Share.sharedName.uniteId ?? 1
         print(idunite)
         btnSelectUnite.setTitle(unite,for: .normal)
-        let etat : String = Share.sharedName.etatName ?? "Select etat"
+        let etat : String = Share.sharedName.etatName ?? "Select status"
         let idetat : Int = Share.sharedName.etatId ?? 1
         print(idetat)
         btnSelectEtat.setTitle(etat,for: .normal)
@@ -168,9 +175,7 @@ class AjouterProduitViewController: UIViewController {
 //        return formatter.string(from: NSNumber(value: amoun))
 //    }
     
-    @IBAction func stepperButton(_ sender: UIStepper) {
-        nombreAlLabel.text = String(sender.value)
-    }
+
     @IBAction func selectCateButton(_ sender: Any) {
         let modalViewController = PoPupCategorieViewController()
         modalViewController.modalPresentationStyle = .overCurrentContext
@@ -259,11 +264,12 @@ class AjouterProduitViewController: UIViewController {
         if(stepIndicatorView.currentStep == 1)
         {
             print("step2")
-            if descriptionText.text.isEmpty {
-                displayMessage(userMessage: "enter your description")
+            if descriptionText.text.isEmpty && nameTextField.text!.isEmpty && userguideTextField.text!.isEmpty {
+                displayMessage(userMessage: "enter your field")
                 self.stepIndicatorView.currentStep -= 1
                 
             }else {
+
                 btnSelectAdresse.backgroundColor = .clear
                 btnSelectAdresse.layer.cornerRadius = 5
                 btnSelectAdresse.layer.borderWidth = 0.5
@@ -283,10 +289,7 @@ class AjouterProduitViewController: UIViewController {
         }
         else  if(stepIndicatorView.currentStep == 2)
         {print("step3")
-            if priceTextField.text!.isEmpty {
-                displayMessage(userMessage: "enter your price")
-                self.stepIndicatorView.currentStep -= 1
-            }else {
+            
                 step1View.layer.isHidden = true
                 step2View.layer.isHidden = true
                 step4View.layer.isHidden = true
@@ -295,7 +298,7 @@ class AjouterProduitViewController: UIViewController {
                 ajouterProduit.layer.isHidden = true
                 doneLabel.layer.isHidden = true
                 backButton.layer.isHidden = false
-            }
+            
      
            
 
@@ -304,7 +307,6 @@ class AjouterProduitViewController: UIViewController {
         else  if(stepIndicatorView.currentStep == 3)
         {
             print("step4")
-            getColumnFields()
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
             step4View.layer.isHidden = false
@@ -317,6 +319,11 @@ class AjouterProduitViewController: UIViewController {
         }
         else  if(stepIndicatorView.currentStep == 4)
         {
+    if priceTextField.text!.isEmpty {
+    displayMessage(userMessage: "enter your price")
+    self.stepIndicatorView.currentStep -= 1
+    }
+    else {
             print("step5")
             step1View.layer.isHidden = true
             step2View.layer.isHidden = true
@@ -326,7 +333,7 @@ class AjouterProduitViewController: UIViewController {
             ajouterProduit.layer.isHidden = true
             doneLabel.layer.isHidden = true
             backButton.layer.isHidden = false
-            
+    }
         }
         else
         { print("done")
@@ -362,9 +369,11 @@ class AjouterProduitViewController: UIViewController {
          let longitude  = "\(Share.sharedName.longitude ?? 2)"
          let latitude  = "\(Share.sharedName.latitude ?? 2)"
          let idcity  = "\(Share.sharedName.CityId ?? 2)"
+     //   let idcurrency  = "\(Share.sharedName.currencyId ?? "2")"
 //        let userId  = Share.sharedName.idUser
 //        guard   let userId = AppManager.shared.iduser else {return}
-       let userId = "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
+        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+        let id = userDictionnary?["id"] as? String
         let nameAdd  = Share.sharedName.nameAdresse ?? ""
         let prix = "\(priceTextField.text!)"
         AF.upload(multipartFormData: { (form: MultipartFormData) in
@@ -388,10 +397,9 @@ class AjouterProduitViewController: UIViewController {
                  form.append(prix.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"price")
                  form.append(nameAdd.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"address")
                 form.append(idsub.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumSubCategoryId")
-                form.append(userId.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userId")
+                form.append((id?.data(using: String.Encoding.utf8, allowLossyConversion: false)!)!, withName :"userId")
                 form.append(idcity.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumCityId")
                 form.append(self.userguideTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"userGuide")
-                  form.append(self.delegationTextField.text!.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"delegation")
                   form.append(idunite.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"enumUniteId")
                 form.append(latitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLatitude")
                 form.append(longitude.data(using: String.Encoding.utf8, allowLossyConversion: false)!, withName :"positionLongitude")
@@ -417,13 +425,15 @@ class AjouterProduitViewController: UIViewController {
                     self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
                     
                 }
-               
+                self.displayMessage(userMessage: "you add this product")
                 break
             case .failure(let error):
                 
                 print(error)
             }
         }
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.isHidden = true
         
     }
 
@@ -492,12 +502,11 @@ class AjouterProduitViewController: UIViewController {
         nameTextField.text = ""
          priceTextField.text = ""
          userguideTextField.text = ""
-         delegationTextField.text = ""
         let addresse : String =  "name of adresse"
         btnSelectAdresse.setTitle(addresse,for: .normal)
-        let cn : String = "Select Categorie"
+        let cn : String = "Select Category"
         btnSelected.setTitle(cn,for: .normal)
-        let cnsub : String = "Select sub Categorie"
+        let cnsub : String = "Select sub Category"
         btnSelectSubCar.setTitle(cnsub,for: .normal)
         let region : String = "Select region"
         btnSelectRegion.setTitle(region,for: .normal)
@@ -517,6 +526,10 @@ class AjouterProduitViewController: UIViewController {
     
 @IBAction func addAction(_ sender: Any) {
     print("imgggggARRAYCOUNT = \(imgArr.count)")
+    activityIndicator.isHidden = false
+
+    activityIndicator.startAnimating()
+   
    createPhoto(photo: imgArr)
 
     

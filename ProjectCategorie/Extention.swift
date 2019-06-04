@@ -39,6 +39,7 @@ extension UIColor {
     static var mainPink = UIColor(red: 232/255, green: 68/255, blue: 133/255, alpha: 1)
     static var mainGray = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     static var mainVert = UIColor(red: 36/255, green: 189/255, blue: 119/255, alpha: 1)
+     static var mainVerte = UIColor(red: 69/255, green: 205/255, blue: 114/255, alpha: 1)
     static var mainRed = UIColor(red: 228/255, green: 86/255, blue: 71/255, alpha: 1)
       static var mainRoze = UIColor(red: 226/255, green: 38/255, blue: 77/255, alpha: 1)
    static var main = UIColor(red: 137/255, green: 156/255, blue: 167/255, alpha: 1.0)
@@ -155,6 +156,7 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: self)
     }
+
 }
 extension UIViewController {
   
@@ -196,6 +198,16 @@ func displayMessage(userMessage : String)
     self.present(myAlert , animated : true , completion : nil)
     
 }
+    func displayMessageOui(userMessage : String)
+    {
+        let alert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
+        
+    }
     func alertdisaper(userMessage : String)
     {
         // the alert view

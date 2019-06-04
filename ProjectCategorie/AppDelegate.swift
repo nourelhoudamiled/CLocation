@@ -19,12 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
         GMSPlacesClient.provideAPIKey("AIzaSyDBx2r5-Oabb6m5qmWzG0DOFtCf0rl7OIE")
-        if UserDefaults.standard.object(forKey: "idCurrentUser") != nil {
-            let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+     
+        let mainStoryboard = UIStoryboard(name: "Main" , bundle: nil)
+
+        if UserDefaults.standard.object(forKey: "userDictionnary") != nil {
             let vc = mainStoryboard.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
              let nc = UINavigationController(rootViewController: vc)
              nc.isNavigationBarHidden = true
             self.window?.rootViewController = nc
+
+        }
+        else {
+                        let loginViewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                        window!.rootViewController = loginViewController
+                        window!.makeKeyAndVisible()
         }
       
 //        //        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")

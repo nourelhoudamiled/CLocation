@@ -35,7 +35,8 @@ class ListProductViewController: UIViewController , ASCollectionViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+       let subCategorieID = Share.sharedName.sousCategorie?.id
+        print(subCategorieID)
  //   getAttachement()
       createPhoto()
         collectionView.register(UINib(nibName: collectionElementKindHeader, bundle: nil), forSupplementaryViewOfKind: collectionElementKindHeader, withReuseIdentifier: "header")
@@ -200,7 +201,7 @@ class ListProductViewController: UIViewController , ASCollectionViewDataSource, 
     
     func collectionView(_ asCollectionView: ASCollectionView, cellForItemAtIndexPath indexPath: IndexPath) -> UICollectionViewCell {
         let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! GridCell
-        gridCell.label.text = "attachementList[indexPath.row].productName"
+        gridCell.label.text = attachementList[indexPath.row].productName
         gridCell.imageView.image = responseImages[indexPath.row]
         //"photo[indexPath.row]"
         return gridCell

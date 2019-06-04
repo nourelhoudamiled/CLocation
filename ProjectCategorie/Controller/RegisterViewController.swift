@@ -8,8 +8,11 @@
 
 import UIKit
 import Alamofire
-class RegisterViewController: UIViewController  {
+import SkyFloatingLabelTextField
+class RegisterViewController: UIViewController  , UITextFieldDelegate {
 
+    @IBOutlet var firstNameLabel: SkyFloatingLabelTextField!
+    @IBOutlet var lastNameLabel: SkyFloatingLabelTextField!
     @IBOutlet var siteLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var nameSocietLabel: UILabel!
@@ -18,78 +21,111 @@ class RegisterViewController: UIViewController  {
     @IBOutlet var descriptionTextfield: UITextField!
     @IBOutlet var sitesocieteTextfield: UITextField!
     @IBOutlet var nomsocieteTextField: UITextField!
-    @IBOutlet var numtelTextField: UITextField!
+    @IBOutlet var numtelTextField: SkyFloatingLabelTextField!
     @IBOutlet var cityTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
-    @IBOutlet var PassTextField: UITextField!
-    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var PassTextField: SkyFloatingLabelTextField!
+    @IBOutlet var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet var pickerView: UIPickerView!
     @IBOutlet var tuesTextfield: UITextField!
       var list = ["Societe" , "Particulier"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        numtelTextField.delegate = self                  //set delegate
+
         signIn.frame = CGRect(x: 160, y: 100, width: 50, height: 50)
-        signIn.layer.cornerRadius = 0.5 * signIn.bounds.size.width
+       
  self.pickerView.isHidden = true
     }
-    override func viewDidLayoutSubviews() {
-        viewRegister.roundCorners(corners: [.bottomLeft], radius: 40.0)
+
+    func isValidEmail(testStr:String) -> Bool {
         
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
     }
     @IBAction func registerButton(_ sender: Any) {
         let value = numtelTextField.text!
         let rewardInt = Int(value)
         
-        if (self.tuesTextfield.text == "Particulier" ) {
-       
-           let params = ["firstName": addressTextField.text!, "lastName": cityTextField.text! , "email" : emailTextField.text!, "password" : PassTextField.text! ]
+//        if (self.tuesTextfield.text == "Particulier" ) {
+        if self.emailTextField.text == "" || self.PassTextField.text == "" ||  self.numtelTextField.text == "" || self.firstNameLabel.text == "" ||  self.lastNameLabel.text == "" {
+            displayMessage(userMessage: "Fill your field")
             
-            var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
-            urlRequest.setValue("application/json",
-                                forHTTPHeaderField: "Content-Type")
-            urlRequest.setValue("application/json",
-                                forHTTPHeaderField: "Accept")
-            
-            let urlString = urlRequest.url?.absoluteString
-            
-            AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
-                do {
-                       print(response.value)
-                guard let data = response.data else {return}
-
-                 let userListJson = try JSONDecoder().decode(User.self, from: data)
-                    AppManager.shared.iduser = userListJson.id
-                        print( AppManager.shared.iduser )
-             
-                }catch let err {
-                    print(err)
-                }
-            }
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TutorielViewController") as! TutorielViewController
-         present(vc, animated: true, completion: nil)
-        } else {
-            let params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : Any]
-            
-            var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
-            urlRequest.setValue("application/json",
-                                forHTTPHeaderField: "Content-Type")
-            urlRequest.setValue("application/json",
-                                forHTTPHeaderField: "Accept")
-            
-            let urlString = urlRequest.url?.absoluteString
-            
-            AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
-                
-                print(response.value as Any)
-            }
         }
+        if !isValidEmail(testStr: emailTextField.text!) {
+             displayMessage(userMessage: "Fill in your email in this form email name@example.com")
+        }
+        if numtelTextField.text?.count != 8 {
+            displayMessage(userMessage: "The phone number should be equal to eight")
+        }
+//        
+        let params = ["firstName": firstNameLabel.text!, "lastName": lastNameLabel.text! , "email" : emailTextField.text!, "password" : PassTextField.text! ]
+        
+//        var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
+//        urlRequest.setValue("application/json",
+//                            forHTTPHeaderField: "Content-Type")
+//        urlRequest.setValue("application/json",
+//                            forHTTPHeaderField: "Accept")
+//
+//        let urlString = urlRequest.url?.absoluteString
+//
+//        AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
+//            do {
+//                print(response.value)
+//                guard let data = response.data else {return}
+//
+//                let userListJson = try JSONDecoder().decode(User.self, from: data)
+//                AppManager.shared.iduser = userListJson.id
+//                print( AppManager.shared.iduser )
+//                let userStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                let vc = userStoryboard.instantiateViewController(withIdentifier: "TutorielViewController")
+//                self.navigationController?.pushViewController(vc, animated: true)
+//
+//            }
+//            catch let err {
+//                print(err)
+//            }
+//        }
+        
+     // }
+//        else {
+//            let params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : Any]
+//
+//            var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
+//            urlRequest.setValue("application/json",
+//                                forHTTPHeaderField: "Content-Type")
+//            urlRequest.setValue("application/json",
+//                                forHTTPHeaderField: "Accept")
+//
+//            let urlString = urlRequest.url?.absoluteString
+//
+//            AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
+//
+//                print(response.value as Any)
+//            }
+//        }
     }
     
     @IBAction func gotoLogin(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+}
+extension RegisterViewController : UITableViewDelegate , UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RegisterCell", for: indexPath) as! RegisterCell
+        cell.labelName.text = "jkhkjhkhj"
+        
+return cell
+    }
+    
     
 }
 extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource {
@@ -139,17 +175,34 @@ extension RegisterViewController : UIPickerViewDelegate, UIPickerViewDataSource 
         }
         
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        var count = textField.text?.count
+//        if count! < 8 && count! > 2 {
+//            print("ok")
+//            return false
+//        }
+//        else {
+//            displayMessage(userMessage: "llkkkkkk")
+//            print("ko")
+//            return true
+//        }
+        return true
+        
+    }
+//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//        <#code#>
+//    }
     
 }
-extension RegisterViewController : UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        if textField == self.tuesTextfield {
-            self.pickerView.isHidden = false
-            //if you dont want the users to se the keyboard type:
-            
-            textField.endEditing(true)
-        }
-    }
-
-}
+//extension RegisterViewController : UITextFieldDelegate {
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//        if textField == self.tuesTextfield {
+//            self.pickerView.isHidden = false
+//            //if you dont want the users to se the keyboard type:
+//
+//            textField.endEditing(true)
+//        }
+//    }
+//
+//}

@@ -5,6 +5,7 @@ PODS:
   - ALCameraViewController (3.0.3)
   - AnimatedField (2.1.0)
   - ASCollectionView (1.1.0)
+  - DJSemiModalViewController (0.1.2)
   - FaveButton (3.2.0)
   - FSCalendar (2.8.0)
   - GoogleMaps (3.0.3):
@@ -19,6 +20,7 @@ PODS:
   - Koyomi (1.2.7)
   - MMBannerLayout (2.0.0)
   - p2.OAuth2 (4.2.0)
+  - RSSelectionMenu (6.0.3)
   - SkyFloatingLabelTextField (3.6.0)
   - StepIndicator (1.0.6.1)
   - SWCombox (2.5)
@@ -31,6 +33,7 @@ DEPENDENCIES:
   - ALCameraViewController
   - AnimatedField
   - ASCollectionView (= 1.1.0)
+  - DJSemiModalViewController
   - FaveButton
   - FSCalendar
   - GoogleMaps
@@ -40,6 +43,7 @@ DEPENDENCIES:
   - Koyomi
   - MMBannerLayout
   - p2.OAuth2 (from `https://github.com/p2/OAuth2`)
+  - RSSelectionMenu (~> 6.0.3)
   - SkyFloatingLabelTextField (~> 3.0)
   - StepIndicator (~> 1.0.6)
   - SWCombox (from `https://github.com/sw0906/SWCombox.git`)
@@ -53,6 +57,7 @@ SPEC REPOS:
     - ALCameraViewController
     - AnimatedField
     - ASCollectionView
+    - DJSemiModalViewController
     - FaveButton
     - FSCalendar
     - GoogleMaps
@@ -61,6 +66,7 @@ SPEC REPOS:
     - JWTDecode
     - Koyomi
     - MMBannerLayout
+    - RSSelectionMenu
     - SkyFloatingLabelTextField
     - StepIndicator
     - VerticalCardSwiper
@@ -88,6 +94,7 @@ SPEC CHECKSUMS:
   ALCameraViewController: 6398a9282057f709b87a1ecc52a83b48028ade64
   AnimatedField: b1976f8d6fe9598141c520f8d3012adfef0dd1f9
   ASCollectionView: c914ccae1cb39d146cec7f0b360206abed476765
+  DJSemiModalViewController: 37874ffd8e040e78aed443435e8d388da783028d
   FaveButton: c818ab3d04d22a7615e93f08c7b35932acb3f735
   FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
@@ -97,12 +104,13 @@ SPEC CHECKSUMS:
   Koyomi: f03615b8d2bb5a5a4752c6404a9794ed7ef7b327
   MMBannerLayout: e3ce05c289f2b484ff8356d9ed3948cdb7e194cb
   p2.OAuth2: d5ea9b928fc5d10d088d419db6f3380578b6f866
+  RSSelectionMenu: decee83e020ee9d63e53995eb7f1ea5ca75f0667
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   StepIndicator: 73b4bcc8bcf816cb98479d99ada7e85463252caa
   SWCombox: 08ede8d67db90af7da309d907820b1f318385e4c
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
   WVCheckMark: abd367048aa3793b82d1c82a15be56eea5b940a7
 
-PODFILE CHECKSUM: 3eb4738ee99206dcd498b9ca1743d64ca1ca73e9
+PODFILE CHECKSUM: 3978f777d1c66f8563cfccc771cfd0445dbbb1c1
 
 COCOAPODS: 1.6.0

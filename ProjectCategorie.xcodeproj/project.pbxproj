@@ -18,6 +18,7 @@
 		FA01A3292268859C00CD431A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A3282268859C00CD431A /* HomeViewController.swift */; };
 		FA01A32B2268BA2D00CD431A /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A32A2268BA2D00CD431A /* RecentSearchCell.swift */; };
 		FA01A32D2268FBBF00CD431A /* TutorielViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01A32C2268FBBF00CD431A /* TutorielViewController.swift */; };
+		FA02FE4D22A4146F0033B814 /* RegisterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA02FE4C22A4146F0033B814 /* RegisterCell.swift */; };
 		FA03159E226B84BF0032673B /* ColumnTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03159D226B84BF0032673B /* ColumnTableViewCell.swift */; };
 		FA0315A0226B907B0032673B /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA03159F226B907B0032673B /* Column.swift */; };
 		FA046C442281E31A0096456A /* ProfilTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA046C432281E31A0096456A /* ProfilTabBarController.swift */; };
@@ -107,6 +108,14 @@
 		FA8E25572274E45E0038DE98 /* ChildSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */; };
 		FA8E25582274E45E0038DE98 /* ChildSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */; };
 		FA99334E228C3A6200897078 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA99334D228C3A6200897078 /* LoadingButton.swift */; };
+		FAA0251922A53B93009E75A2 /* PopUpCurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA0251822A53B93009E75A2 /* PopUpCurrencyViewController.swift */; };
+		FAA0251B22A53D0A009E75A2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA0251A22A53D0A009E75A2 /* Currency.swift */; };
+		FAA0252022A56EDE009E75A2 /* produitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA0251E22A56EDE009E75A2 /* produitCell.swift */; };
+		FAA0252122A56EDE009E75A2 /* produitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAA0251F22A56EDE009E75A2 /* produitCell.xib */; };
+		FAA0252622A580F1009E75A2 /* CollectionTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA0252422A580F1009E75A2 /* CollectionTitleCell.swift */; };
+		FAA0252722A580F1009E75A2 /* CollectionTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAA0252522A580F1009E75A2 /* CollectionTitleCell.xib */; };
+		FAA5346E22A16FCC00815E90 /* DGKSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA5346D22A16FCC00815E90 /* DGKSegmentControl.swift */; };
+		FADD0F1E22A2E10800D4985B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD0F1D22A2E10800D4985B /* LocationManager.swift */; };
 		FAE4D9D522624F4E0070EFDA /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4D9D422624F4E0070EFDA /* LocationSearchTable.swift */; };
 		FAF42E40228845B200F2358A /* ImageProduitAnnonceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF42E3F228845B200F2358A /* ImageProduitAnnonceCell.swift */; };
 		FAF956742270BE8E00191F74 /* PoPupUniteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */; };
@@ -140,6 +149,7 @@
 		FA01A3282268859C00CD431A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		FA01A32A2268BA2D00CD431A /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		FA01A32C2268FBBF00CD431A /* TutorielViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorielViewController.swift; sourceTree = "<group>"; };
+		FA02FE4C22A4146F0033B814 /* RegisterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCell.swift; sourceTree = "<group>"; };
 		FA03159D226B84BF0032673B /* ColumnTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnTableViewCell.swift; sourceTree = "<group>"; };
 		FA03159F226B907B0032673B /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		FA046C432281E31A0096456A /* ProfilTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilTabBarController.swift; sourceTree = "<group>"; };
@@ -234,6 +244,14 @@
 		FA8E25552274E45E0038DE98 /* ChildSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSearchTableViewCell.swift; sourceTree = "<group>"; };
 		FA8E25562274E45E0038DE98 /* ChildSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChildSearchTableViewCell.xib; sourceTree = "<group>"; };
 		FA99334D228C3A6200897078 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		FAA0251822A53B93009E75A2 /* PopUpCurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpCurrencyViewController.swift; sourceTree = "<group>"; };
+		FAA0251A22A53D0A009E75A2 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		FAA0251E22A56EDE009E75A2 /* produitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = produitCell.swift; sourceTree = "<group>"; };
+		FAA0251F22A56EDE009E75A2 /* produitCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = produitCell.xib; sourceTree = "<group>"; };
+		FAA0252422A580F1009E75A2 /* CollectionTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTitleCell.swift; sourceTree = "<group>"; };
+		FAA0252522A580F1009E75A2 /* CollectionTitleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionTitleCell.xib; sourceTree = "<group>"; };
+		FAA5346D22A16FCC00815E90 /* DGKSegmentControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DGKSegmentControl.swift; sourceTree = "<group>"; };
+		FADD0F1D22A2E10800D4985B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FAE4D9D422624F4E0070EFDA /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		FAF42E3F228845B200F2358A /* ImageProduitAnnonceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProduitAnnonceCell.swift; sourceTree = "<group>"; };
 		FAF956732270BE8E00191F74 /* PoPupUniteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoPupUniteViewController.swift; sourceTree = "<group>"; };
@@ -296,6 +314,7 @@
 				FA28500A225640FD00760166 /* UserDefaults.swift */,
 				FA0EB81F2260948900461BBF /* Share.swift */,
 				FA99334D228C3A6200897078 /* LoadingButton.swift */,
+				FADD0F1D22A2E10800D4985B /* LocationManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -322,6 +341,7 @@
 				FAFEF20A227AFA0B00B98A42 /* Favorite.swift */,
 				FA04D4992285AB5200221A3B /* Location.swift */,
 				FA1CE07022988EE500F8345A /* Disponibility.swift */,
+				FAA0251A22A53D0A009E75A2 /* Currency.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,6 +388,11 @@
 				FA04B1D52296A32E00F133A1 /* DetailOfUserCell.xib */,
 				FA04B1D82296C52D00F133A1 /* LocationRequestCell.swift */,
 				FA04B1D92296C52D00F133A1 /* LocationRequestCell.xib */,
+				FA02FE4C22A4146F0033B814 /* RegisterCell.swift */,
+				FAA0251E22A56EDE009E75A2 /* produitCell.swift */,
+				FAA0251F22A56EDE009E75A2 /* produitCell.xib */,
+				FAA0252422A580F1009E75A2 /* CollectionTitleCell.swift */,
+				FAA0252522A580F1009E75A2 /* CollectionTitleCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -409,6 +434,7 @@
 				FA04D49122858CD200221A3B /* MesDemandeReservationController.swift */,
 				FA04D49322858CFA00221A3B /* LocationRequestedController.swift */,
 				FAFA572D22954E7500ED6F4E /* HomeTabBarViewController.swift */,
+				FAA0251822A53B93009E75A2 /* PopUpCurrencyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -440,6 +466,7 @@
 		FA65D9A722326BB70058ADFA = {
 			isa = PBXGroup;
 			children = (
+				FAA5346C22A16FCC00815E90 /* DGKSegmentControl */,
 				FA65D9B222326BB70058ADFA /* ProjectCategorie */,
 				FA54B376224E59470034EBB0 /* CosmosRatingFile */,
 				FA65D9B122326BB70058ADFA /* Products */,
@@ -473,6 +500,15 @@
 				FA479D972252205000573235 /* View */,
 			);
 			path = ProjectCategorie;
+			sourceTree = "<group>";
+		};
+		FAA5346C22A16FCC00815E90 /* DGKSegmentControl */ = {
+			isa = PBXGroup;
+			children = (
+				FAA5346D22A16FCC00815E90 /* DGKSegmentControl.swift */,
+			);
+			name = DGKSegmentControl;
+			path = "../../Downloads/DGKSegmentedControl-master 2/DGKSegmentControlDemo/DGKSegmentControl";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -543,7 +579,9 @@
 				FA65D9BE22326BB80058ADFA /* LaunchScreen.storyboard in Resources */,
 				FA8E25582274E45E0038DE98 /* ChildSearchTableViewCell.xib in Resources */,
 				FA43BFEC2271D8B000EA276C /* Header.xib in Resources */,
+				FAA0252722A580F1009E75A2 /* CollectionTitleCell.xib in Resources */,
 				FA04B1DB2296C52D00F133A1 /* LocationRequestCell.xib in Resources */,
+				FAA0252122A56EDE009E75A2 /* produitCell.xib in Resources */,
 				FA04B1D72296A32E00F133A1 /* DetailOfUserCell.xib in Resources */,
 				FA65D9BB22326BB80058ADFA /* Assets.xcassets in Resources */,
 				FAFE9B7F228EB4380061A109 /* DisponibilteCell.xib in Resources */,
@@ -571,12 +609,14 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/AnimatedField/AnimatedField.framework",
+				"${BUILT_PRODUCTS_DIR}/DJSemiModalViewController/DJSemiModalViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/FaveButton/FaveButton.framework",
 				"${BUILT_PRODUCTS_DIR}/JBTabBarAnimation/JBTabBarAnimation.framework",
 				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/Koyomi/Koyomi.framework",
 				"${BUILT_PRODUCTS_DIR}/MMBannerLayout/MMBannerLayout.framework",
+				"${BUILT_PRODUCTS_DIR}/RSSelectionMenu/RSSelectionMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SWCombox/SWCombox.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/StepIndicator/StepIndicator.framework",
@@ -593,12 +633,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnimatedField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DJSemiModalViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaveButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JBTabBarAnimation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koyomi.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMBannerLayout.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSSelectionMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWCombox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StepIndicator.framework",
@@ -664,6 +706,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAA0251922A53B93009E75A2 /* PopUpCurrencyViewController.swift in Sources */,
 				FA54B389224E597F0034EBB0 /* CosmosTouchTarget.swift in Sources */,
 				FA01A32B2268BA2D00CD431A /* RecentSearchCell.swift in Sources */,
 				FA54B39F224E83F80034EBB0 /* AjouterProduitViewController.swift in Sources */,
@@ -671,6 +714,7 @@
 				FA479D952252202A00573235 /* ProductClass.swift in Sources */,
 				FA2CEA6422806D5E00CE8F5F /* ProfileImageCell.swift in Sources */,
 				FA04D49A2285AB5200221A3B /* Location.swift in Sources */,
+				FAA0251B22A53D0A009E75A2 /* Currency.swift in Sources */,
 				FA472888227309AD006369CF /* CommentaireViewController.swift in Sources */,
 				FAFEF20B227AFA0B00B98A42 /* Favorite.swift in Sources */,
 				FA54B38B224E597F0034EBB0 /* CosmosSettings.swift in Sources */,
@@ -685,12 +729,15 @@
 				FA28500722563FBC00760166 /* BaseService.swift in Sources */,
 				FA2D69D822560FD900EF38B6 /* SWRevealViewController.m in Sources */,
 				FA04B1D62296A32E00F133A1 /* DetailOfUserCell.swift in Sources */,
+				FAA0252022A56EDE009E75A2 /* produitCell.swift in Sources */,
 				FA0481AA2261EA94007641CD /* SearchResultsController.swift in Sources */,
 				FA54B399224E60010034EBB0 /* productTableViewCell.swift in Sources */,
 				FA0C0C5B2263480700C7E30E /* PictureCollectionViewCell.swift in Sources */,
+				FAA5346E22A16FCC00815E90 /* DGKSegmentControl.swift in Sources */,
 				FAF956742270BE8E00191F74 /* PoPupUniteViewController.swift in Sources */,
 				FA28500F2256415600760166 /* RegisterViewController.swift in Sources */,
 				FA015841228D826B006831A4 /* MesDemandeCell.swift in Sources */,
+				FADD0F1E22A2E10800D4985B /* LocationManager.swift in Sources */,
 				FA0EB82A2260DADD00461BBF /* RegionClass.swift in Sources */,
 				FA47288A22730A6F006369CF /* Comment.swift in Sources */,
 				FA479D9C2252221A00573235 /* SousCategClass.swift in Sources */,
@@ -757,9 +804,11 @@
 				FA046C442281E31A0096456A /* ProfilTabBarController.swift in Sources */,
 				FAFE9B7E228EB4380061A109 /* DisponibilteCell.swift in Sources */,
 				FA00BB5122579A830090622F /* ProfileViewController.swift in Sources */,
+				FAA0252622A580F1009E75A2 /* CollectionTitleCell.swift in Sources */,
 				FA03159E226B84BF0032673B /* ColumnTableViewCell.swift in Sources */,
 				FAFA572E22954E7500ED6F4E /* HomeTabBarViewController.swift in Sources */,
 				FA54B390224E597F0034EBB0 /* CosmosView.swift in Sources */,
+				FA02FE4D22A4146F0033B814 /* RegisterCell.swift in Sources */,
 				FA0EB82C2260DAEA00461BBF /* CityClass.swift in Sources */,
 				FAFEF20D227B000000B98A42 /* FavoriteCell.swift in Sources */,
 				FA99334E228C3A6200897078 /* LoadingButton.swift in Sources */,

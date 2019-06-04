@@ -9,18 +9,18 @@
 import UIKit
 import Alamofire
 class MesDemandeReservationController: UIViewController {
-  var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
-     var urlRequestUserLocation = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Location/User/")!)
+    var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+    var urlRequestUserLocation = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Location/User/")!)
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     var responseImages = [UIImage]()
     var locationList = [Location]()
     @IBOutlet var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-produitList()
+        produitList()
         self.collectionView.register(UINib( nibName: "MesDemandeCell", bundle: nil), forCellWithReuseIdentifier: "MesDemandeCell")
         activityIndicator.startAnimating()
-
+        
     }
     func searchImage(productId : Int) {
         
@@ -36,11 +36,12 @@ produitList()
         }
     }
     func produitList() {
-        
+        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")        
+        let id = userDictionnary?["id"] as? String
         let urlString = urlRequestUserLocation.url?.absoluteString
-      //  guard let userId = AppManager.shared.iduser else {return}
-        let productURL = urlString! + "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
-      //  print("useriD : \(userId)")
+        //   guard let userId = AppManager.shared.iduser else {return}
+        let productURL = urlString! + id!
+        //  print("useriD : \(userId)")
         AF.request(productURL , method : .get).responseJSON {
             response in
             do {
@@ -54,10 +55,10 @@ produitList()
                     guard let productId = item.productId else {return}
                     self.searchImage(productId: productId)
                     print(productId)
-                //    self.collectionView.reloadData()
-
+                    //    self.collectionView.reloadData()
+                    
                 }
-             // self.collectionView.reloadData()
+                // self.collectionView.reloadData()
                 
                 
             }catch let errors {
@@ -68,7 +69,7 @@ produitList()
         }
         
     }
-
+    
 }
 
 extension MesDemandeReservationController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -83,45 +84,53 @@ extension MesDemandeReservationController: UICollectionViewDelegate, UICollectio
         let index = indexPath.row
         cell.index = indexPath
         cell.delegate = self 
-     
+        
         if locationList.count > 0 {
-               cell.periodLabel.text = " period : " + locationList[index].startDate! + " \n  to " + locationList[index].endDate!
-        cell.nameProduit.text = " name of product \n " + locationList[index].productName!
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let myStringafd = locationList[index].startDate
+            let myStringadd = locationList[index].endDate
+            cell.durrationLabel.text = "\(locationList[index].duration ?? 0)"
+            cell.totaleLabel.text = "\(locationList[index].amount ?? 0)"
+
+            cell.periodLabel.text = "\(myStringafd ?? "") to \(myStringadd ?? "")"
+            cell.nameProduit.text =  locationList[index].productName!
+            cell.requestButton.isEnabled = true
             if locationList[index].isConfirmed == true {
-                cell.requestButton.backgroundColor = UIColor.green
-                cell.requestButton.setTitle("Confirmer", for: .normal)
+                cell.requestButton.setTitle("Location Confirmed", for: .normal)
+                cell.requestButton.backgroundColor = UIColor.mainVerte
                 cell.cancelButton.isHidden = true
-               
-              
+                
+                
             }
-            else {
-                 cell.requestButton.backgroundColor = UIColor.gray
-            
+            if locationList[index].isConfirmed == false {
+                cell.requestButton.setTitle("Request Pending", for: .normal)
+                cell.requestButton.backgroundColor = UIColor.mainGray
+                cell.cancelButton.isHidden = false
+                
             }
         }
         if responseImages.count > 0 {
-        cell.imageProduit.image = responseImages[index]
+            cell.imageProduit.image = responseImages[index]
         }
-       
         cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
         cell.contentView.layer.borderColor = UIColor.black.cgColor
         cell.contentView.layer.masksToBounds = true
         cell.backgroundColor = UIColor.white
-
         cell.layer.shadowColor = UIColor.gray.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         cell.layer.shadowRadius = 2.0
         cell.layer.shadowOpacity = 1.0
         cell.layer.masksToBounds = false
         cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath
-
         return cell
+
     }
 }
 // extention for UICollectionViewDelegateFlowLayout
 extension MesDemandeReservationController : UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -132,16 +141,16 @@ extension MesDemandeReservationController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: UIScreen.main.bounds.width - 20, height: 190)
+        return CGSize.init(width: UIScreen.main.bounds.width, height: 210)
     }
 }
 
 extension MesDemandeReservationController : MesDemandeReservationProtocol {
     func deleteData(indx: Int) {
-        collectionView.reloadData()
         deleteDemande(Id: locationList[indx].id!)
-        locationList.removeAll()
         responseImages.remove(at : indx)
+        locationList.remove(at: indx)
+        
         collectionView.reloadData()
     }
     func deleteDemande (Id : Int ) {
@@ -152,6 +161,7 @@ extension MesDemandeReservationController : MesDemandeReservationProtocol {
         AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             print(response)
+        self.displayMessageOui(userMessage: "you want to delete this request ")
         }
     }
 }

@@ -8,15 +8,20 @@
 
 import UIKit
 import Alamofire
+import CoreLocation
+
 struct CellData  {
     var opened = Bool()
     var title =  String()
 //    var image = [UIImage]()
     var sectionData = [SousCategClass]()
 }
-class RechercheViewController: UIViewController , UISearchBarDelegate{
+class RechercheViewController: UIViewController , UISearchBarDelegate  {
+    //var locationManager: CLLocationManager!
+
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-//    @IBOutlet var searchBar: UISearchBar!
+    var locationManager: LocationManager?
+
     
     @IBOutlet var btnMenuButton: UIBarButtonItem!
     var images = ["vehicules", "immobilier" , "Habillement et Bien Etre",  "Meubles", "Agricole" , "Pour la Maison et Jardin" , "Emploi et Services" , "Loisirs et Diverssement" , "Informatique et Multimedia" , "Autres"]
@@ -36,28 +41,44 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
     @IBOutlet var viewTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+        print(userDictionnary?["name"])
         print("Token ViewCont ViewDidAppear = \(UserDefaults.standard.string(forKey: "Token"))")
 
         UITabBar.appearance().barTintColor = UIColor.white
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        if revealViewController() != nil {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)))
-       
 
+     
+
+        
+        self.locationManager?.getlocationForUser { (userLocation: CLLocation) -> () in
+            print(userLocation)
         }
-        setUpSearchBar()
-
          self.viewTable.register(UINib( nibName: "ChildSearchTableViewCell", bundle: nil), forCellReuseIdentifier: "child")
 //        viewTable.register(ChildSearchTableViewCell.self, forCellReuseIdentifier: "child")
 
        // viewTable.register(ChildSearchTableViewCell.self, forCellReuseIdentifier: "cell")
 
-        dataCatégorie()
         activityIndicator.startAnimating()
+ 
+        dataCatégorie()
+
     }
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let userLocation:CLLocation = locations[0]
+//        let long = userLocation.coordinate.longitude;
+//        let lat = userLocation.coordinate.latitude;
+//
+//        print(long, lat)
+//
+//        //Do What ever you want with it
+//    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        setUpSearchBar()
 
         if (isLoggedIn()) {
             print("c'est deja connecte \( AppManager.shared.iduser)")
@@ -66,6 +87,10 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
         }
         
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+self.viewTable.reloadData()
     }
     fileprivate func isLoggedIn() -> Bool {
         return UserDefaults.standard.isLoggedIn()
@@ -113,18 +138,21 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                                     self.categorieList.sort() { $0.name! > $1.name! }
                                     self.viewTable.reloadData()
                                 }
+                                self.activityIndicator.stopAnimating()
+                                self.activityIndicator.isHidden = true
                             }
                         }catch {
                             //
                         }
+                        
                     }
+                  
                 }
 
     }catch let error {
                 print(error)
             }
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.isHidden = true
+           
         }
         
         
@@ -132,7 +160,7 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
 
   func setUpSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
-    self.navigationItem.searchController = searchController
+    navigationItem.searchController = searchController
 
 //        searchBar.delegate = self
         
@@ -150,27 +178,36 @@ class RechercheViewController: UIViewController , UISearchBarDelegate{
                 backgroundview.backgroundColor = UIColor.white
                 
                 // Rounded corner
-                backgroundview.layer.cornerRadius = 10;
-                backgroundview.clipsToBounds = true;
-                
+                backgroundview.layer.cornerRadius = 10
+                backgroundview.clipsToBounds = true
+                navigationController?.navigationController?.navigationItem.leftBarButtonItem = nil
+
             }
         }
+   
+
         
 //        if let navigationbar = self.navigationController?.navigationBar {
 //            navigationbar.barTintColor = UIColor.gray
 //        }
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        
+
         
         
         
         
     }
-  
-    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        navigationController?.navigationController?.isNavigationBarHidden = false
+
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        navigationController?.navigationController?.isNavigationBarHidden = true
+
+    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
- 
+
         CurrentTableViewData = tableViewData.filter({ cat -> Bool in
            
                 if searchText.isEmpty { return true }
@@ -211,6 +248,10 @@ extension RechercheViewController : UITableViewDelegate, UITableViewDataSource {
        
     let vc = self.storyboard?.instantiateViewController(withIdentifier: "produitParSubCatViewController") as! produitParSubCatViewController
         Share.sharedName.sousCategorie =  CurrentTableViewData[indexPath.section].sectionData[indexPath.row - 1]
+            self.viewTable.reloadData()
+
+            self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+
             self.navigationController?.pushViewController(vc, animated: true)
 
         }

@@ -29,21 +29,64 @@ var users = [User]()
     let cellSpacingHeight: CGFloat = 20
 //    var twoDimensionalArray = [Location]()
 
-    func someMethodIWantToCall(cell: LocationRequestCell) {
+    func accepter(cell: LocationRequestCell) {
         
         guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
         let location =  locationList[indexPathTapped.row]
-//
-//            let hasconfirme = location.isConfirmed
-//           location.isConfirmed = !hasconfirme!
-//            cell.accepterButton.tintColor = hasconfirme! ?  UIColor.lightGray : .red
-//        cell.accepterButton.setImage(hasconfirme! ?  UIImage(named: "checkrouge") : UIImage(named: "checkvert") , for: .normal)
-//            if (hasconfirme == false) {
+
+
                 updateLocationWithConfirmation(Id:  location.id! ,  userId: location.userId!, productId: location.productId!, duration: location.duration! , startDate: location.startDate!, endDate: location.endDate!, amount: location.amount!)
+        responseImages.remove(at : indexPathTapped.row)
+        locationList.remove(at: indexPathTapped.row)
+        users.remove(at: indexPathTapped.row)
         collectionView.reloadData()
 
         
         }
+    func delete(cell: LocationRequestCell) {
+        
+        guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
+        let location =  locationList[indexPathTapped.row]
+        self.deleteLocation(Id: location.id!)
+        responseImages.remove(at : indexPathTapped.row)
+        locationList.remove(at: indexPathTapped.row)
+        users.remove(at: indexPathTapped.row)
+        collectionView.reloadData()
+        
+        
+    }
+    func deleteLocation (Id : Int ) {
+        
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Location/\(Id)"
+        
+        AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            let favorite : String = "you really wanna delete this request"
+            
+            let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
+                    print(response)
+                    
+                    
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+            }))
+            
+            self.present(alert, animated: true)
+        }
+    }
     func updateLocationWithConfirmation (Id : Int , userId : String ,productId : Int,duration : Int, startDate : String , endDate : String , amount : Decimal) {
     
         let params = ["id": Id ,  "userId": userId , "productId" : productId , "duration" : duration , "startDate" : startDate , "endDate" : endDate , "amount" : amount,  "isRequested" : true ,"isConfirmed" : true] as [String : Any]
@@ -52,17 +95,40 @@ var users = [User]()
 
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
+            let favorite : String = "you wanna accept this request"
 
-                print(response)
-                let favorite : String = "vous avez accepeter ce demande "
-                self.displayMessage(userMessage: favorite)
-
+            let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
+                    print(response)
+                    
+                    
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+            }))
+            
+            self.present(alert, animated: true)
+  
            
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         produitList()
+        UITabBar.appearance().barTintColor = UIColor.white
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
          self.collectionView.register(UINib( nibName: "LocationRequestCell", bundle: nil), forCellWithReuseIdentifier: "LocationRequestCell")
         
         activityIndicator.startAnimating()
@@ -102,10 +168,13 @@ var users = [User]()
         }
     }
     func produitList() {
+        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+        // print(userDictionnary?["name"]! as Any)
         
+        let id = userDictionnary?["id"] as? String
         let urlString = urlRequestProductByUserId.url?.absoluteString
-        //guard let userId = AppManager.shared.iduser else {return}
-        let productURL = urlString! + "5db395d9-3b02-4c27-bb19-0f4c6ce8b851"
+       // guard let userId = AppManager.shared.iduser else {return}
+        let productURL = urlString! + id!
        // print("useriD : \(userId)")
         
         AF.request(productURL , method : .get).responseJSON {
@@ -163,30 +232,39 @@ extension LocationRequestedController: UICollectionViewDelegate, UICollectionVie
         let index = indexPath.row
         cell.linkto = self
        // cell.amountLabel.text = "le prix : \(locationList[index].amount!) $"
-        if locationList.count > 0 {
+       
             let formatter = DateFormatter()
             
-            formatter.dateFormat = "dd-MMM-yyyy"
-            // again convert your date to string
-            let myStringafd = formatter.date(from: locationList[index].endDate ?? "")
-             let myStringadd = formatter.date(from: locationList[index].startDate ?? "")
-             cell.periodeLabel.text = "\(myStringafd ?? Date())  \n  to \(myStringadd ?? Date())"
+            formatter.dateFormat = "yyyy-MM-dd"
+       let datedebut = formatter.date(from: locationList[index].endDate!)
+        print(datedebut)
+            let myStringafd = locationList[index].endDate
+    
+             let myStringadd = locationList[index].startDate
+            cell.periodeLabel.text = "\(myStringafd ?? "") to \(myStringadd ?? "")"
             
         cell.nameProduit.text =  locationList[index].productName!
-        }
+       
         if users.count > 0 {
-        cell.telLabel.text = users[index].phoneNumber
+        cell.telLabel.text = users[index].phoneNumber ?? "12345678"
         cell.userLabel.text = users[index].firstName
         }
          if responseImages.count > 0 {
         cell.imagePhoto.image = responseImages[index]
         }
+       // cell.accepterButton.backgroundColor = UIColor.mainVerte
         if locationList[index].isConfirmed == true {
-            cell.accepterButton.backgroundColor = UIColor.green
+            cell.accepterButton.setTitle("Location Confirmed", for: .normal)
+            cell.refuseButton.isHidden = true
+            
+            
         }
-      
-        
-        cell.contentView.layer.cornerRadius = 10
+        if locationList[index].isConfirmed == false {
+            cell.accepterButton.setTitle("Accept Location", for: .normal)
+            cell.refuseButton.isHidden = false
+            
+        }
+     cell.contentView.layer.cornerRadius = 10
         cell.contentView.layer.borderWidth = 1.0
         cell.contentView.layer.borderColor = UIColor.black.cgColor
         cell.contentView.layer.masksToBounds = true
@@ -214,7 +292,7 @@ extension LocationRequestedController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: UIScreen.main.bounds.width - 5, height: 232)
+        return CGSize.init(width: UIScreen.main.bounds.width - 5, height: 240)
     }
 }
 

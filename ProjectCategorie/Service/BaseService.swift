@@ -39,6 +39,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
         oauth2.username = username
         oauth2.password = password
         oauth2.delegate = self
+        
     }
     func displayMessage(userMessage : String)
     {
@@ -53,6 +54,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
         vc!.present(myAlert , animated : true , completion : nil)
         
     }
+ 
     
     
     public func authorize(presenting view: UIViewController) {
@@ -67,7 +69,8 @@ final class BaseService: OAuth2PasswordGrantDelegate
             
             return
         }
-        
+      
+       
         if let view = view as? OAuth2PasswordGrantDelegate {
             oauth2.delegate = view
         }
@@ -77,6 +80,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
                 //                print("oauth2.authParameters\(self.oauth2.authParameters)")
                 //                print("oauth2.idtoken\(self.oauth2.idToken)")
                 //                print("oauth2.loger\(self.oauth2.logger)")
+    
                 
                 let token : AnyObject = au["access_token"] as AnyObject
                 do {
@@ -103,13 +107,28 @@ final class BaseService: OAuth2PasswordGrantDelegate
                             guard let data = response.data else {return}
                             do {
                                  let user = try JSONDecoder().decode(User.self, from: data)
-                               // AppManager.shared.user = user
+                               AppManager.shared.user = user
                                 print(response.request as Any)  // original URL request
                                 print(response.response as Any) // URL response
-                                let userStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                                let vc = userStoryboard.instantiateViewController(withIdentifier: "TutorielViewController")
-                                view.navigationController?.pushViewController(vc, animated: true)
-                                UserDefaults.standard.set(user.id, forKey: "idCurrentUser")
+                              
+//                                let userDefault = UserDefaults.standard
+//                                let data = try NSKeyedArchiver.archivedData(withRootObject: user, requiringSecureCoding: true)
+//                                userDefault.set(data, forKey: "YourNSDictionary")
+//                                userDefault.synchronize()
+                              
+                              //  UserDefaults.standard.set(user.id, forKey: "idCurrentUser")
+                                var userDictionnary = [String : Any]()
+                                userDictionnary["lastName"] = user.lastName
+                                userDictionnary["id"] = user.id
+                                userDictionnary["firstName"] = user.firstName
+                                userDictionnary["email"] = user.email
+                                userDictionnary["phoneNumber"] = user.phoneNumber
+                                userDictionnary["facebookUrl"] = user.facebookUrl
+                                userDictionnary["skype"] = user.skype
+                                userDictionnary["twitterUrl"] = user.twitterUrl
+                                userDictionnary["linkedinUrl"] = user.linkedinUrl
+                                userDictionnary["pinterestUrl"] = user.pinterestUrl
+                                UserDefaults.standard.set(userDictionnary, forKey: "userDictionnary")
 
                             }catch let err {
                                 print(err)

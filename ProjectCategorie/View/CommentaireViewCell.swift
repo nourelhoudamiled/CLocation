@@ -51,7 +51,7 @@ class CommentaireViewCell: UICollectionViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 14
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -73,23 +73,27 @@ class CommentaireViewCell: UICollectionViewCell {
         
         //x,y,w,h
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 1).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+       
+       // profileImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 1).isActive = true
+   profileImageView.bottomAnchor.constraint(equalTo: userText.topAnchor, constant: 10).isActive = true
+
+        profileImageView.widthAnchor.constraint(equalToConstant: 28).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 28).isActive = true
         //x,y,w,h
         userText.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 1).isActive = true
-       // userText.topAnchor.constraint(equalTo: profileImageView.topAnchor).isActive = true
-        userText.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+      userText.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10).isActive = true
+        userText.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 22).isActive = true
+        //  userText.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 20).isActive = true
 
-        userText.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        userText.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        userText.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        userText.heightAnchor.constraint(equalToConstant: 42).isActive = true
         //x,y,w,h
         
-        bubbleViewRightAnchor = bubbleView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 50)
-        
+        bubbleViewRightAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.leftAnchor, constant: 50)
+
         bubbleViewRightAnchor?.isActive = true
         
-        bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8)
+      //  bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: userText.rightAnchor, constant: 8)
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)

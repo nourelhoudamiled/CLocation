@@ -52,8 +52,7 @@ class produitParSubViewCell: UICollectionViewCell {
 //        favoriteButton.inputAccessoryView
       //  favoriteButton.inputAccessoryView?.tintColor =  .red
         favoriteButton.addTarget(self, action: #selector(handleMarkAsFavorite), for: .touchUpInside)
-        cosmosView.didTouchCosmos = didToushCosmos
-        cosmosView.didFinishTouchingCosmos = didFinishTouchingCosmos
+
 
     }
  
@@ -86,13 +85,5 @@ class produitParSubViewCell: UICollectionViewCell {
         }
         return nil
     }
-    private func didToushCosmos(_ rating : Double) {
-        // ratingSlider.value = Float(rating)
-        linkto?.methodCosmos(cell: self, rating: rating)
-        
-    }
-    private func didFinishTouchingCosmos(_ rating : Double) {
-        linkto?.methodDidfinich(cell: self, rating: rating)
-        
-    }
+  
 }

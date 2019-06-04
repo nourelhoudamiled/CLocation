@@ -26,7 +26,9 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
         imageProfile.layer.borderColor = UIColor.red.cgColor
         self.imageProfile.layer.cornerRadius = self.imageProfile.frame.size.width / 2;
         self.imageProfile.clipsToBounds = true
-        nameProfile.text = AppManager.shared.user?.firstName
+           let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+        print(userDictionnary)
+        nameProfile.text = userDictionnary?["firstName"] as? String
         tableViews.rowHeight = 55
         labelSignOut.isUserInteractionEnabled = true
           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(BarMenuViewController.tapFunction))
@@ -53,7 +55,7 @@ class BarMenuViewController: UIViewController , UITableViewDelegate , UITableVie
 //            appDelegate.window?.rootViewController = nc
 //        
 //    }
-    UserDefaults.standard.set(nil, forKey: "idCurrentUser")
+    UserDefaults.standard.set(nil, forKey: "userDictionnary")
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
     let vc = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")

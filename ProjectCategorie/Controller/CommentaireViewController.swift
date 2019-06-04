@@ -9,7 +9,8 @@
 import UIKit
 import Alamofire
 class CommentaireViewController: UIViewController , UITextFieldDelegate  {
-
+    @IBOutlet var cosmosView: CosmosView!
+    
     var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
     
     //   @IBOutlet var downloadImage: UIImageView!
@@ -49,15 +50,53 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
        let cellId = "cellId"
     override func viewDidLoad() {
         super.viewDidLoad()
+        cosmosView.didTouchCosmos = didToushCosmos
+        cosmosView.didFinishTouchingCosmos = didFinishTouchingCosmos
      print("pid\(Share.sharedName.product?.id)")
         pageView.numberOfPages = responseImage.count
-        photos()
+       photos()
         DispatchQueue.main.async {
             self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
         }
     fetchdata()
-   
+        
+
          }
+ 
+  
+
+    private func didToushCosmos(_ rating : Double) {
+       
+        
+    }
+    private func didFinishTouchingCosmos(_ rating : Double) {
+ 
+        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+        let id = userDictionnary?["id"] as? String
+        postRating (Id : Share.sharedName.product?.id ?? 2 , userId : id! , note : rating)
+        
+    }
+    func postRating (Id : Int , userId : String , note : Double) {
+        let params = ["productId": Id ,  "userId": userId , "note": note] as [String : Any]
+        
+        let urlString = "https://clocation.azurewebsites.net/api/Rating"
+        
+        AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            
+            switch response.result {
+            case .success:
+                print(response)
+                let favorite : String = "you add to your rating"
+                self.alertdisaper(userMessage: favorite)
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+            }
+        }
+    }
    func ecrirecommentaire () {
     
     inputTextField.delegate = self
@@ -113,6 +152,12 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
         super.viewWillAppear(animated)
 //        fetchdata()
         ecrirecommentaire()
+         navigationController?.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     @objc func changeImage() {
@@ -149,7 +194,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     }
     
     func fetchdata() {
-        guard let productId = Share.sharedName.product?.id else {return}
+        let productId = "227"
         let urlString = "https://clocation.azurewebsites.net/api/Comments/\(productId)/Comment"
         self.comments.removeAll()
 
@@ -194,8 +239,8 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     func photos(){
         let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
         let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
-        let productId = Share.sharedName.product?.id
-        let attachementsURL = urlStringAttachmentsId! + "\(productId!)/AttachmentsId"
+        let productId = "227"
+        let attachementsURL = urlStringAttachmentsId! + "\(productId)/AttachmentsId"
         AF.request(attachementsURL).responseJSON {
             response in
             do {
@@ -282,7 +327,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        if collectionView == self.collectionSlide {
         return responseImage.count
-        
+
        }
        else {
         return comments.count
@@ -293,11 +338,11 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
   if collectionView == self.collectionSlide {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCommentCollectionViewCell
-    
+
     cell.imageView.image = responseImage[indexPath.row]
        return cell
     }
-    
+
   else  {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CommentaireViewCell
     cell.index = indexPath
@@ -370,7 +415,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
  
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
