@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import IQKeyboardManagerSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -34,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         window!.rootViewController = loginViewController
                         window!.makeKeyAndVisible()
         }
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
       
 //        //        let isUserLoggedIn:Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
 //

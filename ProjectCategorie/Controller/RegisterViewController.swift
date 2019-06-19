@@ -47,23 +47,38 @@ class RegisterViewController: UIViewController  , UITextFieldDelegate {
         return emailTest.evaluate(with: testStr)
     }
     @IBAction func registerButton(_ sender: Any) {
-        let value = numtelTextField.text!
-        let rewardInt = Int(value)
+      
+        let favorite : String = "do you confirme your registration ?"
+        let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
         
-//        if (self.tuesTextfield.text == "Particulier" ) {
-        if self.emailTextField.text == "" || self.PassTextField.text == "" ||  self.numtelTextField.text == "" || self.firstNameLabel.text == "" ||  self.lastNameLabel.text == "" {
-            displayMessage(userMessage: "Fill your field")
-            
-        }
-        if !isValidEmail(testStr: emailTextField.text!) {
-             displayMessage(userMessage: "Fill in your email in this form email name@example.com")
-        }
-        if numtelTextField.text?.count != 8 {
-            displayMessage(userMessage: "The phone number should be equal to eight")
-        }
-//        
-        let params = ["firstName": firstNameLabel.text!, "lastName": lastNameLabel.text! , "email" : emailTextField.text!, "password" : PassTextField.text! ]
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: nil))
         
+        alert.addAction(UIAlertAction(title: "no", style: .default, handler:nil))
+        
+        self.present(alert, animated: true)
+        
+    
+//        let value = numtelTextField.text!
+//        let rewardInt = Int(value)
+//
+////        if (self.tuesTextfield.text == "Particulier" ) {
+//        if self.emailTextField.text == "" || self.PassTextField.text == "" ||  self.numtelTextField.text == "" || self.firstNameLabel.text == "" ||  self.lastNameLabel.text == "" {
+//            displayMessage(userMessage: "Fill your field")
+//
+//        }
+//        if !isValidEmail(testStr: emailTextField.text!) {
+//             displayMessage(userMessage: "Fill in your email in this form email name@example.com")
+//        }
+//        if numtelTextField.text?.count != 8 {
+//            displayMessage(userMessage: "The phone number should be equal to eight")
+//        }
+////
+//
+//
+//        let params = ["firstName": firstNameLabel.text!, "lastName": lastNameLabel.text!,"aboutMe": "", "email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : numtelTextField.text! , "isPartner" : false , "skype": "","facebookUrl": "","twitterUrl": "",
+//            "linkedinUrl": "", "pinterestUrl": "", "imageUri": "", "isAdmin": false,"partnerAddress" :"", "partnerCity" : "" , "partnerDescription" : "", "partnerName" : "" , "partnerWebSite" : "" ] as! [String : Any]
+//        print(params)
+//
 //        var urlRequest = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/users")!)
 //        urlRequest.setValue("application/json",
 //                            forHTTPHeaderField: "Content-Type")
@@ -74,14 +89,17 @@ class RegisterViewController: UIViewController  , UITextFieldDelegate {
 //
 //        AF.request(urlString!, method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
 //            do {
-//                print(response.value)
+//                print("response.value\(response)")
+//                print("response.value\(response.value)")
+//
 //                guard let data = response.data else {return}
 //
 //                let userListJson = try JSONDecoder().decode(User.self, from: data)
-//                AppManager.shared.iduser = userListJson.id
-//                print( AppManager.shared.iduser )
+//                print("response.value\(userListJson)")
+//
 //                let userStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //                let vc = userStoryboard.instantiateViewController(withIdentifier: "TutorielViewController")
+//
 //                self.navigationController?.pushViewController(vc, animated: true)
 //
 //            }
@@ -90,7 +108,7 @@ class RegisterViewController: UIViewController  , UITextFieldDelegate {
 //            }
 //        }
         
-     // }
+      //}
 //        else {
 //            let params = ["email" : emailTextField.text!, "password" : PassTextField.text! , "phoneNumber" : rewardInt! , "isPartner" : true , "partnerAddress" :addressTextField.text!, "partnerCity" : cityTextField.text! , "partnerDescription" :descriptionTextfield.text!, "partnerName" : nomsocieteTextField.text! , "partnerWebSite" :sitesocieteTextfield.text! ] as [String : Any]
 //

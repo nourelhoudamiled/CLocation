@@ -248,7 +248,7 @@ let alert = UIAlertController(title: "Date Picker", message: "Select Date", pref
         
         AF.request(urlString, method: .post, parameters: parametre,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            let favorite : String = "vous avez reservee le produit par \(productName)"
+            let favorite : String = "you reserved the product by name \(productName)"
             let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in

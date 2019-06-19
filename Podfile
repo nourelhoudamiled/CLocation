@@ -27,5 +27,6 @@ pod 'FSCalendar'
 pod 'FaveButton'
 pod 'DJSemiModalViewController'
 pod 'RSSelectionMenu', '~> 6.0.3'
+pod 'IQKeyboardManagerSwift'
 
 end

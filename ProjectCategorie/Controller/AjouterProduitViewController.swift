@@ -409,9 +409,15 @@ class AjouterProduitViewController: UIViewController {
             }
 
         }, usingThreshold: MultipartFormData.encodingMemoryThreshold, to: urlString, method: .post).responseJSON { (response)in
-            switch response.result {
-            case .success:
-             
+            
+                let favorite : String = "you really wanna add this product"
+                
+                let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
+                
                 print(response)
                 let id : Int = response.value as! Int
                 print(id)
@@ -421,16 +427,23 @@ class AjouterProduitViewController: UIViewController {
                 print(notevalue)
                 
                 for val in self.valuesColumn {
-                    
-                    self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
-                    
+                
+                self.PostProductColumn(enumColumnId: val.id! , value: val.value! , productId: notevalue)
+                
                 }
-                self.displayMessage(userMessage: "you add this product")
                 break
-            case .failure(let error):
+                case .failure(let error):
                 
                 print(error)
-            }
+                }
+                }))
+                
+                alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+                }))
+                
+                self.present(alert, animated: true)
+    
         }
         self.activityIndicator.stopAnimating()
         self.activityIndicator.isHidden = true

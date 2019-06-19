@@ -24,7 +24,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     @IBOutlet var collectionView: UICollectionView!
     let uploadImageView = UIImageView()
    
-
+    var urlRequestSearchRating = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Search/Product/Rating/")!)
     let separatorLineView = UIView()
     var comments = [Comment]()
      var inputTextField: UITextField = {
@@ -53,17 +53,32 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
         cosmosView.didTouchCosmos = didToushCosmos
         cosmosView.didFinishTouchingCosmos = didFinishTouchingCosmos
      print("pid\(Share.sharedName.product?.id)")
-        pageView.numberOfPages = responseImage.count
-       photos()
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
-        }
+        self.photos()
+
     fetchdata()
-        
+        searchRating(productId: 219 )
 
          }
  
-  
+    func searchRating (productId : Int) {
+        
+        let urlStringSearchRating = urlRequestSearchRating.url?.absoluteString
+        let SearchRatingURL = urlStringSearchRating! + "\(productId)"
+        
+        AF.request(SearchRatingURL , method : .get).responseJSON {
+            response in
+            
+            guard let data = response.data else {return}
+            var notevalue = String(data: data, encoding: .utf8)!
+            if notevalue == "\"NaN\"" {
+                notevalue = "0"
+            }
+            self.cosmosView.rating = Double(notevalue) ?? 0
+            
+            
+        }
+    }
+    
 
     private func didToushCosmos(_ rating : Double) {
        
@@ -71,9 +86,10 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     }
     private func didFinishTouchingCosmos(_ rating : Double) {
  
-        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
-        let id = userDictionnary?["id"] as? String
-        postRating (Id : Share.sharedName.product?.id ?? 2 , userId : id! , note : rating)
+//        let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+//        let id = userDictionnary?["id"] as? String
+        
+        postRating (Id : 219 , userId : "26d19e03-d549-4b1d-aa1d-2a9e1e4806f2" , note : rating)
         
     }
     func postRating (Id : Int , userId : String , note : Double) {
@@ -98,7 +114,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
         }
     }
    func ecrirecommentaire () {
-    
+
     inputTextField.delegate = self
     uploadImageView.isUserInteractionEnabled = true
     uploadImageView.image = UIImage(named: "upload_image_icon")
@@ -194,8 +210,8 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     }
     
     func fetchdata() {
-        let productId = "227"
-        let urlString = "https://clocation.azurewebsites.net/api/Comments/\(productId)/Comment"
+        //let productId = Share.sharedName.product?.id
+        let urlString = "https://clocation.azurewebsites.net/api/Comments/\(219)/Comment"
         self.comments.removeAll()
 
         AF.request(urlString, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
@@ -239,8 +255,8 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
     func photos(){
         let urlStringAttachmentsId = urlRequestAttachmentsId.url?.absoluteString
         let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
-        let productId = "227"
-        let attachementsURL = urlStringAttachmentsId! + "\(productId)/AttachmentsId"
+      //  let productId = Share.sharedName.product?.id
+        let attachementsURL = urlStringAttachmentsId! + "\(219)/AttachmentsId"
         AF.request(attachementsURL).responseJSON {
             response in
             do {
@@ -260,6 +276,11 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
                         
                     }
                 }
+                self.pageView.numberOfPages = self.responseImage.count
+                DispatchQueue.main.async {
+                    self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+                }
+
                 
                 
             }catch let error {
@@ -278,11 +299,14 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
 //    //key $0, value $1
 //    properties.forEach({values[$0] = $1})
 //    print(properties)
-    let userId = AppManager.shared.iduser
-    let userName = AppManager.shared.user?.email
-    let productId = Share.sharedName.product?.id
+//    let userDictionnary = UserDefaults.standard.dictionary(forKey: "userDictionnary")
+//    print(userDictionnary)
+//  let userId = userDictionnary?["id"] as? String
+//   let userName = userDictionnary?["firstName"] as? String
+    
+    let productId = 219
     let productName =  "jupe"
-    let params = ["userId" : userId , "userName" : userName,"productId" : productId, "productName" : productName,"commentaire" : inputTextField.text!] as [String : Any]
+    let params = ["userId" : "26d19e03-d549-4b1d-aa1d-2a9e1e4806f2" , "userName" : "nour","productId" : productId, "productName" : productName,"commentaire" : inputTextField.text!] as [String : Any]
     AF.request(urlString, method: .post, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
         response in
         
@@ -292,6 +316,7 @@ class CommentaireViewController: UIViewController , UITextFieldDelegate  {
             self.inputTextField.text = nil
             
             self.fetchdata()
+            
             
                     
                 
@@ -352,7 +377,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
         let comment = comments[indexPath.item]
         cell.textView.text = comment.commentaire
     cell.userText.text = comment.userName
-        setupCell(cell, message: comment)
+    setupCell(cell, message: comment , name: comment.userName ?? "nour" )
 
         if let text = comment.commentaire {
             cell.bubbleWidthAnchor?.constant = estimateFrameForText(text).width + 32
@@ -365,7 +390,7 @@ extension CommentaireViewController : UICollectionViewDelegateFlowLayout, UINavi
     }
     }
 
-    fileprivate func setupCell(_ cell: CommentaireViewCell, message: Comment) {
+    fileprivate func setupCell(_ cell: CommentaireViewCell, message: Comment , name : String) {
     
             cell.profileImageView.image = UIImage(named: "photo")
         

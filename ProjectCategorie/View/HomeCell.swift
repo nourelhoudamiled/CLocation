@@ -17,7 +17,7 @@ class HomeCell: UITableViewCell {
     @IBOutlet var viewImage: UIView!
     @IBOutlet var collectionView: UICollectionView!
     var productList = [ProductClass]()
-      var productImages = [String]()
+      var productImages = [UIImage]()
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -67,7 +67,21 @@ extension HomeCell :  UICollectionViewDataSource , UICollectionViewDelegate {
             //The rest of your method ...
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "produitCell", for: indexPath) as! produitCell
             cell.labelName.text = productList[indexPath.row].name
-           cell.prixLabel.text = "\(productList[indexPath.row].price)"
+           cell.prixLabel.text = "\(productList[indexPath.row].price ?? 0) DT"
+            if productImages.count > indexPath.row {
+                cell.imageproduit.image = productImages[indexPath.row]
+
+            }
+          //  cell.imageproduit.image = productImages[indexPath.row]
+
+            cell.layer.cornerRadius = 10
+            cell.layer.backgroundColor = UIColor.white.cgColor
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.borderColor = UIColor.gray.cgColor
+            cell.layer.borderWidth = 1.0
+            cell.layer.shadowOpacity = 1
+            cell.layer.shadowOffset = CGSize.zero
+            cell.layer.shadowRadius = 10
          
             
                 return cell

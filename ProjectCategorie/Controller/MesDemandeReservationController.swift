@@ -90,8 +90,8 @@ extension MesDemandeReservationController: UICollectionViewDelegate, UICollectio
             formatter.dateFormat = "yyyy-MM-dd"
             let myStringafd = locationList[index].startDate
             let myStringadd = locationList[index].endDate
-            cell.durrationLabel.text = "\(locationList[index].duration ?? 0)"
-            cell.totaleLabel.text = "\(locationList[index].amount ?? 0)"
+            cell.durrationLabel.text = "\(locationList[index].duration ?? 0) JOUR"
+            cell.totaleLabel.text = "\(locationList[index].amount ?? 0) DT"
 
             cell.periodLabel.text = "\(myStringafd ?? "") to \(myStringadd ?? "")"
             cell.nameProduit.text =  locationList[index].productName!
@@ -162,6 +162,31 @@ extension MesDemandeReservationController : MesDemandeReservationProtocol {
             response in
             print(response)
         self.displayMessageOui(userMessage: "you want to delete this request ")
+           
+            let favorite : String = "you want to delete this request ?"
+            let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
+                    print(response)
+                    
+                    
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                }
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+            }))
+            
+            self.present(alert, animated: true)
+            
         }
+    
     }
 }

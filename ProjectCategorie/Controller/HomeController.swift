@@ -13,7 +13,7 @@ import DJSemiModalViewController
 import Alamofire
 struct expendCategory  {
     var title =  String()
-    var sectionData = [ProductClass]()
+    var productList = [ProductClass]()
     var images = [UIImage]()
     
 }
@@ -46,6 +46,7 @@ class HomeController: UIViewController , UISearchBarDelegate {
     var RegionList = [RegionClass]()
     var idRegion = Int()
     var tableViewData = [expendCategory]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -260,31 +261,45 @@ class HomeController: UIViewController , UISearchBarDelegate {
             
         }
     }
+//    func searchImage(productId : Int) {
+//        var urlRequestImageByAttachmentId = URLRequest(url: URL(string: "http://clocation.azurewebsites.net/api/Attachments/")!)
+//        let urlStringImageByAttachmentId = urlRequestImageByAttachmentId.url?.absoluteString
+//        let attachementURL = urlStringImageByAttachmentId! + "\(productId)/ImageByProductId"
+//
+//        AF.request(attachementURL , method : .get ).responseImage {
+//            response in
+//            guard let image = response.data else {return}
+//            print(image)
+//            self.productImages.append( UIImage(data: image) ?? UIImage(named: "EmmaStone")!)
+//            //self.collectionView.reloadData()
+//
+//        }
+//    }
     func searchImage(withIndex : Int) {
         var images = [UIImage]()
         //self.tableViewData[withIndex].images.removeAll()
-        for product in productList {
-            
-            let attachementURL = urlImageByAttachmentId + "\(product.id)/ImageByProductId"
-            
+        for product in self.tableViewData[withIndex].productList {
+
+            let attachementURL = urlImageByAttachmentId + "\(product.id!)/ImageByProductId"
+
             AF.request(attachementURL , method : .get ).responseImage {
                 response in
                 guard let image = response.data else {return}
-                
+
+              
                 images.append( UIImage(data: image) ?? UIImage(named: "Agricole")!)
-                
+
                 self.tableViewData[withIndex].images = images
-                
+
                 self.tableView.reloadData()
-                
+
             }
-            
+
         }
-        
-        self.productImages.removeAll()     
+
+//        self.productImages.removeAll()
     }
     func dataCatégorie(){
-        print("Token ViewCont PressedButton = \( AppManager.shared.token)")
         let urlString = urlRequest.url?.absoluteString
         let urlString1 = urlRequest1.url?.absoluteString
         AF.request(urlString!).responseJSON {
@@ -304,25 +319,25 @@ class HomeController: UIViewController , UISearchBarDelegate {
                         response in
                         do {
                             if let data = response.data {
+                                self.productList.removeAll()
                                 let proList = try JSONDecoder().decode([ProductClass].self, from: data)
                                 for prod in proList {
                                     self.productList.append(prod)
-                                    guard let  productid = prod.id else {return}
+                                  //  guard let  productid = prod.id else {return}
                                     // self.searchRating(productId: productid)
-                                    
+                                   // self.searchImage(productId: productid)
                                 }
-                                let cellData = expendCategory(title: categorie.name!, sectionData: self.productList , images: [UIImage]())
+                                let cellData = expendCategory(title: categorie.name!, productList: self.productList , images: [UIImage]())
                                 self.tableViewData.append(cellData)
-                                DispatchQueue.global(qos: .background).async {
+                              
                                     self.searchImage(withIndex : self.tableViewData.count - 1 )
-                                }
+                            
                                 
                                 
                                 
-                                DispatchQueue.main.async {
                                     self.categorieList.sort() { $0.name! > $1.name! }
-                                    self.tableView.reloadData()
-                                }
+                                   // self.tableView.reloadData()
+                             
                                 self.activityIndicator.stopAnimating()
                                 self.activityIndicator.isHidden = true
                             }
@@ -488,10 +503,10 @@ extension HomeController : UITableViewDelegate , UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 80
+            return 40
         }
         else {
-            return 330
+            return 380
             
         }    }
     
@@ -499,13 +514,17 @@ extension HomeController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        if indexPath.row == 0 {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell", for: indexPath) as! TitleCell
         cell.titleLabel.text = tableViewData[indexPath.section].title
+        cell.layer.backgroundColor = UIColor.white.cgColor
+    
+        cell.layer.borderColor = UIColor.gray.cgColor
+        cell.layer.borderWidth = 1.0
+ 
         return cell
     }else {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeCell
-        cell.productList = tableViewData[indexPath.section].sectionData
-        //            cell.productImages = res
-        
         cell.collectionView.reloadData()
+        cell.productList = tableViewData[indexPath.section].productList
+        cell.productImages = tableViewData[indexPath.section].images
         cell.setUpView()
         //                        let index = indexPath.row
         //                            cell.nameProduit.text = tableViewData[indexPath.section].sectionData[indexPath.row - 1 ].name

@@ -46,7 +46,7 @@ class produitParSubCatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        segmentController.titles = ["Filtres", "Popularité"]
+        segmentController.titles = ["filters", "popularity"]
 
    
         activityIndicator.startAnimating()
@@ -60,7 +60,7 @@ class produitParSubCatViewController: UIViewController {
         print("ss")
     print("ssss\(sender.selectedTitle)")
         print("ssss\( sender.titles[sender.selectedIndex])")
-        if sender.titles[sender.selectedIndex] == "Popularité" {
+        if sender.titles[sender.selectedIndex] == "popularity" {
             self.tabBarController?.tabBar.isHidden = true
 
             let controller = createSemiModalViewController()
@@ -103,7 +103,7 @@ print("aaaa")
         print("aaaa")
   self.ProductList.sort() { $0.price! > $1.price! }
         self.collectionView.reloadData()
-    
+     self.responseImages = [UIImage(named: "289"), UIImage(named: "jeep" ),UIImage(named: "551"),UIImage(named: "213" ), UIImage(named: "clioe")] as! [UIImage]
         
     }
     @IBAction private func basAction(_ sender: UIButton) {
@@ -114,6 +114,7 @@ print("aaaa")
         self.btn1?.backgroundColor = .white
         self.ProductList.sort() { $0.price! < $1.price! }
         self.collectionView.reloadData()
+        self.responseImages = [UIImage(named: "jeep" ), UIImage(named: "213"), UIImage(named: "551"),UIImage(named: "clioe" ), UIImage(named: "289")] as! [UIImage]
         print("aaaa")
 
         
@@ -275,31 +276,6 @@ print("aaaa")
             self.ratingNotes.append(notevalue)
             self.searchImage(productId : productId)
 //            self.collectionView.reloadData()
-            
-        }
-    }
-    func searchRatingTrie (productId : Int) {
-        
-        let urlStringSearchRating = urlRequestSearchRating.url?.absoluteString
-        let SearchRatingURL = urlStringSearchRating! + "\(productId)"
-        
-        AF.request(SearchRatingURL , method : .get).responseJSON {
-            response in
-            
-            guard let data = response.data else {return}
-            print("response\(response)")
-            var notevalue = String(data: data, encoding: .utf8)!
-            print("notevalue\(notevalue)")
-            if notevalue == "\"NaN\"" {
-                
-                notevalue = "0"
-            }
-            self.ratingNotes.append(notevalue)
-            
-           // self.ratingNotes.sort() { $0.ratingNotes! < $1.ratingNotes! }
-
-            self.searchImage(productId : productId)
-            //            self.collectionView.reloadData()
             
         }
     }

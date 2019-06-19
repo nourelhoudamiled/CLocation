@@ -15,6 +15,7 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (3.0.3):
     - GoogleMaps/Base (= 3.0.3)
+  - IQKeyboardManagerSwift (6.3.0)
   - JBTabBarAnimation (1.0.0)
   - JWTDecode (2.3.0)
   - Koyomi (1.2.7)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - FSCalendar
   - GoogleMaps
   - GooglePlaces
+  - IQKeyboardManagerSwift
   - JBTabBarAnimation
   - JWTDecode (~> 2.3)
   - Koyomi
@@ -62,6 +64,7 @@ SPEC REPOS:
     - FSCalendar
     - GoogleMaps
     - GooglePlaces
+    - IQKeyboardManagerSwift
     - JBTabBarAnimation
     - JWTDecode
     - Koyomi
@@ -99,6 +102,7 @@ SPEC CHECKSUMS:
   FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   GooglePlaces: f09e76993c9c3ee4af8f4f7f535bb94d6aa3b649
+  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   JBTabBarAnimation: 34a3d3abc0f53bd3baaa69cb8610be7236aa6d31
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   Koyomi: f03615b8d2bb5a5a4752c6404a9794ed7ef7b327
@@ -111,6 +115,6 @@ SPEC CHECKSUMS:
   VerticalCardSwiper: 515b67e281731293cdf69d96904d67091389a1b4
   WVCheckMark: abd367048aa3793b82d1c82a15be56eea5b940a7
 
-PODFILE CHECKSUM: 3978f777d1c66f8563cfccc771cfd0445dbbb1c1
+PODFILE CHECKSUM: c85db24f7e373d4fcd13e42c04892f9ad4afc396
 
 COCOAPODS: 1.6.0

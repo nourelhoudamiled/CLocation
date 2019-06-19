@@ -55,7 +55,8 @@ class louerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        photos()
+        
                 labelName.text = product?.name
         searchRating(productId: (product?.id)!)
          self.tableView.register(UINib( nibName: "DetailsProductCell", bundle: nil), forCellReuseIdentifier: "DetailsProductCell")
@@ -63,7 +64,7 @@ class louerViewController: UIViewController {
              self.tableView.register(UINib( nibName: "DisponibilteCell", bundle: nil), forCellReuseIdentifier: "DisponibilteCell")
          self.tableView.register(UINib( nibName: "TitleCell", bundle: nil), forCellReuseIdentifier: "TitleCell")
         getDateDisponible()
-           CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "Disponibilite "), expend(opened: false, title: "Locataire Detail" ) ]
+        CurrentTableViewData = [expend(opened: false, title: "product Detail"), expend(opened: false, title: "availability"), expend(opened: false, title: "Lessee’s details" ) ]
     }
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
@@ -78,13 +79,9 @@ class louerViewController: UIViewController {
         super.viewDidAppear(animated)
         activityIndicator.startAnimating()
 
-        photos()
-        
-        pageView.currentPage = 0
-        
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
-        }
+       
+
+      
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -156,14 +153,17 @@ class louerViewController: UIViewController {
                     AF.request(AttachmentIdURL , method : .get ).responseImage {
                         response in
                         guard let image = response.data else {return}
-                        
                         self.responseImage.append( UIImage(data: image) ?? UIImage(named: "pot-1")! )
                         self.sliderCollectionView.reloadData()
                         
                     }
                 }
+                
+                self.pageView.currentPage = 0
                 self.pageView.numberOfPages = self.responseImage.count
-
+                DispatchQueue.main.async {
+                    self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.changeImage), userInfo: nil, repeats: true)
+                }
                 
                 
             }catch let error {
@@ -183,7 +183,8 @@ class louerViewController: UIViewController {
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
             counter += 1
-        } else {
+        }
+        else {
             counter = 0
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
@@ -202,6 +203,7 @@ class louerViewController: UIViewController {
     }
     @IBAction func Gotocommentaire(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CommentaireViewController") as! CommentaireViewController
+        Share.sharedName.product =  product
         self.navigationController?.pushViewController(vc, animated: true)
 
         
@@ -326,9 +328,9 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsProductCell") as! DetailsProductCell
 
                     cell.nameDescriptionLabel.text = product?.description
-                    cell.prixUniteLabel.text = "\(product?.price ?? 0)" + "$  /\(product?.enumUniteName ?? "Jour")"
+                    cell.prixUniteLabel.text = "\(product?.price ?? 0)" + "DT  /\(product?.enumUniteName ?? "Jour")"
                     cell.cityRegionLabel.text = "\(product?.enumCityName ?? "") " + "/\(product?.address ?? "")"
-                    cell.telephoneLabel.text = product?.userName
+                    cell.telephoneLabel.text = "Neuf"
                     cell.selectionStyle = .none
 
                        return cell
@@ -360,9 +362,9 @@ extension louerViewController : UITableViewDelegate, UITableViewDataSource {
                     let name = userDictionnary?["firstName"] as? String
                     let phoneNumber = userDictionnary?["phoneNumber"] as? String
                     let facebookUrl = userDictionnary?["facebookUrl"] as? String
-                    cell.nameUserLabel.text = name
-                    cell.phoneNumberLabel.text =  phoneNumber
-                    cell.cityLabel.text = facebookUrl
+                    cell.nameUserLabel.text = "alice"
+                    cell.phoneNumberLabel.text =  "98100200"
+                    cell.cityLabel.text = "je suis un spécialte de vente et location"
                     cell.selectionStyle = .none
                     
                     return cell

@@ -62,7 +62,7 @@ var users = [User]()
         
         AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            let favorite : String = "you really wanna delete this request"
+            let favorite : String = "you really wanna delete this request ?"
             
             let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
             
@@ -95,7 +95,7 @@ var users = [User]()
 
         AF.request(urlString, method: .put, parameters: params,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            let favorite : String = "you wanna accept this request"
+            let favorite : String = "you wanna accept this request ?"
 
             let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
             

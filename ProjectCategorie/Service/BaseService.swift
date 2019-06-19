@@ -57,7 +57,7 @@ final class BaseService: OAuth2PasswordGrantDelegate
  
     
     
-    public func authorize(presenting view: UIViewController) {
+    public func authorize(presenting view: UIViewController , completion : @escaping () -> Void) {
         // oauth2.authConfig.authorizeContext = view
         oauth2.logger = OAuth2DebugLogger(.trace)
          oauth2.verbose = true
@@ -129,12 +129,15 @@ final class BaseService: OAuth2PasswordGrantDelegate
                                 userDictionnary["linkedinUrl"] = user.linkedinUrl
                                 userDictionnary["pinterestUrl"] = user.pinterestUrl
                                 UserDefaults.standard.set(userDictionnary, forKey: "userDictionnary")
+                             
+                            
 
                             }catch let err {
                                 print(err)
                             }
                         }
-                        
+                        completion()
+
                         
                     }
                 

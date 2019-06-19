@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 class FavoritesViewController: UIViewController {
 
+    @IBOutlet var acitivityIndicator: UIActivityIndicatorView!
     @IBOutlet var tableView: UITableView!
     var favoiriteListId = [Int]()
     var favoiriteList = [Favorite]()
@@ -24,6 +25,8 @@ class FavoritesViewController: UIViewController {
             navigationItem.title = "Mes Favoris"
 
         }
+        acitivityIndicator.startAnimating()
+        tableView.rowHeight = 230
 listFavorites()
     }
     func searchImage(productId : Int) {
@@ -64,6 +67,8 @@ listFavorites()
                     print(errords)
                 }
             }
+        self.acitivityIndicator.stopAnimating()
+        self.acitivityIndicator.isHidden = true
     }
 
 }
@@ -81,7 +86,29 @@ extension FavoritesViewController : Table {
         
         AF.request(urlString, method: .delete,encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            print(response)
+            let favorite : String = "you really wanna delete this request"
+            
+            let alert = UIAlertController(title: "Alert", message: favorite, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (nil) in
+                switch response.result {
+                case .success:
+                    
+                    print(response)
+           
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                }
+            }))
+            
+            alert.addAction(UIAlertAction(title: "no", style: .default, handler: { (nil) in
+                return
+            }))
+            
+            self.present(alert, animated: true)
+            
         }
     }
     
@@ -89,18 +116,22 @@ extension FavoritesViewController : Table {
 }
 extension FavoritesViewController : UITableViewDelegate, UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
       return favoiriteList.count
         
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+       
+            return 250
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favorite") as! FavoriteCell
+        cell.cellDelegate = self
+        cell.index = indexPath
+
       cell.nameLabel.text  = favoiriteList[indexPath.row].productName
          if responseImages.count > indexPath.row {
             cell.imageFav.image = responseImages[indexPath.row]

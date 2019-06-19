@@ -161,7 +161,10 @@
                                             <constraint firstAttribute="width" constant="149" id="2xc-E1-f7u"/>
                                             <constraint firstAttribute="height" constant="37" id="cGH-dA-f12"/>
                                         </constraints>
-                                        <state key="normal" title="Accepter Demande">
+                                        <state key="normal">
+                                            <string key="title">Accept Request
+ 
+</string>
                                             <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </state>
                                         <connections>
@@ -175,7 +178,10 @@
                                             <constraint firstAttribute="width" constant="140" id="Bff-YP-FVn"/>
                                             <constraint firstAttribute="height" constant="37" id="i0M-bx-af4"/>
                                         </constraints>
-                                        <state key="normal" title="Refuser Demande">
+                                        <state key="normal">
+                                            <string key="title">refuse request
+ 
+</string>
                                             <color key="titleColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </state>
                                         <connections>
